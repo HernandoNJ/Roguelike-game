@@ -1,26 +1,20 @@
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Bullet : MonoBehaviour
 {
-    public Player player;
-    public Vector2 projectileMoveDirection;
     public float speed;
     public float size;
     public float damage;
     public float lifetime = 2f;
     
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
 
     void Start()
     {
-        player = FindObjectOfType<Player>().GetComponent<Player>();
-        speed = player.bulletSpeed;
-        
-        rb = GetComponent<Rigidbody2D>();
-        rb.velocity = projectileMoveDirection * speed;
-
         Destroy(gameObject, lifetime);
     }
+
+    //public void SetBulletSpeed(float newSpeed) => speed = newSpeed;
 
     // void OnTriggerEnter2D(Collider2D other)
     // {

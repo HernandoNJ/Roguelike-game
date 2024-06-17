@@ -1733,8 +1733,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 0}
   rb: {fileID: 0}
-  move: {x: 0, y: 0}
-  speed: 5
+  playerAimingVector: {x: 0, y: 0}
+  moveSpeed: 3
+  playerCollider: {fileID: 1573815885}
 --- !u!114 &1573815887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1748,8 +1749,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 70
-  bulletSpeed: 5
-  projectileFireRate: 10
+  playerSpeed: 5
+  fireRatio: 10
 --- !u!114 &1573815888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1781,9 +1782,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e535fa666648d4e8f3f85f84b1fb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 4570661871609465607, guid: bdcdca62f41f575499a0860157fef9af, type: 3}
+  bulletPrefab: {fileID: 4570661871609465607, guid: bdcdca62f41f575499a0860157fef9af, type: 3}
   firePoint: {fileID: 146319039}
-  fireRate: 0.5
+  fireRate: 2
   nextFireTime: 0
 --- !u!1 &1749376972
 GameObject:

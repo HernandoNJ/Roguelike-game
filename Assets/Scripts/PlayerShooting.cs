@@ -2,37 +2,32 @@ using UnityEngine;
 
 public class PlayerShooting : MonoBehaviour
 {
-    public GameObject projectilePrefab;
+    public GameObject bulletPrefab;
     public Transform firePoint;
     public float fireRate = 2f;
-    public float nextFireTime = 0f;
-
-    private Vector2 fireDirection;
+    public float nextFireTime = 2f;
 
     private void Start()
     {
-        fireRate = GetComponent<Player>().projectileFireRate;
+        fireRate = GetComponent<Player>().fireRatio;
     }
 
-    void Update()
+    private void Update()
     {
-        fireDirection.x = Input.GetAxis("Horizontal");
-        fireDirection.y = Input.GetAxis("Vertical");
-
         if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
         {
-            Shoot(fireDirection);
+            Shoot();
             nextFireTime = Time.time + 1f / fireRate;
         }
     }
 
-    void Shoot(Vector2 direction)
+    private void Shoot()
     {
-        // Calculate the angle based on the shooting direction
-        //float angle = Mathf.Atan2(fireDirection.y, fireDirection.x) * Mathf.Rad2Deg;
-        Vector3 projectileDirection = new Vector2(direction.x,direction.y);
-        // Instantiate the projectile and set its rotation
-        projectilePrefab.GetComponent<Projectile>().projectileMoveDirection = projectileDirection;
-        Instantiate(projectilePrefab, firePoint.position, Quaternion.Euler(projectileDirection));
+        // Instantiate bullet
+        // Apply force
+        var bullet =  Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        var bulletSpeed = bullet.GetComponent<Bullet>().speed;
+        var bulletDirection = GetComponent<PlayerInput>().GetPlayerAiming();
+        bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * bulletSpeed, ForceMode2D.Impulse);
     }
 }
