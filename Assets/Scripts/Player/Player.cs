@@ -1,9 +1,12 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+namespace Player
 {
-    public float health;
-    public float playerSpeed;
-    public float fireRatio;
-
+    public class Player : MonoBehaviour
+    {
+        public float health;
+        public float playerSpeed;
+        public float fireRatio;
+    
+    }
 }

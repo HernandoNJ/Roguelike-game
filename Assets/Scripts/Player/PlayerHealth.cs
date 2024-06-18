@@ -1,34 +1,93 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealth : MonoBehaviour
+namespace Player
 {
-    public Player player;
-    public GameObject healthBar1;
-    public GameObject healthBar2;
-    public GameObject healthBar3;
-    public GameObject healthBar4;
-    public GameObject healthBar5;
-    public GameObject healthBar6;
-
-    private void Start()
+    public class PlayerHealth : MonoBehaviour
     {
-        player = GetComponent<Player>();
-    }
+        public Player player;
+        public float health;
+        public float maxHealth;
+        public List<GameObject> healthBars;
 
-    private void Update()
-    {
-        if (player.health < 50) healthBar1.gameObject.SetActive(false);
-        if (player.health < 40) healthBar2.gameObject.SetActive(false);
-        if (player.health < 30) healthBar3.gameObject.SetActive(false);
-        if (player.health < 20) healthBar4.gameObject.SetActive(false);
-        if (player.health < 10) healthBar5.gameObject.SetActive(false);
-        if (player.health < 0) healthBar6.gameObject.SetActive(false);
-    }
+        private void Start()
+        {
+            player = GetComponent<Player>();
+            health = player.health;
+            ClearBars();
+            InvokeRepeating(nameof(UpdateHealthBars), 0, 0.2f);
+        }
+        
+        public void AddHealth(int healthAmount)
+        {
+            health += healthAmount;
+            if (health > maxHealth) health = maxHealth;
+            UpdateHealthBars();
+        }
+        
+        public void Damage(float damageAmount)
+        {
+            health -= damageAmount;
+            if (health < 0) health = 0;
+            UpdateHealthBars();
+        }
 
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (other.CompareTag("BurningWall"))
-            player.health -= 0.5f;
+        private void Die()
+        {
+            Destroy(gameObject);
+        }
+        
+        private void UpdateHealthBars()
+        {
+            ClearBars();
+            if (health <= 0)
+                Die();
+            
+            if (health <= 10)
+            {
+                healthBars[0].gameObject.SetActive(true);
+            }
+            else if (health <= 20)
+            {
+                healthBars[0].gameObject.SetActive(true);
+                healthBars[1].gameObject.SetActive(true);
+            }
+            else if (health <= 30)
+            {
+                healthBars[0].gameObject.SetActive(true);
+                healthBars[1].gameObject.SetActive(true);
+                healthBars[2].gameObject.SetActive(true);
+            }
+            else if (health <= 40)
+            {
+                healthBars[0].gameObject.SetActive(true);
+                healthBars[1].gameObject.SetActive(true);
+                healthBars[2].gameObject.SetActive(true);
+                healthBars[3].gameObject.SetActive(true);
+            }
+            else if (health <= 50)
+            {
+                healthBars[0].gameObject.SetActive(true);
+                healthBars[1].gameObject.SetActive(true);
+                healthBars[2].gameObject.SetActive(true);
+                healthBars[3].gameObject.SetActive(true);
+                healthBars[4].gameObject.SetActive(true);
+            }
+            else if (health <= 60)
+            {
+                healthBars[0].gameObject.SetActive(true);
+                healthBars[1].gameObject.SetActive(true);
+                healthBars[2].gameObject.SetActive(true);
+                healthBars[3].gameObject.SetActive(true);
+                healthBars[4].gameObject.SetActive(true);
+                healthBars[5].gameObject.SetActive(true);
+            }
+        }
+
+        private void ClearBars()
+        {
+            foreach (var healthBar in healthBars)
+                healthBar.SetActive(false);
+        }
     }
 }

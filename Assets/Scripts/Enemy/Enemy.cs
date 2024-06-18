@@ -33,7 +33,7 @@ namespace Enemy
         private void Start()
         {
             originalPosition = transform.position;
-            player = FindObjectOfType<Player>().GetComponent<Transform>();
+            player = FindObjectOfType<Player.Player>().GetComponent<Transform>();
             enemyWall.SetActive(true);
             InvokeRepeating(nameof(CheckEnemyState), 0.1f, checkStateTimer);
         }
