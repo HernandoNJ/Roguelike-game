@@ -27,7 +27,7 @@ public class PlayerShooting : MonoBehaviour
         // Apply force
         var bullet =  Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         var bulletSpeed = bullet.GetComponent<Bullet>().speed;
-        var bulletDirection = GetComponent<PlayerInput>().GetPlayerAiming();
+        var bulletDirection = GetComponent<PlayerMovement>().GetPlayerAiming();
         bullet.GetComponent<Rigidbody2D>().AddForce(bulletDirection * bulletSpeed, ForceMode2D.Impulse);
     }
 }

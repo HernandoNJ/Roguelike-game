@@ -1731,11 +1731,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f281c0046b592534fb3f628d28dd2f4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainCamera: {fileID: 0}
-  rb: {fileID: 0}
   playerAimingVector: {x: 0, y: 0}
   moveSpeed: 3
-  playerCollider: {fileID: 1573815885}
 --- !u!114 &1573815887
 MonoBehaviour:
   m_ObjectHideFlags: 0
