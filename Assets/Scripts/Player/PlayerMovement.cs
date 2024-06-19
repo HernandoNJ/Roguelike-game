@@ -6,6 +6,7 @@ namespace Player
     {
         public Vector2 playerAimingVector;
         public float moveSpeed;
+        public float maxSpeed;
 
         private Camera mainCamera;
         private Vector2 screenBounds;
@@ -68,5 +69,13 @@ namespace Player
 
         private void SetPlayerAiming(Vector2 vector) => playerAimingVector = vector;
         public Vector2 GetPlayerAiming() => playerAimingVector;
+
+        public void IncreaseSpeed(float speedArg)
+        {
+            Debug.Log("Prev speed: " + moveSpeed);
+            moveSpeed += speedArg;
+            if (moveSpeed > maxSpeed) moveSpeed = maxSpeed;
+            Debug.Log("Curr speed: " + moveSpeed);
+        }
     }
 }

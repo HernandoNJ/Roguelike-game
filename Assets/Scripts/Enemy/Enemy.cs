@@ -40,6 +40,8 @@ namespace Enemy
 
         private void CheckEnemyState()
         {
+            if (player == null) return;
+            
             var distance = Vector2.Distance(transform.position, player.position);
 
             if (distance <= shootingRange && Time.time >= nextFireTime)

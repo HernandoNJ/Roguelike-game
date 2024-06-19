@@ -24,6 +24,13 @@ namespace Player
             if (health > maxHealth) health = maxHealth;
             UpdateHealthBars();
         }
+
+        public void AddHealthBars(int barsAmount)
+        {
+            health += 10 * barsAmount;
+            if (health > maxHealth) health = maxHealth;
+            UpdateHealthBars();
+        }
         
         public void Damage(float damageAmount)
         {
