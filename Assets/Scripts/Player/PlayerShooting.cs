@@ -1,15 +1,19 @@
+using UI;
 using UnityEngine;
 
 namespace Player
 {
     public class PlayerShooting : MonoBehaviour
     {
-        public GameObject bulletPrefab;
-        public Transform firePoint;
-        public float fireRate = 2f;
-        public float maxFireRate = 5f;
-        public float nextFireTime = 2f;
-
+        [SerializeField] private UIController uiController;
+        [SerializeField] private GameObject bulletPrefab;
+        [SerializeField] private GameObject laserPrefab;
+        [SerializeField] private Transform firePoint;
+        [SerializeField] private float fireRate = 2f;
+        [SerializeField] private float maxFireRate = 5f;
+        [SerializeField] private float nextFireTime = 2f;
+        [SerializeField] private bool laserEnabled;
+        
         private void Start()
         {
             fireRate = GetComponent<Player>().fireRatio;
@@ -17,7 +21,7 @@ namespace Player
 
         private void Update()
         {
-            if (Input.GetButtonDown("Fire1") && Time.time >= nextFireTime)
+            if (Time.time >= nextFireTime)
             {
                 Shoot();
                 nextFireTime = Time.time + 1f / fireRate;
@@ -35,10 +39,22 @@ namespace Player
 
         public void IncreaseFireRate(float amount)
         {
-            Debug.Log("Curr Fire rate: " + fireRate);
             fireRate += amount;
             if (fireRate > maxFireRate) fireRate = maxFireRate;
-            Debug.Log("New Fire rate: " + fireRate);
+        }
+
+        public void EnableLaser()
+        {
+            laserEnabled = true;
+            uiController.EnableLaserIcon(true);
+        }
+
+        public void ShootLaser()
+        {
+            if (laserEnabled) Debug.Log("Shooting laser code pending");
+            
+            // Disable icon after the laser has been used
+            //uiController.EnableLaserIcon(false);
         }
     }
 }
