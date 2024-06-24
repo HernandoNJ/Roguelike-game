@@ -46,9 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f93bd9a122d5f48989f29d2b15937c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stayDamage: 1
-  timeRatio: 2
+  stayDamage: 0.15
+  timeRatio: 10
   nextDamageTime: 0
+  isHurting: 0
 --- !u!212 &8484803555598148296
 SpriteRenderer:
   m_ObjectHideFlags: 0

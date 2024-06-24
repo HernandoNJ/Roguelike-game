@@ -4,7 +4,6 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public Vector2 playerAimingVector;
         public float moveSpeed;
         public float maxSpeed;
 
@@ -32,13 +31,17 @@ namespace Player
         
             rb = player.GetComponent<Rigidbody2D>();
             moveSpeed = player.playerSpeed;
-            playerAimingVector = Vector2.right;
         }
 
         private void FixedUpdate()
         {
+            MovePlayer();
+        }
+
+        private void MovePlayer()
+        {
             // Handle player input
-            movement = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+            movement = new Vector2( Input.GetAxis("XAxisKeys"),Input.GetAxis("YAxisKeys"));
             var moveVelocity = movement * moveSpeed;
         
             // Apply movement
@@ -50,25 +53,7 @@ namespace Player
             position.y = Mathf.Clamp(position.y, screenBounds.y * -1 + playerHeight, screenBounds.y - playerHeight);
         
             rb.position = position;
-
-            CheckPlayerAiming();
         }
-
-        private void CheckPlayerAiming()
-        {
-            if (movement.x > 0)
-                SetPlayerAiming(Vector2.right);
-            else if (movement.x < 0)
-                SetPlayerAiming(Vector2.left);
-            else if (movement.y > 0)
-                SetPlayerAiming(Vector2.up);
-            else if (movement.y < 0)
-                SetPlayerAiming(Vector2.down);
-            else SetPlayerAiming(playerAimingVector);
-        }
-
-        private void SetPlayerAiming(Vector2 vector) => playerAimingVector = vector;
-        public Vector2 GetPlayerAiming() => playerAimingVector;
 
         public void IncreaseSpeed(float speedArg)
         {

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Managers;
 using UnityEngine;
 
 namespace Player
@@ -9,34 +10,39 @@ namespace Player
         public float health;
         public float maxHealth;
         public List<GameObject> healthBars;
+        
 
         private void Start()
         {
+            ClearBars();
+            
             player = GetComponent<Player>();
             health = player.health;
-            ClearBars();
-            InvokeRepeating(nameof(UpdateHealthBars), 0, 0.2f);
+            UpdateHealth();
         }
         
         public void AddHealth(int healthAmount)
         {
             health += healthAmount;
             if (health > maxHealth) health = maxHealth;
-            UpdateHealthBars();
+            UpdateHealth();
         }
 
+        // Called when picking up Health powerups
         public void AddHealthBars(int barsAmount)
         {
             health += 10 * barsAmount;
             if (health > maxHealth) health = maxHealth;
-            UpdateHealthBars();
+            UpdateHealth();
         }
         
         public void Damage(float damageAmount)
         {
             health -= damageAmount;
+            GameManager.Instance.SetPlayerHealth(health);
+            
             if (health < 0) health = 0;
-            UpdateHealthBars();
+            UpdateHealth();
         }
 
         private void Die()
@@ -44,9 +50,11 @@ namespace Player
             Destroy(gameObject);
         }
         
-        private void UpdateHealthBars()
+        private void UpdateHealth()
         {
             ClearBars();
+            GameManager.Instance.SetPlayerHealth(health);
+            
             if (health <= 0)
                 Die();
             
