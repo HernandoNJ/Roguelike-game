@@ -1,19 +1,31 @@
+using System.Collections;
 using Bullets;
-using UI;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Player
 {
     public class PlayerShooting : MonoBehaviour
     {
-        [SerializeField] private UIController uiController;
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private GameObject laserPrefab;
         [SerializeField] private Transform firePoint;
         [SerializeField] private float fireRate;
         [SerializeField] private float maxFireRate;
-        [SerializeField] private float nextFireTime;
-        [SerializeField] private bool laserEnabled;
+        public float nextFireTime;
+
+        public UnityEvent onLaserEnabled;
+        public UnityEvent onLaserActivated;
+
+        private Coroutine laserRoutine;
+
+        // public for testing
+        // turn into private later
+        [SerializeField] private float laserWaitTime;
+        [SerializeField] private float timeToEnableLaser;
+        public float spaceKeyPressedTime;
+        public bool isLaserEnabled;
+        public bool shootLaserEnabled;
 
         private void Start()
         {
@@ -21,6 +33,12 @@ namespace Player
         }
 
         private void Update()
+        {
+            CheckShootKeyPressed();
+            CheckLaserKeyPressed();
+        }
+
+        private void CheckShootKeyPressed()
         {
             if (GetShootKeyPressed() && Time.time >= nextFireTime)
             {
@@ -33,20 +51,16 @@ namespace Player
         {
             var bulletInstance = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             var bullet = bulletInstance.GetComponent<Bullet>();
-            
             bullet.rb.AddForce(GetBulletDirection() * bullet.speed, ForceMode2D.Impulse);
         }
 
         private Vector2 GetBulletDirection()
         {
-            var newBulletDirection = Vector2.zero;
-
-            if (Input.GetKeyDown(KeyCode.UpArrow)) newBulletDirection = Vector2.up;
-            else if (Input.GetKeyDown(KeyCode.DownArrow)) newBulletDirection = Vector2.down;
-            else if (Input.GetKeyDown(KeyCode.LeftArrow)) newBulletDirection = Vector2.left;
-            else if (Input.GetKeyDown(KeyCode.RightArrow)) newBulletDirection = Vector2.right;
-
-            return newBulletDirection;
+            if (Input.GetKeyDown(KeyCode.UpArrow)) return Vector2.up;
+            if (Input.GetKeyDown(KeyCode.DownArrow)) return Vector2.down;
+            if (Input.GetKeyDown(KeyCode.LeftArrow)) return Vector2.left;
+            if (Input.GetKeyDown(KeyCode.RightArrow)) return Vector2.right;
+            return Vector2.zero;
         }
 
         private bool GetShootKeyPressed()
@@ -54,25 +68,75 @@ namespace Player
             return Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
                    Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow);
         }
-        
+
         public void IncreaseFireRate(float amount)
+            => fireRate = Mathf.Min(fireRate + amount, maxFireRate);
+
+        private void CheckLaserKeyPressed()
         {
-            fireRate += amount;
-            if (fireRate > maxFireRate) fireRate = maxFireRate;
+            if (Input.GetKey(KeyCode.Space))
+            {
+                // if isLaserEnabled is false, add time
+                if (!isLaserEnabled)
+                {
+                    spaceKeyPressedTime += Time.deltaTime;
+
+                    if (spaceKeyPressedTime >= timeToEnableLaser)
+                        EnableLaser();
+                }
+                
+                if (isLaserEnabled && shootLaserEnabled)
+                    onLaserActivated?.Invoke();
+            }
+            // if space bar is not pressed and the condition is met
+            // reset spaceKeyPressedTime
+            else if (spaceKeyPressedTime <= timeToEnableLaser)
+                spaceKeyPressedTime = 0;
         }
 
-        public void EnableLaser()
+        private void EnableLaser()
         {
-            laserEnabled = true;
-            uiController.EnableLaserIcon(true);
+            isLaserEnabled = true;
+            InitLaserWaiter();
+        }
+        
+        private void ResetLaser()
+        {
+            spaceKeyPressedTime = 0;
+            isLaserEnabled = false;
+            shootLaserEnabled = false;
+
+            ResetLaserWaiter();
         }
 
+        private void InitLaserWaiter()
+        {
+            if (laserRoutine != null) 
+                StopCoroutine(laserRoutine);
+            
+            laserRoutine = StartCoroutine(EnableShootLaserRoutine());
+        }
+
+        private void ResetLaserWaiter()
+        {
+            if (laserRoutine != null)
+            {
+                StopCoroutine(laserRoutine);
+                laserRoutine = null;
+            }
+        }
+        
         public void ShootLaser()
         {
-            if (laserEnabled) Debug.Log("Shooting laser code pending");
+            Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
+            ResetLaser();
+        }
 
-            // Disable icon after the laser has been used
-            //uiController.EnableLaserIcon(false);
+        private IEnumerator EnableShootLaserRoutine()
+        {
+            yield return new WaitForSeconds(laserWaitTime);
+            onLaserEnabled?.Invoke();
+            shootLaserEnabled = true;
         }
     }
 }

@@ -1,23 +1,22 @@
 using Player;
-using UI;
 using UnityEngine;
 
-namespace Items
+namespace Powerups
 {
-    public class LaserPowerup : MonoBehaviour, ICollectables
+    public class FireRatePowerup : MonoBehaviour, ICollectables
     {
-        [SerializeField] private float speedToAdd;
+        [SerializeField] private float fireRateToAdd;
         public void Collect()
         {
-            Debug.Log("Laser powerup collected");
+            Debug.Log("Fire rate powerup collected");
         }
         
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (other.CompareTag("Player"))
             {
-                var playerShooting = FindObjectOfType<Player.Player>().GetComponent<PlayerShooting>();
-                playerShooting?.EnableLaser();
+                var playerShooting = other.GetComponent<PlayerShooting>();
+                playerShooting?.IncreaseFireRate(fireRateToAdd);
                 
                 Collect();
                 Destroy(gameObject);

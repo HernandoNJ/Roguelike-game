@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84a88591a33aa704f9c501753f2a511c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserIcon: {fileID: 0}
+  laserIcon: {fileID: 2134979823}
   healthValueText: {fileID: 815547309}
 --- !u!1 &347098391
 GameObject:
@@ -1719,53 +1719,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1885849430}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1198617898
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1198617900}
-  - component: {fileID: 1198617899}
-  m_Layer: 0
-  m_Name: Test
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &1198617899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198617898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6972b9476c2e5304f9a2afa72737ecaf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefab: {fileID: 5386749392749237326, guid: fc86a70a342b81c4ead5842bd46e20d3, type: 3}
-  speed: 10
-  bulletDirection: {x: 1, y: 0}
---- !u!4 &1198617900
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1198617898}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1312407523
 GameObject:
   m_ObjectHideFlags: 0
@@ -2211,76 +2164,59 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e535fa666648d4e8f3f85f84b1fb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiController: {fileID: 0}
   bulletPrefab: {fileID: 4570661871609465607, guid: bdcdca62f41f575499a0860157fef9af, type: 3}
-  laserPrefab: {fileID: 0}
+  laserPrefab: {fileID: 2938468303883050726, guid: b3b6bd5e20316ce409484cb193a2aba8, type: 3}
   firePoint: {fileID: 146319039}
   fireRate: 1
   maxFireRate: 20
   nextFireTime: 0
-  laserEnabled: 0
---- !u!1001 &1743254353
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 2075403928}
-    m_Modifications:
-    - target: {fileID: 1045469952128100234, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_Name
-      value: LaserPowerup
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -6
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
---- !u!4 &1743254354 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5713227833480484088, guid: 7c173aaa81fbd6044a6dbcf12db36053, type: 3}
-  m_PrefabInstance: {fileID: 1743254353}
-  m_PrefabAsset: {fileID: 0}
+  onLaserEnabled:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 280450155}
+        m_TargetAssemblyTypeName: UI.UIController, Assembly-CSharp
+        m_MethodName: EnableLaserIcon
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  onLaserActivated:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1573815889}
+        m_TargetAssemblyTypeName: Player.PlayerShooting, Assembly-CSharp
+        m_MethodName: ShootLaser
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 280450155}
+        m_TargetAssemblyTypeName: UI.UIController, Assembly-CSharp
+        m_MethodName: EnableLaserIcon
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  laserWaitTime: 2
+  timeToEnableLaser: 3
+  spaceKeyPressedTime: 0
+  isLaserEnabled: 0
+  shootLaserEnabled: 0
 --- !u!1 &1749376972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2892,7 +2828,6 @@ Transform:
   - {fileID: 53739260}
   - {fileID: 586843703}
   - {fileID: 279915193}
-  - {fileID: 1743254354}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2134979823
@@ -2912,7 +2847,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2134979824
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3103,4 +3038,3 @@ SceneRoots:
   - {fileID: 1885849430}
   - {fileID: 1967561652}
   - {fileID: 368360592}
-  - {fileID: 1198617900}

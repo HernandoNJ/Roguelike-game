@@ -1,7 +1,7 @@
 using Player;
 using UnityEngine;
 
-namespace Items
+namespace Powerups
 {
     public class SpeedPowerup : MonoBehaviour, ICollectables
     {
