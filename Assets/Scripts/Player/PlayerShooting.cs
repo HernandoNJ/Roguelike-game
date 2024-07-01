@@ -1,5 +1,6 @@
 using System.Collections;
 using Bullets;
+using Managers;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -8,8 +9,10 @@ namespace Player
     public class PlayerShooting : MonoBehaviour
     {
         [SerializeField] private GameObject bulletPrefab;
-        [SerializeField] private GameObject laserPrefab;
         [SerializeField] private Transform firePoint;
+        [SerializeField] private GameObject laserPrefab;
+        [SerializeField] private Transform laserTarget;
+        [SerializeField] private Transform laserFirePoint;
         [SerializeField] private float fireRate;
         [SerializeField] private float maxFireRate;
         public float nextFireTime;
@@ -23,13 +26,13 @@ namespace Player
         // turn into private later
         [SerializeField] private float laserWaitTime;
         [SerializeField] private float timeToEnableLaser;
-        public float spaceKeyPressedTime;
-        public bool isLaserEnabled;
-        public bool shootLaserEnabled;
+        [SerializeField] private float spaceKeyPressedTime;
+        [SerializeField] private bool isLaserEnabled;
+        [SerializeField] private bool shootLaserEnabled;
 
         private void Start()
         {
-            fireRate = GetComponent<Player>().fireRatio;
+            fireRate = GetComponent<Player>().GetPlayerFireRatio();
         }
 
         private void Update()
@@ -128,7 +131,43 @@ namespace Player
         
         public void ShootLaser()
         {
-            Instantiate(laserPrefab, firePoint.position, firePoint.rotation);
+            // issues
+            // Laser is done from 0.0.0
+            
+            // Calculate the direction and distance from playerFirePosition to the fire object
+            var direction = laserTarget.position - GameManager.Instance.GetPlayerPosition;
+            var distance = direction.magnitude;
+            Debug.Log("direction magnitude: " + direction.magnitude);
+
+            // Instantiate the laser at the playerFirePosition
+            var laser = Instantiate(laserPrefab, laserFirePoint.position, Quaternion.identity);
+
+            // Get the BoxCollider2D from the laser
+            var laserBoxCollider = laser.GetComponent<BoxCollider2D>();
+            var laserWidth = laserBoxCollider.size.x;
+            Debug.Log("Laser width: " + laserWidth);
+            
+            
+            // Get the SpriteRenderer component from the laser
+            var spriteRenderer = laser.GetComponent<SpriteRenderer>();
+
+            if (spriteRenderer != null)
+            {
+                // Calculate the bottom-left position of the sprite in local space
+                var laserBottomLeft = spriteRenderer.bounds.min - laser.transform.position;
+
+                // Move the laser so that its bottom-left corner aligns with the playerFirePosition
+                laser.transform.position = laserFirePoint.position - laserBottomLeft;
+
+                // Adjust the laser's scale and rotation to stretch to the fire object
+                laser.transform.right = direction.normalized; // Set the laser's direction
+                laser.transform.localScale = new Vector3(distance, laser.transform.localScale.y, laser.transform.localScale.z); // Scale the laser's length
+            }
+            else
+            {
+                Debug.LogError("No SpriteRenderer found on the laserPrefab.");
+            }
+            
             ResetLaser();
         }
 

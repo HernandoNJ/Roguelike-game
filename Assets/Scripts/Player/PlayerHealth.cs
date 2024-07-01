@@ -6,22 +6,12 @@ namespace Player
 {
     public class PlayerHealth : MonoBehaviour
     {
-        public Player player;
+        //public Player player;
         public float health;
         public float maxHealth;
         public List<GameObject> healthBars;
         
-
-        private void Start()
-        {
-            ClearBars();
-            
-            player = GetComponent<Player>();
-            health = player.health;
-            UpdateHealth();
-        }
-        
-        public void AddHealth(int healthAmount)
+        public void AddHealth(float healthAmount)
         {
             health += healthAmount;
             if (health > maxHealth) health = maxHealth;
@@ -39,7 +29,7 @@ namespace Player
         public void Damage(float damageAmount)
         {
             health -= damageAmount;
-            GameManager.Instance.SetPlayerHealth(health);
+            GameManager.Instance.UpdatePlayerHealthUi(health);
             
             if (health < 0) health = 0;
             UpdateHealth();
@@ -53,7 +43,7 @@ namespace Player
         private void UpdateHealth()
         {
             ClearBars();
-            GameManager.Instance.SetPlayerHealth(health);
+            GameManager.Instance.UpdatePlayerHealthUi(health);
             
             if (health <= 0)
                 Die();

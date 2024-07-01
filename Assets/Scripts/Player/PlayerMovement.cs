@@ -4,8 +4,9 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        public float moveSpeed;
-        public float maxSpeed;
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private float maxSpeed;
+        [SerializeField] private Vector3 playerDirection;
 
         private Camera mainCamera;
         private Vector2 screenBounds;
@@ -30,7 +31,7 @@ namespace Player
             playerHeight = playerCollider.bounds.extents.y * 2;
         
             rb = player.GetComponent<Rigidbody2D>();
-            moveSpeed = player.playerSpeed;
+            moveSpeed = player.GetPlayerSpeed();
         }
 
         private void FixedUpdate()
@@ -42,10 +43,10 @@ namespace Player
         {
             // Handle player input
             movement = new Vector2( Input.GetAxis("XAxisKeys"),Input.GetAxis("YAxisKeys"));
-            var moveVelocity = movement * moveSpeed;
+            playerDirection = movement;
         
             // Apply movement
-            rb.velocity = moveVelocity;
+            rb.velocity = movement * moveSpeed;
         
             // Constrain the player within the screen bounds
             var position = rb.position;
@@ -62,5 +63,7 @@ namespace Player
             if (moveSpeed > maxSpeed) moveSpeed = maxSpeed;
             Debug.Log("Curr speed: " + moveSpeed);
         }
+
+        public Vector3 GetPlayerDirection => playerDirection;
     }
 }
