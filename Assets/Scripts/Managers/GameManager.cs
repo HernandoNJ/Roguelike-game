@@ -33,7 +33,6 @@ namespace Managers
             uiController.UpdateHealthUi(newHealth);
         }
 
-        public Vector3 GetPlayerDirection => playerMovement.GetPlayerDirection;
         public Vector3 GetPlayerPosition => player.GetPlayerPosition;
     }
 }

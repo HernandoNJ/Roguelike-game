@@ -6,8 +6,9 @@ namespace Player
     {
         [SerializeField] private float moveSpeed;
         [SerializeField] private float maxSpeed;
-        [SerializeField] private Vector3 playerDirection;
-
+        [SerializeField] private Vector2 playerFacingDirection;
+        
+        
         private Camera mainCamera;
         private Vector2 screenBounds;
         private float playerWidth;
@@ -43,8 +44,8 @@ namespace Player
         {
             // Handle player input
             movement = new Vector2( Input.GetAxis("XAxisKeys"),Input.GetAxis("YAxisKeys"));
-            playerDirection = movement;
-        
+            
+            
             // Apply movement
             rb.velocity = movement * moveSpeed;
         
@@ -64,6 +65,6 @@ namespace Player
             Debug.Log("Curr speed: " + moveSpeed);
         }
 
-        public Vector3 GetPlayerDirection => playerDirection;
+        public Vector3 GetPlayerFacingDirection => playerFacingDirection;
     }
 }
