@@ -10,10 +10,11 @@ namespace Enemy
         {
             Block,
             Attack,
-            Die
+            Die,
+            None
         }
 
-        [SerializeField] private EnemyState enemyState = EnemyState.Attack;
+        //[SerializeField] private EnemyState enemyState = EnemyState.Attack;
         [SerializeField] private Transform player;
         [SerializeField] private GameObject enemyWall;
         [SerializeField] private GameObject enemyBullet;
@@ -34,27 +35,27 @@ namespace Enemy
         {
             originalPosition = transform.position;
             player = FindObjectOfType<Player.Player>().GetComponent<Transform>();
-            enemyWall.SetActive(true);
+            //enemyWall.SetActive(true);
             InvokeRepeating(nameof(CheckEnemyState), 0.1f, checkStateTimer);
         }
 
         private void CheckEnemyState()
         {
-            if (player == null) return;
-            
-            var distance = Vector2.Distance(transform.position, player.position);
-
-            if (distance <= shootingRange && Time.time >= nextFireTime)
-            {
-                enemyState = EnemyState.Attack;
-                Shoot();
-                nextFireTime = Time.time + 1f / fireRate;
-            }
-            else
-            {
-                enemyState = EnemyState.Block;
-                Block();
-            }
+            // if (player == null) return;
+            //
+            // var distance = Vector2.Distance(transform.position, player.position);
+            //
+            // if (distance <= shootingRange && Time.time >= nextFireTime)
+            // {
+            //     enemyState = EnemyState.Attack;
+            //     Shoot();
+            //     nextFireTime = Time.time + 1f / fireRate;
+            // }
+            // else
+            // {
+            //     enemyState = EnemyState.Block;
+            //     Block();
+            // }
         }
 
         private void Shoot()
@@ -135,5 +136,7 @@ namespace Enemy
 
             onComplete?.Invoke();
         }
+
+        public void Damage(float damageArg) => health -= damageArg;
     }
 }

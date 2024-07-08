@@ -2,48 +2,51 @@ using System.Collections;
 using Bullets;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace Player
 {
     [RequireComponent(typeof(LineRenderer))]
     public class PlayerShooting : MonoBehaviour
     {
-        [Header("Bullet")]
-        [SerializeField] private GameObject bulletPrefab;
+        [Header("Bullet")] [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private Transform firePoint;
         [SerializeField] private float fireRate;
         [SerializeField] private float maxFireRate;
         [SerializeField] private float nextFireTime;
-        
-        [Header("Laser")]
-        [SerializeField] private GameObject laserPrefab;
+
+        [Header("Laser")] [SerializeField] private GameObject laserPrefab;
         [SerializeField] private Transform laserTarget;
         [SerializeField] private Transform laserFirePoint;
-        [SerializeField] private float laserTimer;
+        [SerializeField] private float laserKeyTimer;
         [SerializeField] private float laserKeyPressedTime;
         [SerializeField] private float activateLaserWait;
+        [SerializeField] private float laserActiveTime;
+        [SerializeField] private float laserDuration;
         [SerializeField] private bool shootLaserEnabled;
 
-        public Transform laserOrigin;
-        public float laserRange = 3f;
-        public float laserDuration = 3f;
-        public LineRenderer laserLine;
+        // public Transform laserOrigin;
+        // public float laserRange = 3f;
+        // public float laserDuration = 3f;
+        // public LineRenderer laserLine;
 
         public UnityEvent onLaserEnabled;
         public UnityEvent onLaserActivated;
+        public UnityEvent onLaserDisabled;
 
         private Coroutine enableLaserCoroutine;
 
         private void Start()
         {
             fireRate = GetComponent<Player>().GetPlayerFireRatio();
-            laserLine = GetComponent<LineRenderer>();
+            //laserLine = GetComponent<LineRenderer>();
         }
 
         private void Update()
         {
             CheckShootKeyPressed();
             CheckLaserShooting();
+            CheckLaserEnabledTimer();
         }
 
         private void CheckShootKeyPressed()
@@ -83,7 +86,7 @@ namespace Player
         // Check both if laser key is pressed and laser timer value
         private void CheckLaserShooting()
         {
-            var laserTimeReached = laserKeyPressedTime >= laserTimer;
+            var laserTimeReached = laserKeyPressedTime >= laserKeyTimer;
 
             // If holding space but time not reached, add time
             // If time reached, init routine
@@ -92,7 +95,7 @@ namespace Player
                 if (!laserTimeReached)
                     laserKeyPressedTime += Time.deltaTime;
                 else
-                    InitLaserRoutine();
+                    InitEnableLaserRoutine();
             }
 
             // if conditions are met, raise onLaserActivated
@@ -110,10 +113,9 @@ namespace Player
             }
         }
 
-        private void ResetLaser()
+        public void ResetLaser()
         {
             laserKeyPressedTime = 0;
-            shootLaserEnabled = false;
 
             if (enableLaserCoroutine != null)
             {
@@ -122,25 +124,27 @@ namespace Player
             }
         }
 
-        private void InitLaserRoutine()
+        private void CheckLaserEnabledTimer()
+        {
+            if (shootLaserEnabled)
+            {
+                laserActiveTime += Time.deltaTime;
+
+                if (laserActiveTime >= laserDuration)
+                {
+                    shootLaserEnabled = false;
+                    laserActiveTime = 0;
+                    onLaserDisabled?.Invoke();
+                }
+            }
+        }
+
+        private void InitEnableLaserRoutine()
         {
             if (enableLaserCoroutine != null)
                 StopCoroutine(enableLaserCoroutine);
 
             enableLaserCoroutine = StartCoroutine(EnableLaserRoutine());
-        }
-
-        public void ShootLaser()
-        {
-            // Check for a wall collider
-
-            // Check player facing
-
-            // Instantiate the laser at the playerFirePosition
-            //var laser = Instantiate(laserPrefab, laserFirePoint.position, Quaternion.identity);
-            Instantiate(laserPrefab, laserFirePoint.position, Quaternion.identity);
-            
-            ResetLaser();
         }
 
         private IEnumerator EnableLaserRoutine()

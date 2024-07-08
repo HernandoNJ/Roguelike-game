@@ -7,6 +7,7 @@ TagManager:
   - BurningWall
   - PlayerBullet
   - EnemyBullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
