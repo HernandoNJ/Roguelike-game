@@ -2,11 +2,9 @@ using System.Collections;
 using Bullets;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Player
 {
-    [RequireComponent(typeof(LineRenderer))]
     public class PlayerShooting : MonoBehaviour
     {
         [Header("Bullet")] [SerializeField] private GameObject bulletPrefab;
@@ -16,19 +14,12 @@ namespace Player
         [SerializeField] private float nextFireTime;
 
         [Header("Laser")] [SerializeField] private GameObject laserPrefab;
-        [SerializeField] private Transform laserTarget;
-        [SerializeField] private Transform laserFirePoint;
         [SerializeField] private float laserKeyTimer;
         [SerializeField] private float laserKeyPressedTime;
         [SerializeField] private float activateLaserWait;
         [SerializeField] private float laserActiveTime;
         [SerializeField] private float laserDuration;
         [SerializeField] private bool shootLaserEnabled;
-
-        // public Transform laserOrigin;
-        // public float laserRange = 3f;
-        // public float laserDuration = 3f;
-        // public LineRenderer laserLine;
 
         public UnityEvent onLaserEnabled;
         public UnityEvent onLaserActivated;
@@ -39,7 +30,6 @@ namespace Player
         private void Start()
         {
             fireRate = GetComponent<Player>().GetPlayerFireRatio();
-            //laserLine = GetComponent<LineRenderer>();
         }
 
         private void Update()

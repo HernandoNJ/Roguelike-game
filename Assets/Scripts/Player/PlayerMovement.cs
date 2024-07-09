@@ -1,13 +1,13 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
         [SerializeField] private float moveSpeed;
-        [SerializeField] private float maxSpeed;
-        [SerializeField] private Vector2 playerFacingDirection;
-        
+        [SerializeField] private float maxSpeed; 
+        [SerializeField] private bool facingRight;
         
         private Camera mainCamera;
         private Vector2 screenBounds;
@@ -33,6 +33,8 @@ namespace Player
         
             rb = player.GetComponent<Rigidbody2D>();
             moveSpeed = player.GetPlayerSpeed();
+
+            CheckFacingRight();
         }
 
         private void FixedUpdate()
@@ -43,8 +45,13 @@ namespace Player
         private void MovePlayer()
         {
             // Handle player input
-            movement = new Vector2( Input.GetAxis("XAxisKeys"),Input.GetAxis("YAxisKeys"));
+            var moveH = Input.GetAxis("XAxisKeys");
+            var moveV = Input.GetAxis("YAxisKeys");
+
+            if(moveH < 0 && facingRight) Flip();
+            else if(moveH > 0 && !facingRight) Flip();
             
+            movement = new Vector2(moveH, moveV);
             
             // Apply movement
             rb.velocity = movement * moveSpeed;
@@ -59,12 +66,22 @@ namespace Player
 
         public void IncreaseSpeed(float speedArg)
         {
-            Debug.Log("Prev speed: " + moveSpeed);
             moveSpeed += speedArg;
             if (moveSpeed > maxSpeed) moveSpeed = maxSpeed;
-            Debug.Log("Curr speed: " + moveSpeed);
         }
 
-        public Vector3 GetPlayerFacingDirection => playerFacingDirection;
+        private void Flip()
+        {
+            facingRight = !facingRight;
+            transform.Rotate(0,180,0);
+        }
+        
+        private void CheckFacingRight()
+        {
+            if (transform.rotation.y == 0) facingRight = true;
+            else if (Mathf.Approximately(transform.rotation.y, 180f)) facingRight = false;
+        }
+
+        public bool GetFacingRight() => facingRight;
     }
 }

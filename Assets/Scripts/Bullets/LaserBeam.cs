@@ -1,12 +1,14 @@
-using System;
+using Player;
 using UnityEngine;
 
 namespace Bullets
 {
+    [RequireComponent(typeof(LineRenderer))]
     public class LaserBeam : MonoBehaviour
     {
+        [SerializeField] private PlayerMovement playerMovement;
         [SerializeField] private float laserRayDistance = 10f;
-        public Transform laserFirePoint;
+        public Transform laserOrigin;
         public LineRenderer lineRenderer;
 
         private Transform laserTransform;
@@ -14,45 +16,30 @@ namespace Bullets
         private void Awake()
         {
             laserTransform = GetComponent<Transform>();
+            lineRenderer = GetComponent<LineRenderer>();
+            gameObject.SetActive(false);
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             ShootLaser();
         }
 
-        public void ShootLaser()
+        private void ShootLaser()
         {
-            if (Physics2D.Raycast(laserTransform.position, transform.right))
-            {
-                var hit = Physics2D.Raycast(laserFirePoint.position, transform.right);
-                
-                DrawLaserBeamLine(laserFirePoint.position, hit.point);
-            }
-            else
-            {
-                DrawLaserBeamLine(laserFirePoint.position, laserFirePoint.transform.right * laserRayDistance);
-            }
-        }
+            var playerFacingRight = playerMovement.GetFacingRight();
+            var laserEndPoint = playerFacingRight ? Vector2.right : Vector2.left;
 
-        private void DrawLaserBeamLine(Vector2 startPos, Vector2 endPos)
-        {
-            lineRenderer.SetPosition(0, startPos);
-            lineRenderer.SetPosition(1, endPos);
-        }
-
-        private void CheckEnemy(Collider2D other)
-        {
-            if (other.CompareTag("Enemy"))
+            RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, laserEndPoint);
+            
+            if (Physics2D.Raycast(laserOrigin.position, laserEndPoint))
             {
-                Debug.Log("Enemy found. name: " + other.gameObject.name);
-                var enemy = other.GetComponent<Enemy.Enemy>();
+                lineRenderer.SetPosition(0, laserOrigin.position);
 
-                if (enemy != null)
-                {
-                    Debug.Log("Enemy script = " + enemy.name);
-                    enemy.Damage(0.1f);
-                }
+                if (hit.transform.CompareTag("Wall"))
+                    lineRenderer.SetPosition(1, hit.point);
+                else if (hit.transform.CompareTag("Enemy"))
+                    lineRenderer.SetPosition(1, hit.point);
             }
         }
     }
