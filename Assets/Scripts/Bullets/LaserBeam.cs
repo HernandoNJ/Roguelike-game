@@ -10,6 +10,9 @@ namespace Bullets
         [SerializeField] private float laserRayDistance = 10f;
         public Transform laserOrigin;
         public LineRenderer lineRenderer;
+        public Vector2 laserEndPoint;
+        public Vector2 hitPoint;
+        public bool facingRight;
 
         private Transform laserTransform;
 
@@ -27,8 +30,8 @@ namespace Bullets
 
         private void ShootLaser()
         {
-            var playerFacingRight = playerMovement.GetFacingRight();
-            var laserEndPoint = playerFacingRight ? Vector2.right : Vector2.left;
+            facingRight = playerMovement.GetFacingRight();
+            laserEndPoint = facingRight ? Vector2.right : Vector2.left;
 
             RaycastHit2D hit = Physics2D.Raycast(laserOrigin.position, laserEndPoint);
             
@@ -36,11 +39,33 @@ namespace Bullets
             {
                 lineRenderer.SetPosition(0, laserOrigin.position);
 
+                hitPoint = hit.point;
+                
                 if (hit.transform.CompareTag("Wall"))
-                    lineRenderer.SetPosition(1, hit.point);
+                    lineRenderer.SetPosition(1, hitPoint);
                 else if (hit.transform.CompareTag("Enemy"))
-                    lineRenderer.SetPosition(1, hit.point);
+                    lineRenderer.SetPosition(1, hitPoint);
             }
+        }
+        
+        void OnDrawGizmos()
+        {
+            // Set the desired color for the ray (optional)
+            Gizmos.color = Color.yellow;
+
+            // Define the start position of the ray (usually transform.position)
+            Vector3 startPoint = laserOrigin.position;
+
+            // Define the direction of the ray (often transform.forward)
+            Vector3 direction = laserEndPoint;
+
+            // Draw the ray with start point and direction
+            Gizmos.DrawRay(startPoint, direction);
+            
+            Gizmos.color = Color.red;
+            Vector3 startPoint1 = laserOrigin.position;
+            Vector3 direction1 = hitPoint;
+            Gizmos.DrawRay(startPoint1, direction1);
         }
     }
 }
