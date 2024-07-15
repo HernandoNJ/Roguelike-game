@@ -35,37 +35,14 @@ namespace Enemy
         {
             originalPosition = transform.position;
             player = FindObjectOfType<Player.Player>().GetComponent<Transform>();
-            //enemyWall.SetActive(true);
-            InvokeRepeating(nameof(CheckEnemyState), 0.1f, checkStateTimer);
-        }
-
-        private void CheckEnemyState()
-        {
-            // if (player == null) return;
-            //
-            // var distance = Vector2.Distance(transform.position, player.position);
-            //
-            // if (distance <= shootingRange && Time.time >= nextFireTime)
-            // {
-            //     enemyState = EnemyState.Attack;
-            //     Shoot();
-            //     nextFireTime = Time.time + 1f / fireRate;
-            // }
-            // else
-            // {
-            //     enemyState = EnemyState.Block;
-            //     Block();
-            // }
+            //InvokeRepeating(nameof(CheckEnemyState), 0.1f, checkStateTimer);
         }
 
         private void Shoot()
         {
-            // Direction from enemy to player
             Vector2 directionToPlayer = (player.position - transform.position).normalized;
-
-            // Instantiate and shoot the bullet towards the player
             ShootBullets(directionToPlayer);
-
+            
             // Calculate direction for +15 degrees
             Vector2 directionPlus15 = Quaternion.Euler(0, 0, 15) * directionToPlayer;
             ShootBullets(directionPlus15);
@@ -87,12 +64,8 @@ namespace Enemy
 
         private void ShootBullets(Vector2 direction)
         {
-            // Instantiate the bullet at the enemy's position
-            GameObject bullet = Instantiate(enemyBullet, transform.position, Quaternion.identity);
-
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
-
-            // Apply force to the bullet in the calculated direction
+            var bullet = Instantiate(enemyBullet, transform.position, Quaternion.identity);
+            var rb = bullet.GetComponent<Rigidbody2D>();
             rb.velocity = direction * bulletSpeed;
         }
 
@@ -114,10 +87,14 @@ namespace Enemy
             // Calculate the move back position in the opposite direction of the hit
             var moveBackPosition = transform.position + hitDirection * moveBackDistance;
 
-            StartCoroutine(MoveToPosition(
+            StartCoroutine(
+                MoveToPosition(
                 moveBackPosition,
                 moveBackTime,
-                () => { StartCoroutine(MoveToPosition(originalPosition, returnTime)); }));
+                () =>
+                {
+                    StartCoroutine(MoveToPosition(originalPosition, returnTime));
+                }));
         }
 
         private IEnumerator MoveToPosition(Vector3 targetPosition, float duration, Action onComplete = null)
@@ -133,7 +110,6 @@ namespace Enemy
             }
 
             transform.position = targetPosition;
-
             onComplete?.Invoke();
         }
 
