@@ -9,7 +9,7 @@ namespace Managers
         [SerializeField] private UIController uiController;
         [SerializeField] private Player.Player player;
         [SerializeField] private PlayerHealth playerHealth;
-        [SerializeField] private PlayerMovement playerMovement;
+        [SerializeField] private PlayerMovement2 playerMovement;
         public static GameManager Instance { get; private set; }
 
         private void Awake()
@@ -25,7 +25,7 @@ namespace Managers
             uiController.EnableLaserIcon(false);
             playerHealth = player.GetComponent<PlayerHealth>();
             playerHealth.AddHealth(player.GetPlayerHealth());
-            playerMovement = player.GetComponent<PlayerMovement>();
+            playerMovement = player.GetComponent<PlayerMovement2>();
         }
 
         public void UpdatePlayerHealthUi(float newHealth)

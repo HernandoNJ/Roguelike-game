@@ -15,7 +15,7 @@ namespace Powerups
         {
             if (other.CompareTag("Player"))
             {
-                var playerMove = other.GetComponent<PlayerMovement>();
+                var playerMove = other.GetComponent<PlayerMovement2>();
                 playerMove?.IncreaseSpeed(speedToAdd);
                 
                 Collect();

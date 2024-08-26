@@ -24,9 +24,12 @@ namespace Player
             mainCamera = Camera.main;
 
             // Calculate the screen bounds
-            screenBounds =
-                mainCamera.ScreenToWorldPoint(new Vector3(Screen.width, Screen.height,
-                    mainCamera.transform.position.z));
+            if (mainCamera != null)
+                screenBounds = mainCamera.ScreenToWorldPoint(
+                    new Vector3(
+                        Screen.width, 
+                        Screen.height,
+                        mainCamera.transform.position.z));
 
             var player = FindObjectOfType<Player>();
 

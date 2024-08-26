@@ -126,7 +126,7 @@ namespace Bullets
     [RequireComponent(typeof(LineRenderer))]
     public class LaserBeam : MonoBehaviour
     {
-        [SerializeField] private PlayerMovement playerMovement;
+        [SerializeField] private PlayerMovement2 playerMovement;
         [SerializeField] private float laserRayDistance = 10f;
         [SerializeField] private float laserDamageToEnemy = 2.5f;
         [SerializeField] private float laserWaitToDamageEnemy = 0.3f;
