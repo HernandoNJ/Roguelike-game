@@ -1,10 +1,11 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
+namespace Player
+{
 public class PlayerMovement2 : MonoBehaviour
 {
-    [SerializeField] private PlayerInput m_playerInput;
     [SerializeField] private float moveSpeed;
     [SerializeField] private float maxSpeed;
     [SerializeField] private bool facingRight;
@@ -19,25 +20,9 @@ public class PlayerMovement2 : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
 
-    private InputAction m_LookAction;
-    private InputAction m_MoveAction;
-    private InputAction m_FireAction;
-
     private void Awake()
     {
-        m_playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    private void OnEnable()
-    {
-        ConfigInputActions();
-        EnablePlayerInput();
-    }
-
-    private void OnDisable()
-    {
-        DisablePlayerInput();
     }
 
     private void Start()
@@ -52,35 +37,6 @@ public class PlayerMovement2 : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-    }
-
-    private void ConfigInputActions()
-    {
-        if (m_playerInput == null)
-        {
-            m_playerInput = GetComponent<PlayerInput>();
-            m_FireAction = m_playerInput.actions["Fire"];
-            m_LookAction = m_playerInput.actions["Look"];
-            m_MoveAction = m_playerInput.actions["Move"];
-        }
-    }
-
-    private void EnablePlayerInput()
-    {
-        m_FireAction.performed += OnFire;
-        m_MoveAction.performed += OnMove;
-        m_LookAction.performed += OnLook;
-
-        m_playerInput.enabled = true;
-    }
-
-    private void DisablePlayerInput()
-    {
-        m_FireAction.performed -= OnFire;
-        m_MoveAction.performed -= OnMove;
-        m_LookAction.performed -= OnLook;
-
-        m_playerInput.enabled = false;
     }
 
     private void ConfigPlayerCollider()
@@ -102,19 +58,19 @@ public class PlayerMovement2 : MonoBehaviour
         }
     }
 
-    private void OnLook(InputAction.CallbackContext context)
+    public void PlayerLook(InputAction.CallbackContext context)
     {
         Debug.Log($"{context.action} performed");
         Debug.Log("Player is looking");
     }
 
-    private void OnFire(InputAction.CallbackContext context)
+    public void PlayerFire(InputAction.CallbackContext context)
     {
         Debug.Log($"{context.action} performed");
         Debug.Log("Player is firing");
     }
 
-    private void OnMove(InputAction.CallbackContext context)
+    public void PlayerMove(InputAction.CallbackContext context)
     {
         movement = context.ReadValue<Vector2>();
         CheckMoveFacing();
@@ -169,4 +125,5 @@ public class PlayerMovement2 : MonoBehaviour
     }
 
     public bool GetFacingRight() => facingRight;
+}
 }
