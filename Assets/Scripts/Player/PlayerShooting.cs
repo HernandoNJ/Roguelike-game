@@ -34,21 +34,21 @@ namespace Player
 
         private void Update()
         {
-            CheckShootKeyPressed();
-            CheckLaserShooting();
+            CheckShootBulletKeyPressed();
+            CheckShootLaserKeyPressed();
             CheckLaserEnabledTimer();
         }
 
-        private void CheckShootKeyPressed()
+        private void CheckShootBulletKeyPressed()
         {
             if (GetShootKeyPressed() && Time.time >= nextFireTime)
             {
-                Shoot();
+                ShootBullet();
                 nextFireTime = Time.time + 1f / fireRate;
             }
         }
 
-        private void Shoot()
+        private void ShootBullet()
         {
             var bulletInstance = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
             var bullet = bulletInstance.GetComponent<Bullet>();
@@ -74,7 +74,7 @@ namespace Player
             => fireRate = Mathf.Min(fireRate + amount, maxFireRate);
 
         // Check both if laser key is pressed and laser timer value
-        private void CheckLaserShooting()
+        private void CheckShootLaserKeyPressed()
         {
             var laserTimeReached = laserKeyPressedTime >= laserKeyTimer;
 

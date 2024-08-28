@@ -85,9 +85,9 @@ namespace Player
         {
             facingRight = !facingRight;
             transform.Rotate(0, 180, 0);
-            onPlayerFlipped?.Invoke(facingRight);
+            onPlayerFlipped?.Invoke(GetFacingRight());
         }
 
-        public bool GetFacingRight() => facingRight;
+        private bool GetFacingRight() => facingRight;
     }
 }

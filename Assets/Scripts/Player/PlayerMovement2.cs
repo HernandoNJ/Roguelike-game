@@ -29,9 +29,6 @@ public class PlayerMovement2 : MonoBehaviour
     {
         ConfigMainCamera();
         ConfigPlayerCollider();
-
-        // Ensure the player is facing the correct direction
-        if (!facingRight) Flip();
     }
 
     private void FixedUpdate()
@@ -121,9 +118,9 @@ public class PlayerMovement2 : MonoBehaviour
             transform.localScale.y,
             transform.localScale.z);
 
-        onPlayerFlipped?.Invoke(facingRight);
+        onPlayerFlipped?.Invoke(GetFacingRight());
     }
 
-    public bool GetFacingRight() => facingRight;
+    private bool GetFacingRight() => facingRight;
 }
 }
