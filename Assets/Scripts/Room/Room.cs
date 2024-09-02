@@ -18,7 +18,5 @@ public class Room : MonoBehaviour
         if(direction == Vector2Int.left) leftDoor.SetActive(true);
         if(direction == Vector2Int.right) rightDoor.SetActive(true);
     }
-    
-    
 }
 }
