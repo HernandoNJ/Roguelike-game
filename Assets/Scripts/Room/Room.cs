@@ -8,15 +8,49 @@ public class Room : MonoBehaviour
     [SerializeField] private GameObject bottomDoor;
     [SerializeField] private GameObject leftDoor;
     [SerializeField] private GameObject rightDoor;
+
+    [SerializeField] private GameObject topWall;
+    [SerializeField] private GameObject bottomWall;
+    [SerializeField] private GameObject leftWall;
+    [SerializeField] private GameObject rightWall;
+
+    public bool isInitialRoom;
+    
+    public bool IsLeftBusy;
+    public bool IsRightBusy;
+    public bool IsTopBusy;
+    public bool IsBottomBusy;
+
+    public bool isLeftRoom;
+    public bool isRightRoom;
     
     public Vector2Int RoomIndex { get; set; }
 
-    public void OpenDoor(Vector2Int direction)
+    public void DisableWallAndDoor(Vector2Int direction)
     {
-        if(direction == Vector2Int.up) topDoor.SetActive(true);
-        if(direction == Vector2Int.down) bottomDoor.SetActive(true);
-        if(direction == Vector2Int.left) leftDoor.SetActive(true);
-        if(direction == Vector2Int.right) rightDoor.SetActive(true);
+        if (direction == Vector2Int.up)
+        {
+            topWall.SetActive(false);
+            topDoor.SetActive(false);
+        }
+
+        if (direction == Vector2Int.down)
+        {
+            bottomWall.SetActive(false);
+            bottomDoor.SetActive(false);
+        }
+
+        if (direction == Vector2Int.left)
+        {
+            leftWall.SetActive(false);
+            leftDoor.SetActive(false);
+        }
+
+        if (direction == Vector2Int.right)
+        {
+            rightWall.SetActive(false);
+            rightDoor.SetActive(false);
+        }
     }
 }
 }

@@ -153,9 +153,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefab: {fileID: 3130662929807601175, guid: ba665ad9200b4684982c654dc18b0198, type: 3}
   maxRooms: 5
-  minRooms: 3
+  minRooms: 1
   gridSizeX: 10
   gridSizeY: 10
+  roomWidth: 20
+  roomHeight: 12
+  initialRoomIndex: {x: 0, y: 0}
+  currentRoomIndex: {x: 0, y: 0}
+  curreRoomScript: {fileID: 0}
+  nextRoomScript: {fileID: 0}
 --- !u!4 &171278134
 Transform:
   m_ObjectHideFlags: 0
@@ -429,7 +435,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1312407523}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 995ada48c980dbd4c90f79e0bd604e03, type: 3}
   m_Name: 
