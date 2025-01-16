@@ -66,7 +66,7 @@ namespace Enemy
         {
             var bullet = Instantiate(enemyBullet, transform.position, Quaternion.identity);
             var rb = bullet.GetComponent<Rigidbody2D>();
-            rb.velocity = direction * bulletSpeed;
+            rb.linearVelocity = direction * bulletSpeed;
         }
 
         private void OnTriggerEnter2D(Collider2D other)

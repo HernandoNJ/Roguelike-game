@@ -75,7 +75,7 @@ public class PlayerMovement2 : MonoBehaviour
     
     private void MovePlayer()
     {
-        rb.velocity = movement * moveSpeed;
+        rb.linearVelocity = movement * moveSpeed;
 
         // Constrain the player within the screen bounds
         var position = rb.position;

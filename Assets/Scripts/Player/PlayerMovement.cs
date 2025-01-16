@@ -65,7 +65,7 @@ namespace Player
             movement = new Vector2(moveH, moveV);
 
             // Apply movement
-            rb.velocity = movement * moveSpeed;
+            rb.linearVelocity = movement * moveSpeed;
 
             // Constrain the player within the screen bounds
             var position = rb.position;
