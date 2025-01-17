@@ -1,7 +1,6 @@
+using System;
 using UnityEngine;
 
-namespace Tests
-{
 public class LaserTest : MonoBehaviour
 {
     public LineRenderer lineRenderer;
@@ -24,5 +23,4 @@ public class LaserTest : MonoBehaviour
             }
         }
     }
-}
 }
