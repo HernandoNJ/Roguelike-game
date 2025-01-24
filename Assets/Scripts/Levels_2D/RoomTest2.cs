@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace Room
+namespace Levels_2D
 {
-public class Room : MonoBehaviour
+public class RoomTest2 : MonoBehaviour
 {
     [SerializeField] private GameObject topDoor;
     [SerializeField] private GameObject bottomDoor;

@@ -1,6 +1,6 @@
 namespace Levels_2D
 {
-public class BaseRoom : Room
+public class BaseRoomTest : RoomTest
 {
     private void Start()
     {

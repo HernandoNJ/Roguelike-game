@@ -5,7 +5,7 @@ namespace Levels_2D
 {
 public class Level : MonoBehaviour
 {
-    public List<Room> rooms;
+    public List<RoomTest> rooms;
     public Door specialDoor;
 }
 }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Levels_2D
 {
-public class RoomController : MonoBehaviour
+public class RoomControllerTest : MonoBehaviour
 {
     public ObjectsSpawnerReference objectsSpawnerReference;
     public GameObject doorPrefab;
@@ -15,7 +15,7 @@ public class RoomController : MonoBehaviour
     private bool isLevelComplete = false;
     private int enemiesRemaining = 0;
     
-    public List<Room> rooms;
+    public List<RoomTest> rooms;
     public List<Level> levels;
 
     private void Start()
@@ -55,25 +55,25 @@ public class RoomController : MonoBehaviour
         {
             var roomObj = SelectRoomPrefab(roomTypes[i]);
             var roomGameObject = Instantiate(roomObj, transform.position, Quaternion.identity);
-            var newRoom = roomGameObject.GetComponent<Room>();
+            var newRoom = roomGameObject.GetComponent<RoomTest>();
             rooms.Add(newRoom);
         }
 
         // Connect the rooms randomly
         for (int i = 0; i < rooms.Count - 1; i++)
         {
-            Room currentRoom = rooms[i];
-            Room nextRoom = rooms[Random.Range(i + 1, rooms.Count)];
-            currentRoom.ConnectToRoom(currentRoom, nextRoom);
+            RoomTest currentRoomTest = rooms[i];
+            RoomTest nextRoomTest = rooms[Random.Range(i + 1, rooms.Count)];
+            currentRoomTest.ConnectToRoom(currentRoomTest, nextRoomTest);
         }
 
         // Place the special door
-        Room lastRoom = rooms[rooms.Count - 1];
-        lastRoom.PlaceSpecialDoor();
+        RoomTest lastRoomTest = rooms[rooms.Count - 1];
+        lastRoomTest.PlaceSpecialDoor();
 
         // Set the level's rooms and special door
         levels[levelIndex].rooms = rooms;
-        levels[levelIndex].specialDoor = lastRoom.specialDoor;
+        levels[levelIndex].specialDoor = lastRoomTest.specialDoor;
     }
 
     private GameObject SelectRoomPrefab(RoomType roomType)

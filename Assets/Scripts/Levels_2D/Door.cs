@@ -1,17 +1,18 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Levels_2D
 {
 public class Door : MonoBehaviour
 {
-    public Room roomA;
-    public Room roomB;
+    [FormerlySerializedAs("roomA")] public RoomTest roomTestA;
+    [FormerlySerializedAs("roomB")] public RoomTest roomTestB;
     public bool isOpen;
 
-    public void ConnectRooms(Room roomOne, Room roomTwo)
+    public void ConnectRooms(RoomTest roomTestOne, RoomTest roomTestTwo)
     {
-        roomA = roomOne;
-        roomB = roomTwo;
+        roomTestA = roomTestOne;
+        roomTestB = roomTestTwo;
         isOpen = true; // Doors are initially open
     }
 

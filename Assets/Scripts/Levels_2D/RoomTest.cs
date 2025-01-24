@@ -4,7 +4,7 @@ using UnityEngine.Serialization;
 
 namespace Levels_2D
 {
-public class Room : MonoBehaviour
+public class RoomTest : MonoBehaviour
 {
     [SerializeField] private GameObject doorPrefab;
     [SerializeField] private GameObject specialDoorPrefab;
@@ -17,7 +17,7 @@ public class Room : MonoBehaviour
     public int maxDoors;
     public bool hasEnemy;
     
-    public void ConnectToRoom(Room room1, Room room2)
+    public void ConnectToRoom(RoomTest room1, RoomTest room2)
     {
         // Create a door between the two rooms
         var doorGameObject = Instantiate(doorPrefab, transform.position, Quaternion.identity);
