@@ -47,11 +47,11 @@ public class RoomControllerTest : MonoBehaviour
     public void GenerateLevel(int levelIndex)
     {
         // Determine the number of rooms and their types based on the level index
-        int numRooms = GetNumRoomsForLevel(levelIndex);
-        List<RoomType> roomTypes = GetRoomTypesForLevel(levelIndex);
+        var numRooms = GetNumRoomsForLevel(levelIndex);
+        var roomTypes = GetRoomTypesForLevel(levelIndex);
 
         // Create the rooms
-        for (int i = 0; i < numRooms; i++)
+        for (var i = 0; i < numRooms; i++)
         {
             var roomObj = SelectRoomPrefab(roomTypes[i]);
             var roomGameObject = Instantiate(roomObj, transform.position, Quaternion.identity);
@@ -60,15 +60,15 @@ public class RoomControllerTest : MonoBehaviour
         }
 
         // Connect the rooms randomly
-        for (int i = 0; i < rooms.Count - 1; i++)
+        for (var i = 0; i < rooms.Count - 1; i++)
         {
-            RoomTest currentRoomTest = rooms[i];
-            RoomTest nextRoomTest = rooms[Random.Range(i + 1, rooms.Count)];
+            var currentRoomTest = rooms[i];
+            var nextRoomTest = rooms[Random.Range(i + 1, rooms.Count)];
             currentRoomTest.ConnectToRoom(currentRoomTest, nextRoomTest);
         }
 
         // Place the special door
-        RoomTest lastRoomTest = rooms[rooms.Count - 1];
+        var lastRoomTest = rooms[rooms.Count - 1];
         lastRoomTest.PlaceSpecialDoor();
 
         // Set the level's rooms and special door
@@ -102,7 +102,7 @@ public class RoomControllerTest : MonoBehaviour
     private List<RoomType> GetRoomTypesForLevel(int levelIndex)
     {
         // Implement your logic here to determine the types of rooms for the level
-        List<RoomType> roomTypes = new List<RoomType>();
+        var roomTypes = new List<RoomType>();
         roomTypes.Add(RoomType.BaseRoom); // Example: Always include at least one BaseRoom
         // Add other room types based on the level index
         return roomTypes;

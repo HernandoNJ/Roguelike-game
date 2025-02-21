@@ -25,7 +25,7 @@ namespace Room
         private void HandleDoorOpened(Vector2 roomGridPos, Door.DoorPlacement doorPos)
         {
             // Get a wall gameobject if the doorPos value is in the dictionary
-            if (wallMap.TryGetValue(doorPos, out GameObject wall))
+            if (wallMap.TryGetValue(doorPos, out var wall))
             {
                 wall.SetActive(false);
             }

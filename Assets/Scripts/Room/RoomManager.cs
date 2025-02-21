@@ -39,9 +39,9 @@ namespace Room
             var currentXPos = 0f;
             var currentYPos = 0f;
 
-            for (int x = 0; x < gridX; x++)
+            for (var x = 0; x < gridX; x++)
             {
-                for (int y = 0; y < gridY; y++)
+                for (var y = 0; y < gridY; y++)
                 {
                     var newPos = new Vector3(currentXPos, currentYPos, 0f);
                     // Instantiate a room prefab

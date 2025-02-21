@@ -9,8 +9,8 @@ namespace Bullets
         public float damage;
         public float lifetime;
         public Rigidbody2D rb;
-    
-        void Start()
+
+        private void Start()
         {
             Destroy(gameObject, lifetime);
         }

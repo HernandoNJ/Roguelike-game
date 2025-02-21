@@ -52,7 +52,7 @@ public class RoomManagerTest : MonoBehaviour
         initialRoomIndex = new Vector2Int(gridSizeX / 2, gridSizeY / 2);
         currentRoomIndex = initialRoomIndex;
 
-        for (int i = 0; i < maxRooms; i++) GenerateRoom(currentRoomIndex);
+        for (var i = 0; i < maxRooms; i++) GenerateRoom(currentRoomIndex);
         //GenerateRooms();
     }
 
@@ -244,10 +244,10 @@ public class RoomManagerTest : MonoBehaviour
 // Helper function to shuffle directions (Fisher-Yates Shuffle)
     private void Shuffle<T>(List<T> list)
     {
-        for (int i = list.Count - 1; i > 0; i--)
+        for (var i = list.Count - 1; i > 0; i--)
         {
-            int j = Random.Range(0, i + 1);
-            T temp = list[i];
+            var j = Random.Range(0, i + 1);
+            var temp = list[i];
             list[i] = list[j];
             list[j] = temp;
         }
@@ -325,9 +325,9 @@ public class RoomManagerTest : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = new Color(0, 1, 1, 0.05f);
-        for (int x = 0; x < gridSizeX; x++)
+        for (var x = 0; x < gridSizeX; x++)
         {
-            for (int y = 0; y < gridSizeY; y++)
+            for (var y = 0; y < gridSizeY; y++)
             {
                 var position = GetPositionFromGridIndex(new Vector2Int(x, y));
                 Gizmos.DrawWireCube(position, new Vector3(roomWidth, roomHeight, 1));
