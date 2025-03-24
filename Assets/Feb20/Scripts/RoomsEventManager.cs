@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class RoomsEventManager: MonoBehaviour
 {
     public static RoomsEventManager Instance;
 
-    public event Action<Room> OnRoomEntered; // Event for room entry
-    public event Action<Room> OnRoomExited;  // Event for room exit
+    public event Action<Mar23.Room> OnRoomEntered; // Event for room entry
+    public event Action<Mar23.Room> OnRoomExited;  // Event for room exit
 
     private void Awake()
     {
@@ -17,12 +17,12 @@ public class RoomsEventManager: MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
-    public void EnterRoom(Room nextRoom)
+    public void EnterRoom(Mar23.Room nextRoom)
     {
         OnRoomEntered?.Invoke(nextRoom);
     }
 
-    public void ExitRoom(Room prevRoom)
+    public void ExitRoom(Mar23.Room prevRoom)
     {
         OnRoomExited?.Invoke(prevRoom);
     }

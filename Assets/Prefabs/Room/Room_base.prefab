@@ -54,7 +54,7 @@ MonoBehaviour:
   topWall: {fileID: 559832035168978936}
   bottomWall: {fileID: 1070516987566461457}
   leftWall: {fileID: 2504504059829067435}
-  rightWall: {fileID: 0}
+  rightWall: {fileID: 2223776223000337867}
 --- !u!1 &4326753335257387019
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: -10
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.3529412}
+  m_Color: {r: 0.17383412, g: 0.7993411, b: 0.9698113, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -289,6 +289,11 @@ PrefabInstance:
 --- !u!4 &1127511862327628398 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7020594270054068767, guid: 7d5f0c10f3a6fef479828bd41f5bd6c1, type: 3}
+  m_PrefabInstance: {fileID: 7983636779614134385}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2223776223000337867 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8077175056498818490, guid: 7d5f0c10f3a6fef479828bd41f5bd6c1, type: 3}
   m_PrefabInstance: {fileID: 7983636779614134385}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8212768918291251988

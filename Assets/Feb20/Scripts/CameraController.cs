@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class CameraController: MonoBehaviour
 {
@@ -20,12 +20,12 @@ public class CameraController: MonoBehaviour
     }
 
     // Method to move the camera to the room center
-    private void MoveCameraToRoomCenter(Room room)
+    private void MoveCameraToRoomCenter(Mar23.Room room)
     {
-        var roomCenter = room.GetRoomCenter();
+        //var roomCenter = room.GetRoomCenter();
         
         // Move the camera to the room center (keep the same Y position)
-        transform.position = new Vector3(roomCenter.x, transform.position.y, roomCenter.z);
+        //transform.position = new Vector3(roomCenter.x, transform.position.y, roomCenter.z);
     }
 }
 }

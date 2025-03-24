@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class GridSystem: MonoBehaviour
 {
@@ -8,17 +8,17 @@ public class GridSystem: MonoBehaviour
     [SerializeField] private Vector2Int gridSize; // 5x5 grid
     [SerializeField] private Vector2Int roomSize; // Size of each room
 
-    private Room[,] roomsGrid; // 2D array to store Room instances
+    private Mar23.Room[,] roomsGrid; // 2D array to store Room instances
 
     private void Start()
     {
-        roomsGrid = new Room[gridSize.x, gridSize.y];
+        roomsGrid = new Mar23.Room[gridSize.x, gridSize.y];
         GenerateGrid();
     }
     
     public Vector2Int GetGridSize() => roomSize;
     
-    public Room GetRoom(int x, int y) => roomsGrid[x, y];
+    public Mar23.Room GetRoom(int x, int y) => roomsGrid[x, y];
 
     public void GenerateGrid()
     {
@@ -31,7 +31,7 @@ public class GridSystem: MonoBehaviour
                 var roomInstance = Instantiate(roomPrefab, position, Quaternion.identity, transform);
 
                 // Store the Room instance in the grid
-                roomsGrid[x, y] = roomInstance.GetComponent<Room>();
+                roomsGrid[x, y] = roomInstance.GetComponent<Mar23.Room>();
             }
         }
     }

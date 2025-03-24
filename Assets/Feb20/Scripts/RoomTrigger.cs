@@ -1,13 +1,12 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class RoomTrigger: MonoBehaviour
 {
-    [SerializeField] private Room currentRoom;
-    [SerializeField] private Room nextRoom;
-    [SerializeField] private Room prevRoom;
+    [SerializeField] private Mar23.Room currentRoom;
+    [SerializeField] private Mar23.Room nextRoom;
+    [SerializeField] private Mar23.Room prevRoom;
     [SerializeField] private int roomIndex; // Index of this room
     [SerializeField] private WallsHandler wallsHandler;
 
@@ -15,7 +14,7 @@ public class RoomTrigger: MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            var newRoom = other.GetComponent<Room>();
+            var newRoom = other.GetComponent<Mar23.Room>();
             if (newRoom != null)
             {
                 RoomsEventManager.Instance.EnterRoom(nextRoom);

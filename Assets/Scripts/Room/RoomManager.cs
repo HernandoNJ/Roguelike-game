@@ -49,15 +49,15 @@ namespace Room
                     room.transform.SetParent(roomsParent);
                     
                     // Optionally, set additional properties for the room
-                    room.name = $"Room_{x},{y}";
-                    room.GetComponent<RoomController>().gridPosition = new Vector2(x, y);
-                    
-                    var roomPos = Instantiate(roomCenterPosPrefab, newPos, Quaternion.identity);
-                    roomPos.transform.SetParent(roomCenterPosParent);
-                    roomPos.name = $"RoomPos_{x},{y}";
-
-                    // Update the Y position for the next room
-                    currentYPos += roomOffsetY; 
+                    // room.name = $"Room_{x},{y}";
+                    // room.GetComponent<RoomController>().gridPosition = new Vector2(x, y);
+                    //
+                    // var roomPos = Instantiate(roomCenterPosPrefab, newPos, Quaternion.identity);
+                    // roomPos.transform.SetParent(roomCenterPosParent);
+                    // roomPos.name = $"RoomPos_{x},{y}";
+                    //
+                    // // Update the Y position for the next room
+                    // currentYPos += roomOffsetY; 
                 }
 
                 // Reset the Y position and increment X position for the next column

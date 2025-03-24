@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class CameraBackgroundHandler: MonoBehaviour
 {

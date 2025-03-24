@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class GameManager: MonoBehaviour
 {
@@ -43,7 +43,7 @@ public class GameManager: MonoBehaviour
         }
     }
 
-    private void HandleRoomEntered(Room room)
+    private void HandleRoomEntered(Mar23.Room room)
     {
         // Handle room entry logic (e.g., move camera, update walls)
         Debug.Log($"Player entered room at {room.name}");

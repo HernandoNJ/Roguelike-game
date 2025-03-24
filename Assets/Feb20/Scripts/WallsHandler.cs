@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace _20Feb.Scripts
+namespace Feb20.Scripts
 {
 public class WallsHandler: MonoBehaviour
 {
@@ -20,7 +20,7 @@ public class WallsHandler: MonoBehaviour
         {
             for (int y = 0; y < gridSize.y; y++)
             {
-                Room currentRoom = gridSystem.GetRoom(x, y);
+                Mar23.Room currentRoom = gridSystem.GetRoom(x, y);
 
                 // Check the room to the right
                 if (x < gridSize.x - 1)
@@ -39,7 +39,7 @@ public class WallsHandler: MonoBehaviour
         }
     }
 
-    private void DisableSharedWalls(Room room1, Room room2, string middleWall1, string middleWall2)
+    private void DisableSharedWalls(Mar23.Room room1, Mar23.Room room2, string middleWall1, string middleWall2)
     {
         // // Disable the shared walls between two rooms
         // GameObject wall1 = room1.GetWalls().Find(wall => wall.name == middleWall1);
