@@ -1,12 +1,12 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Mar23
 {
-public class Grid: MonoBehaviour
+public class GridSystem: MonoBehaviour
 {
     public Vector2Int gridSize;
+    public Vector2Int itemSize;
     public GameObject itemPrefab;
     public List<Vector2Int> busyGridList;
     
@@ -16,6 +16,7 @@ public class Grid: MonoBehaviour
 
     private void Start()
     {
+        itemSize = itemPrefab.GetComponent<Item>().itemSize;
         GenerateGrid();
     }
 
@@ -25,7 +26,7 @@ public class Grid: MonoBehaviour
         {
             for (int j = 0; j < gridSize.y; j++)
             {
-                Instantiate(itemPrefab, new Vector3(i, j, 0), Quaternion.identity);
+                Instantiate(itemPrefab, new Vector3(i * itemSize.x, j * itemSize.y, 0), Quaternion.identity);
             }
         }
     }
