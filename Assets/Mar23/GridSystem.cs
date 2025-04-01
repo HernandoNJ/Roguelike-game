@@ -1,13 +1,16 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mar23
 {
 public class GridSystem: MonoBehaviour
 {
-    public Vector2Int gridSize;
+    public Vector2Int containerSize;
+    public Vector2Int startGrid;
     public Vector2Int itemSize;
     public GameObject itemPrefab;
+    public List<Vector2Int> availableGridList;
     public List<Vector2Int> busyGridList;
     
     public bool IsGridBusy(Vector2Int position) => busyGridList.Contains(position);
@@ -22,13 +25,22 @@ public class GridSystem: MonoBehaviour
 
     public void GenerateGrid()
     {
-        for (int i = 0; i < gridSize.x; i++)
+        for (int i = 0; i < containerSize.x; i++)
         {
-            for (int j = 0; j < gridSize.y; j++)
+            for (int j = 0; j < containerSize.y; j++)
             {
                 Instantiate(itemPrefab, new Vector3(i * itemSize.x, j * itemSize.y, 0), Quaternion.identity);
+                availableGridList.Add(new Vector2Int(i,j));
             }
         }
+    }
+
+    public void SetStartGrid()
+    {
+        var x = startGrid.x;
+        var y = startGrid.y;
+        startGrid = new Vector2Int(x/2, y/2);
+        
     }
 }
 }

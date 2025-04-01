@@ -222,27 +222,14 @@ GameObject:
   - component: {fileID: 555418552}
   - component: {fileID: 555418551}
   - component: {fileID: 555418550}
-  - component: {fileID: 555418549}
+  - component: {fileID: 555418553}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &555418549
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555418548}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbca36f9c6e458b42988c1476db9c10d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 10
+  m_IsActive: 1
 --- !u!114 &555418550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: d1ecb41e61037094a8deacb2467cb39d, type: 3}
+  m_Actions: {fileID: -944628639613478452, guid: 2fa34fd05d6f78f41bf97abf1db8530d, type: 3}
   m_NotificationBehavior: 0
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
@@ -343,6 +330,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &555418553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555418548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd14c0bbd36928a4dad3cf93d3f3a9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementInput: {fileID: -1680190386980627800, guid: 2fa34fd05d6f78f41bf97abf1db8530d, type: 3}
+  jumpButtonInput: {fileID: -2099379676528639254, guid: 2fa34fd05d6f78f41bf97abf1db8530d, type: 3}
+  moveInputValue: {x: 0, y: 0}
+  speed: 10
 --- !u!1 &2066049169
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,9 +375,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648d2920026842fb94fcd619787ef570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridSize: {x: 5, y: 5}
+  containerSize: {x: 0, y: 0}
+  startGrid: {x: 0, y: 0}
   itemSize: {x: 0, y: 0}
   itemPrefab: {fileID: 6654873210829510448, guid: f039570728cd1b0459f85061caae502c, type: 3}
+  availableGridList: []
   busyGridList: []
 --- !u!4 &2066049171
 Transform:
