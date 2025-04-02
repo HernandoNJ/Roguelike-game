@@ -78,3 +78,7 @@ crashlytics-build.properties
 /[Aa]ssets/TextMeshPro/
 /[Aa]ssets/TextMeshPro.meta
 
+# CS practice files
+/AlgorithmsPractice/AlgorithmsTestSln/obj
+/AlgorithmsPractice/AlgorithmsTestSln/bin
+/AlgorithmsPractice/AlgorithmsTestSln/.idea
