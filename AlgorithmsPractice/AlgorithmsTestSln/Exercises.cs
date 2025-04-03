@@ -16,58 +16,59 @@ public class Exercises
     index i = 1, index j = 2 ... F
     */
 
-        char[,] letters = new char[2, 3]
-        {
-            { 'A', 'B', 'C' },
-            { 'D', 'E', 'F' },
-        };
+    char[,] letters = new char[2, 3]
+    {
+        { 'A', 'B', 'C' },
+        { 'D', 'E', 'F' },
+    };
 
-        public void PrintLetters()
-        {
-            var height = letters.GetLength(0);
-            var width = letters.GetLength(1);
+    public void PrintLetters()
+    {
+        var height = letters.GetLength(0);
+        var width = letters.GetLength(1);
 
-            for (int i = 0; i < height; i++)
+        for (int i = 0; i < height; i++)
+        {
+            Console.WriteLine($"i is {i}");
+            for (int j = 0; j < width; j++)
             {
-                Console.WriteLine($"i is {i}");
-                for (int j = 0; j < width; j++)
-                {
-                    Console.WriteLine($"j is {j}");
-                    Console.WriteLine($"letter is {letters[i, j]}");
-                }
+                Console.WriteLine($"j is {j}");
+                Console.WriteLine($"letter is {letters[i, j]}");
+            }
 
-                if (i == 0) Console.WriteLine("********* New row ***************");
+            if (i == 0) Console.WriteLine("********* New row ***************");
+        }
+    }
+
+    /* Exercise: Find Max value
+     *Return the maxim value from the array.
+     * If any of the array's dimensions is zero, it means the array is empty, and the method should return -1.
+     */
+
+    int FindMax(int[,] numbers)
+    {
+        var width = numbers.GetLength(0);
+        var height = numbers.GetLength(1);
+
+        if (width == 0 || height == 0) return -1;
+
+        int max = numbers[0, 0];
+
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                if (numbers[i, j] > max) max = numbers[i, j];
             }
         }
 
-        /* Exercise: Find Max value
-         *Return the maxim value from the array.
-         * If any of the array's dimensions is zero, it means the array is empty, and the method should return -1.
-         */
-
-        int FindMax(int[,] numbers)
-        {
-            var width = numbers.GetLength(0);
-            var height = numbers.GetLength(1);
-
-            if (width == 0 || height == 0) return -1;
-
-            int max = numbers[0, 0];
-
-            for (int i = 0; i < width; i++)
-            {
-                for (int j = 0; j < height; j++)
-                {
-                    if (numbers[i, j] > max) max = numbers[i, j];
-                }
-            }
-
-            return max;
-        }
+        return max;
+    }
 
     #endregion
 
     #region Foreach
+
     // Used to execute code on every item in a collection
 
     bool IsAnyWordLongerThan(int length, string[] words)
@@ -84,30 +85,32 @@ public class Exercises
 
     #region PrintWords
 
-        List<string> words = ["Uno", "Dos", "Tres", "Cuatro", "Cinco"];
+    List<string> words = ["Uno", "Dos", "Tres", "Cuatro", "Cinco"];
 
-        public void PrintWords()
-        {
-            foreach (var word in words) Console.WriteLine(word);
-        }
-        public void PrintNewWords()
-        {
-            Console.WriteLine("********* New Words **************");
-            Console.WriteLine();
-            words.AddRange(["Seis","Siete"]);
-            foreach (var word in words) Console.Write(word + " - ");
-        }
+    public void PrintWords()
+    {
+        foreach (var word in words) Console.WriteLine(word);
+    }
+
+    public void PrintNewWords()
+    {
+        Console.WriteLine("********* New Words **************");
+        Console.WriteLine();
+        words.AddRange(["Seis", "Siete"]);
+        foreach (var word in words) Console.Write(word + " - ");
+    }
+
     #endregion
-        
+
     #region ArraySum
-    
+
     public static int simpleArraySum(List<int> ar)
     {
         var sum = 0;
         foreach (var n in ar) sum += n;
         return sum;
     }
-    
+
     public void PrintArraySumText()
     {
         Console.WriteLine("******* Array Sum ************");
@@ -134,7 +137,8 @@ public class Exercises
 
             int arCount = Convert.ToInt32(Console.ReadLine().Trim());
 
-            List<int> ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt32(arTemp)).ToList();
+            List<int> ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt32(arTemp))
+                .ToList();
 
             int result = simpleArraySum(ar);
 
@@ -144,11 +148,46 @@ public class Exercises
             textWriter.Close();
         }
     }
-    
+
     #endregion
-    
-    #region CompareTriplets
-    
+
+    #region out keyword
+
+    public void CheckIntArrayValues()
+    {
+        var numbersArray = new[] { 10, 4, 7, -18, -23, -8, 2, 12, -17 };
+        //int positives;
+        //int negatives;
+        var onlyPositives = GetOnlyPositiveNumbers(numbersArray,
+            out var positives,
+            out var negatives);
+
+        foreach (var number in onlyPositives) Console.WriteLine(number);
+
+        Console.WriteLine($"positives count: {positives}");
+        Console.WriteLine($"negatives count: {negatives}");
+    }
+
+    private List<int> GetOnlyPositiveNumbers(int[] numbers,
+        out int positiveNumbersCount,
+        out int negativeNumbersCount)
+    {
+        positiveNumbersCount = 0;
+        negativeNumbersCount = 0;
+        var result = new List<int>();
+
+        foreach (var number in numbers)
+        {
+            if (number > 0)
+            {
+                result.Add(number);
+                positiveNumbersCount++;
+            }
+            else negativeNumbersCount++;
+        }
+
+        return result;
+    }
+
     #endregion
-    
 }

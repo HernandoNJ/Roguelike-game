@@ -1,9 +1,9 @@
 ﻿using AlgorithmsTest;
 
 var ex = new Exercises();
-ex.PrintNewWords();
-
+//ex.PrintNewWords();
 //ex.PrintArraySumText();
+ex.CheckIntArrayValues();
 
 
 
