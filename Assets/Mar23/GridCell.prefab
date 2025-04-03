@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 3007972578385905096}
   - component: {fileID: 8379800739010946905}
-  - component: {fileID: -7378491063182170746}
+  - component: {fileID: -6088270627132478075}
   m_Layer: 0
-  m_Name: Item
+  m_Name: GridCell
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0, g: 0.7343922, b: 0.9698113, a: 1}
+  m_Color: {r: 0.6905662, g: 0.68665725, b: 0.68665725, a: 0.06666667}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-7378491063182170746
+--- !u!114 &-6088270627132478075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,8 +97,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6654873210829510448}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9c35fcead744a0588bb79c38773f1fa, type: 3}
+  m_Script: {fileID: 11500000, guid: e4f6b3d8e7664220b955af7b5204ca5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSize: {x: 3, y: 3}
-  gridCellPosition: {x: 0, y: 0}
+  cellPosition: {x: 0, y: 0}
+  isBusy: 0
+  cellPrefab: {fileID: 0}
