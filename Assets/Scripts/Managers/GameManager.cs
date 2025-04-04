@@ -10,6 +10,7 @@ namespace Managers
         [SerializeField] private Player.Player player;
         [SerializeField] private PlayerHealth playerHealth;
         [SerializeField] private PlayerMovement2 playerMovement;
+        // public GameGlobalValues gameGlobalValues;
         public static GameManager Instance { get; private set; }
 
         private void Awake()
