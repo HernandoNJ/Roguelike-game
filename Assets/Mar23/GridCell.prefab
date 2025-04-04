@@ -78,7 +78,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6905662, g: 0.68665725, b: 0.68665725, a: 0.06666667}
+  m_Color: {r: 0.5697331, g: 0.5773586, b: 0.5765113, a: 0.5058824}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -101,5 +101,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellPosition: {x: 0, y: 0}
+  cellSize: {x: 0, y: 0}
   isBusy: 0
-  cellPrefab: {fileID: 0}

@@ -1,95 +1,80 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Mar23
 {
 public class GridSystem: MonoBehaviour
 {
-    public Vector2Int roomSize;
-    
     [Tooltip("Grid dimensions (use odd numbers for centered start cell)")]
     public Vector2Int gridDimensions;
 
     public GridCell cell;
     public GridCell startCell;
-
-    public Item item;
-
     public List<GridCell> availableCells;
     public List<GridCell> busyCells;
-    public List<GameObject> itemObjects;
+    private readonly Dictionary<Vector2Int, GridCell> gridCellsDictionary = new();
 
-
-    // public bool IsGridCellBusy(Vector2Int position) => busyCells.Contains(position);
-    // public void AddBusyCell(Vector2Int position) => busyCells.Add(position);
-    // public void RemoveBusyCell(Vector2Int position) => busyCells.Remove(position);
-
-    private void Start()
+    public void GenerateGridCells()
     {
-        GenerateGridCells();
-        SetStartGridCell();
-    }
+        var tempRoomSize = GameGlobalValues.Instance.GetRoomSize();
 
-    private void GenerateGridCells()
-    {
         for (int i = 0; i < gridDimensions.x; i++)
         {
             for (int j = 0; j < gridDimensions.y; j++)
             {
                 var tempPosition = new Vector2Int(i, j);
-                var newCell = Instantiate(cell, new Vector3(i * roomSize.x, j * roomSize.y, 0), Quaternion.identity);
+
+                var newCell = Instantiate(cell,
+                    new Vector3(i * tempRoomSize.x, j * tempRoomSize.y, 0),
+                    Quaternion.identity,
+                    transform);
+
                 newCell.cellPosition = tempPosition;
-                newCell.cellSize = roomSize;
+                newCell.cellSize = GameGlobalValues.Instance.GetRoomSize();
                 newCell.SetGridCellScale();
                 newCell.isBusy = false;
+
                 availableCells.Add(newCell);
+                gridCellsDictionary.Add(tempPosition, newCell);
             }
         }
     }
 
-    private void SetStartGridCell()
+    public void SetStartGridCell()
     {
         var centralPosition = new Vector2Int((gridDimensions.x / 2), (gridDimensions.y / 2));
+        GameGlobalValues.Instance.SetInitialGridPosition(centralPosition);
         foreach (var cellObj in availableCells)
         {
             var tempCell = cellObj.GetComponent<GridCell>();
             if (tempCell.cellPosition != centralPosition) continue;
-            
-            startCell = tempCell; // only for test reference
+
+            // startCell is used only as testing reference
+            startCell = tempCell;
             tempCell.GetComponent<Renderer>().material.color = Color.green;
             break;
         }
     }
 
-    private void InstantiateItem(Vector2Int cellPosition)
+    public void SetCellAsBusy(Vector2Int positionArg)
     {
-        // var newItem = Instantiate(item, new Vector3(cellPosition.x, cellPosition.y, 0), Quaternion.identity);
-        // newItem.GetComponent<Item>().gridCellPosition = cellPosition;
-        // ChangeCellState(cellPosition);
-        // itemObjects.Add(newItem);
+        if (!gridCellsDictionary.TryGetValue(positionArg, out var gridCell)) return;
 
-
-        // var cellPosition = new Vector2Int(i, j);
-        // var newItem = Instantiate(item, new Vector3(i * itemSize.x, j * itemSize.y, 0), Quaternion.identity);
-        // newItem.gridCellPosition = cellPosition;
-        // itemObjects.Add(newItem.gameObject);
-        // availableCells.Add(cellPosition);
+        gridCell.isBusy = true;
+        availableCells.Remove(gridCell);
+        busyCells.Add(gridCell);
     }
-    // private void SetNewGridCells(Vector2Int cellPosition, int itemsAmount)
-    // {
-    // }
-    //
-    // private void ChangeCellState(Vector2Int cellPosition)
-    // {
-    //     if (busyCells.Contains(cellPosition))
-    //     {
-    //         availableCells.Add(cellPosition);
-    //         busyCells.Remove(cellPosition);
-    //     }
-    //     else
-    //     {
-    //         availableCells.Remove(cellPosition);
-    //         busyCells.Add(cellPosition);
-    //     }
+
+    public bool GetIsCellAvailable(Vector2Int positionArg)
+    {
+        var isInDictionary = gridCellsDictionary.TryGetValue(positionArg, out var gridCell);
+        if (isInDictionary) 
+            return gridCell.isBusy;
+        
+        Debug.LogError($"Grid cell is not in dictionary {positionArg}");
+        return false;
+    }
 }
 }
