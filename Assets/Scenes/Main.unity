@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf726c987314859a7e33300609010df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDimensions: {x: 0, y: 0}
+  gridDimensions: {x: 10, y: 10}
   cell: {fileID: 7117262169438281475, guid: fff19be7c5c75c844b6c62579c5f4fb0, type: 3}
   startPosition: {fileID: 1829518807}
   availableCells: []
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8153c488d9b546638038cb30f523212e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomSize: {x: 0, y: 0}
+  roomSize: {x: 17, y: 9.5}
   initialGridPosition: {x: 0, y: 0}
 --- !u!4 &455577905
 Transform:
@@ -605,7 +605,7 @@ Transform:
   m_GameObject: {fileID: 1829518806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5, y: 5, z: 0}
+  m_LocalPosition: {x: 7, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

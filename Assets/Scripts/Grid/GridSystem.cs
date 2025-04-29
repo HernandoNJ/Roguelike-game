@@ -5,7 +5,7 @@ namespace Grid
 {
 public class GridSystem: MonoBehaviour
 {
-    public Vector2Int gridDimensions = new (5,5);
+    public Vector2Int gridDimensions = new(5, 5);
 
     public GridCell cell;
     public Transform startPosition;
@@ -17,9 +17,9 @@ public class GridSystem: MonoBehaviour
     {
         var tempRoomSize = GameGlobalValues.Instance.GetRoomSize();
 
-        for (int i = 0; i < gridDimensions.x; i++)
+        for (int i = 0; i < gridDimensions.y; i++)
         {
-            for (int j = 0; j < gridDimensions.y; j++)
+            for (int j = 0; j < gridDimensions.x; j++)
             {
                 var tempPosition = new Vector2Int(i, j);
 
@@ -29,7 +29,7 @@ public class GridSystem: MonoBehaviour
                     transform);
 
                 newCell.cellPosition = tempPosition;
-                newCell.cellSize = GameGlobalValues.Instance.GetRoomSize();
+                newCell.cellSize = tempRoomSize;
                 newCell.SetGridCellScale();
                 newCell.isBusy = false;
 
@@ -45,7 +45,7 @@ public class GridSystem: MonoBehaviour
             Mathf.RoundToInt(startPosition.position.x),
             Mathf.RoundToInt(startPosition.position.y)
         );
-        
+
         GameGlobalValues.Instance.SetInitialGridPosition(startPos2D);
     }
 
@@ -57,16 +57,13 @@ public class GridSystem: MonoBehaviour
         availableCells.Remove(gridCell);
         busyCells.Add(gridCell);
     }
-    
+
     public bool GetIsCellAvailable(Vector2Int positionArg)
     {
-        if (!gridCellsDictionary.TryGetValue(positionArg, out var gridCell))
-        {
-            Debug.LogError($"Grid cell is not in dictionary {positionArg}");
-            return false;
-        }
-    
-        return !gridCell.isBusy;
+        if (gridCellsDictionary.TryGetValue(positionArg, out _)) return true;
+
+        Debug.LogError($"Grid cell is not in dictionary {positionArg}");
+        return false;
     }
 }
 }
