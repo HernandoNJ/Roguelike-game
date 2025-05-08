@@ -34,13 +34,7 @@ public class GameManager: MonoBehaviour
         // Create initial room at start position
         var startPos = GameGlobalValues.Instance.GetInitialGridPosition();
         currentRoom = roomSystem.CreateRoom(startPos);
-        
         player.position = currentRoom.transform.position;
-        var playerPos = player.position;
-        
-        mainCam = Camera.main;
-        if (mainCam) mainCam.transform.position = new Vector3(playerPos.x, playerPos.y, mainCam.transform.position.z);
-
         GenerateSurroundingRooms(startPos);
     }
     

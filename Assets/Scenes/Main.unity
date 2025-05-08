@@ -205,12 +205,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240294853}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 559233146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &240294857
 MonoBehaviour:
@@ -285,7 +285,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bf726c987314859a7e33300609010df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridDimensions: {x: 10, y: 10}
+  gridDimensions: {x: 7, y: 7}
   cell: {fileID: 7117262169438281475, guid: fff19be7c5c75c844b6c62579c5f4fb0, type: 3}
   startPosition: {fileID: 1829518807}
   availableCells: []
@@ -362,7 +362,8 @@ GameObject:
   - component: {fileID: 559233146}
   - component: {fileID: 559233145}
   - component: {fileID: 559233144}
-  - component: {fileID: 559233143}
+  - component: {fileID: 559233148}
+  - component: {fileID: 559233147}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -370,22 +371,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &559233143
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 559233142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd14c0bbd36928a4dad3cf93d3f3a9fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementInput: {fileID: -1680190386980627800, guid: 2fa34fd05d6f78f41bf97abf1db8530d, type: 3}
-  jumpButtonInput: {fileID: -2099379676528639254, guid: 2fa34fd05d6f78f41bf97abf1db8530d, type: 3}
-  moveInputValue: {x: 0, y: 0}
-  speed: 10
 --- !u!114 &559233144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -483,9 +468,52 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 240294856}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!50 &559233147
+Rigidbody2D:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559233142}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!114 &559233148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 559233142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e81d382f73ab4c12bf94a55096723b79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  rb: {fileID: 0}
+  moveInput: {x: 0, y: 0}
 --- !u!1 &1120674079
 GameObject:
   m_ObjectHideFlags: 0
@@ -562,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bea9bd4920e841fe8859ac8a32ad14e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainCam: {fileID: 0}
   gridSystem: {fileID: 322538678}
   roomSystem: {fileID: 1120674080}
   player: {fileID: 559233146}
@@ -605,7 +634,7 @@ Transform:
   m_GameObject: {fileID: 1829518806}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7, y: 7, z: 0}
+  m_LocalPosition: {x: 5, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -615,7 +644,6 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 240294856}
   - {fileID: 322538679}
   - {fileID: 455577905}
   - {fileID: 1769873374}
