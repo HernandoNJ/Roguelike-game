@@ -1,17 +1,19 @@
 using System.Collections.Generic;
 using Grid;
+using Misc;
 using Room;
 using UnityEngine;
 
+namespace Managers
+{
 public class GameManager: MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
-
     public Camera mainCam;
     public GridSystem gridSystem;
     public RoomSystem roomSystem;
     public Transform player;
     private Room.Room currentRoom;
+    public static GameManager Instance { get; private set; }
 
     private void Awake()
     {
@@ -37,32 +39,30 @@ public class GameManager: MonoBehaviour
         player.position = currentRoom.transform.position;
         GenerateSurroundingRooms(startPos);
     }
-    
+
     private void GenerateSurroundingRooms(Vector2Int centerPosition)
     {
-        Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
-        
+        Vector2Int[] directions =
+            { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+
         List<Vector2Int> availablePositions = new();
 
         foreach (var dir in directions)
         {
             var newPos = centerPosition + dir;
-            
-            if (gridSystem.GetIsCellAvailable(newPos))
-            {
-                availablePositions.Add(newPos);
-            }
+
+            if (gridSystem.GetIsCellAvailable(newPos)) availablePositions.Add(newPos);
         }
 
-        int roomsToCreate = Mathf.Min(3, availablePositions.Count);
+        var roomsToCreate = Mathf.Min(3, availablePositions.Count);
 
-        for (int i = 0; i < roomsToCreate; i++)
+        for (var i = 0; i < roomsToCreate; i++)
         {
             var randIndex = Random.Range(0, availablePositions.Count);
             var selectedPos = availablePositions[randIndex];
-            
+
             roomSystem.CreateRoom(selectedPos);
-            
+
             availablePositions.RemoveAt(randIndex);
         }
     }
@@ -84,4 +84,5 @@ public class GameManager: MonoBehaviour
             player.position = nextRoom.transform.position;
         }
     }
+}
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Misc;
 using UnityEngine;
 
 namespace Grid
@@ -17,25 +18,23 @@ public class GridSystem: MonoBehaviour
     {
         var tempRoomSize = GameGlobalValues.Instance.GetRoomSize();
 
-        for (int i = 0; i < gridDimensions.y; i++)
+        for (var i = 0; i < gridDimensions.y; i++)
+        for (var j = 0; j < gridDimensions.x; j++)
         {
-            for (int j = 0; j < gridDimensions.x; j++)
-            {
-                var tempPosition = new Vector2Int(i, j);
+            var tempPosition = new Vector2Int(i, j);
 
-                var newCell = Instantiate(cell,
-                    new Vector3(i * tempRoomSize.x, j * tempRoomSize.y, 0),
-                    Quaternion.identity,
-                    transform);
+            var newCell = Instantiate(cell,
+                new Vector3(i * tempRoomSize.x, j * tempRoomSize.y, 0),
+                Quaternion.identity,
+                transform);
 
-                newCell.cellPosition = tempPosition;
-                newCell.cellSize = tempRoomSize;
-                newCell.SetGridCellScale();
-                newCell.isBusy = false;
+            newCell.cellPosition = tempPosition;
+            newCell.cellSize = tempRoomSize;
+            newCell.SetGridCellScale();
+            newCell.isBusy = false;
 
-                availableCells.Add(newCell);
-                gridCellsDictionary.Add(tempPosition, newCell);
-            }
+            availableCells.Add(newCell);
+            gridCellsDictionary.Add(tempPosition, newCell);
         }
     }
 

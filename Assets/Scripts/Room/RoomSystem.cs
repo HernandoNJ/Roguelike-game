@@ -10,8 +10,7 @@ public class RoomSystem: MonoBehaviour
     public GridSystem gridSystem;
     public List<Room> rooms = new();
 
-    
-    
+
     public Room CreateRoom(Vector2Int position)
     {
         if (gridSystem.GetIsCellAvailable(position) == false)

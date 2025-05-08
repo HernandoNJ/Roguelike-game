@@ -1,5 +1,5 @@
+using Misc;
 using UnityEngine;
-using z_Old.Mar23;
 
 namespace Room
 {
@@ -31,8 +31,5 @@ public class Room: MonoBehaviour
         if (leftDoor != null) leftDoor.Setup(Vector2Int.left);
         if (rightDoor != null) rightDoor.Setup(Vector2Int.right);
     }
-
-    
-
 }
 }
