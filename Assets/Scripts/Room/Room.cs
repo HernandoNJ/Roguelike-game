@@ -19,9 +19,8 @@ public class Room: MonoBehaviour
     public void Setup(Vector2Int position)
     {
         gridPosition = position;
-        transform.position = new Vector3(position.x * GameGlobalValues.Instance.roomSize.x,
-            position.y * GameGlobalValues.Instance.roomSize.y,
-            0);
+        var roomSize = GameGlobalValues.Instance.GetRoomSize();
+        transform.position = new Vector3(position.x * roomSize.x, position.y * roomSize.y, 0);
     }
 
     private void SetupDoors()

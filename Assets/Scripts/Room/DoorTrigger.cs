@@ -5,11 +5,15 @@ namespace Room
 {
 public class DoorTrigger: MonoBehaviour
 {
-    private Vector2Int direction;
+    public Vector2Int direction;
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player")) GameManager.Instance.OnPlayerExitRoom(direction);
+        if (other.CompareTag("Player"))
+        {
+            GameManager.Instance.OnPlayerExitRoom(direction);
+            gameObject.SetActive(false);
+        }
     }
 
     public void Setup(Vector2Int dir)

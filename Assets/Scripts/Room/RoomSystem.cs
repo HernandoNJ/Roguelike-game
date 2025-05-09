@@ -4,27 +4,31 @@ using UnityEngine;
 
 namespace Room
 {
-public class RoomSystem: MonoBehaviour
-{
-    public Room roomPrefab;
-    public GridSystem gridSystem;
-    public List<Room> rooms = new();
-
-
-    public Room CreateRoom(Vector2Int position)
+    // RoomSystem handles the creation and management of rooms in the grid system.
+    public class RoomSystem : MonoBehaviour
     {
-        if (gridSystem.GetIsCellAvailable(position) == false)
+        public Room roomPrefab;           // Prefab for creating rooms
+        public GridSystem gridSystem;     // Reference to the grid system
+        public List<Room> rooms = new();  // List of all created rooms
+
+        // Creates a room at a given grid position if the cells are available.
+        public Room CreateRoom(Vector2Int position)
         {
-            Debug.Log("Grid system cell available is false");
-            return null;
+            // Check if the grid cell is available for placing a room
+            if (!gridSystem.GetIsCellAvailable(position))
+            {
+                Debug.LogWarning($"Room cannot be created. Cell at {position} is unavailable.");
+                return null;
+            }
+
+            // Instantiate a new room using the prefab
+            var newRoom = Instantiate(roomPrefab);
+            newRoom.Setup(position); // Setup room-specific parameters
+            rooms.Add(newRoom);      // Add the room to the list of rooms
+
+            // Mark the grid cell as occupied
+            gridSystem.SetCellAsBusy(position);
+            return newRoom;
         }
-
-        var newRoom = Instantiate(roomPrefab);
-        newRoom.Setup(position);
-        rooms.Add(newRoom);
-
-        gridSystem.SetCellAsBusy(position);
-        return newRoom;
     }
-}
 }

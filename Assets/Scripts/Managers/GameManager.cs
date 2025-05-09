@@ -8,7 +8,6 @@ namespace Managers
 {
 public class GameManager: MonoBehaviour
 {
-    public Camera mainCam;
     public GridSystem gridSystem;
     public RoomSystem roomSystem;
     public Transform player;
@@ -17,7 +16,7 @@ public class GameManager: MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (Instance && Instance != this)
         {
             Destroy(gameObject);
         }
@@ -60,9 +59,7 @@ public class GameManager: MonoBehaviour
         {
             var randIndex = Random.Range(0, availablePositions.Count);
             var selectedPos = availablePositions[randIndex];
-
             roomSystem.CreateRoom(selectedPos);
-
             availablePositions.RemoveAt(randIndex);
         }
     }
@@ -72,13 +69,13 @@ public class GameManager: MonoBehaviour
         var nextPosition = currentRoom.gridPosition + direction;
 
         var nextRoom = roomSystem.rooms.Find(r => r.gridPosition == nextPosition);
-        if (nextRoom == null)
+        if (!nextRoom)
         {
             nextRoom = roomSystem.CreateRoom(nextPosition);
             GenerateSurroundingRooms(nextPosition);
         }
 
-        if (nextRoom != null)
+        if (nextRoom)
         {
             currentRoom = nextRoom;
             player.position = nextRoom.transform.position;
