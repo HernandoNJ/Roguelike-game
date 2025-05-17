@@ -37,7 +37,7 @@ public class GameManager: MonoBehaviour
         currentRoom = roomSystem.CreateRoom(startPos);
         player.position = currentRoom.transform.position;
         currentPlayerGridPos = currentRoom.gridPosition;
-        GenerateSurroundingRooms(startPos);
+        //GenerateSurroundingRooms(startPos);
     }
     private void GenerateSurroundingRooms(Vector2Int centerPosition)
     {
@@ -69,6 +69,16 @@ public class GameManager: MonoBehaviour
         var nextPosition = currentRoom.gridPosition + direction;
         Debug.Log("current room grid position: " + currentRoom.gridPosition);
         Debug.Log("next position: " + nextPosition);
+        
+        foreach (var room in roomSystem.rooms)
+        {
+            Debug.Log("Checking for room");
+            if (room.gridPosition == nextPosition)
+            {
+                roomSystem.CreateRoom(nextPosition);
+                break;
+            }
+        }
         
         // // Calculate the next room's position in grid space
         // var nextPosition = currentRoom.gridPosition + direction;

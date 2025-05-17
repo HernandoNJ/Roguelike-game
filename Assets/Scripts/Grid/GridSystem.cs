@@ -40,10 +40,8 @@ public class GridSystem: MonoBehaviour
 
     public void SetStartGridCell()
     {
-        var startPos2D = new Vector2Int(
-            Mathf.RoundToInt(startPosition.position.x),
-            Mathf.RoundToInt(startPosition.position.y)
-        );
+        var startPos2D = 
+            Vector2Int.RoundToInt(startPosition.position);
 
         GameGlobalValues.Instance.SetInitialGridPosition(startPos2D);
     }
