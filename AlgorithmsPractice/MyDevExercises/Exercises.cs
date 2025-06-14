@@ -234,5 +234,29 @@ public class Exercises
     }
 
     #endregion
+    
+    #region AVeryBigSum
+    
+    private long A_VeryBigSum(List<long> ar)
+    {
+        long result = 0;
+        for(int i=0; i<ar.Count; i++){
+            result += ar[i];
+        }
+        return result;
+    }
+
+    public void CalculateVeryBigSum()
+    {
+        Convert.ToInt32(Console.ReadLine().Trim());
+
+        var ar = Console.ReadLine().TrimEnd().Split(' ').ToList().Select(arTemp => Convert.ToInt64(arTemp)).ToList();
+
+        var result = A_VeryBigSum(ar);
+
+        Console.WriteLine(result);
+    }
+    
+    #endregion
 }
     
