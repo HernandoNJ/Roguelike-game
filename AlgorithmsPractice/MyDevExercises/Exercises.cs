@@ -190,4 +190,49 @@ public class Exercises
     }
 
     #endregion
+
+    #region TripletsSum
+
+    // Receive 2 int arrays a,b
+    // Create an int array r with size of 2
+    // Compare a0,b0
+    // if a0<b0, r0 +=1;
+    // else if a0=b0, continue
+    // else r1 +=1
+    // repeat until array a length
+    // Return r
+
+    private static List<int> CompareTriplets(List<int> a, List<int> b)
+    {
+        var r = new List<int> { 0, 0 }; 
+        for (int i = 0; i < a.Count; i++)
+        {
+            if (a[i] > b[i]) r[0]++;
+            else if (a[i] < b[i]) r[1]++;
+            // when equal, do nothing
+        }
+        return r;
+    }
+
+    public void TripletsCalculation()
+    {
+        var a = Console.ReadLine()
+            .TrimEnd()
+            .Split(' ')
+            .ToList()
+            .Select(aTemp => Convert.ToInt32(aTemp)).ToList();
+
+        var b = Console.ReadLine()
+            .TrimEnd()
+            .Split(' ')
+            .ToList()
+            .Select(bTemp => Convert.ToInt32(bTemp)).ToList();
+        
+        var result = CompareTriplets(a, b);
+
+        Console.WriteLine(String.Join(" ", result));
+    }
+
+    #endregion
 }
+    
