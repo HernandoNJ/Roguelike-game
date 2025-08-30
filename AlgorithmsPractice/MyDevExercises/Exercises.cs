@@ -193,56 +193,75 @@ public class Exercises
 
     #region TripletsSum
 
-    // Receive 2 int arrays a,b
-    // Create an int array r with size of 2
-    // Compare a0,b0
-    // if a0<b0, r0 +=1;
-    // else if a0=b0, continue
-    // else r1 +=1
-    // repeat until array a length
-    // Return r
-
-    private static List<int> CompareTriplets(List<int> a, List<int> b)
+    /* Here, triplets are 3 groups of numbers
+     * Receive 2 int arrays array1, array2
+     * Create an int array arrayComparison with size of 2
+     * Compare array1 with array2
+     *      if array1[0] < array2[0] ... arraysComparison[0] +=1
+     *      else if array1[0] == array2[0] ... continue
+     *      else ... arraysComparison[1] +=1 */
+    private static List<int> CompareTriplets(List<int> array1, List<int> array2)
     {
-        var r = new List<int> { 0, 0 }; 
-        for (int i = 0; i < a.Count; i++)
+        var arraysComparison = new List<int> { 0, 0 };
+
+        for (int i = 0; i < array1.Count; i++)
         {
-            if (a[i] > b[i]) r[0]++;
-            else if (a[i] < b[i]) r[1]++;
+            if (array1[i] > array2[i]) arraysComparison[0]++;
+            else if (array1[i] < array2[i]) arraysComparison[1]++;
             // when equal, do nothing
         }
-        return r;
-    }
 
+        return arraysComparison;
+    }
+    
     public void TripletsCalculation()
     {
-        var a = Console.ReadLine()
+        var firstIntArray = ValidateAndParseInput();
+        if (firstIntArray == null) return;
+
+        var secondIntArray = ValidateAndParseInput();
+        if (secondIntArray == null) return;
+
+        var result = CompareTriplets(firstIntArray, secondIntArray);
+
+        /* Console shows 2 numbers at the end
+         The first one is the count of numbers in firstIntArray greater than the numbers in secondIntArray
+         The second one is the count of numbers in secondIntArray greater than the numbers of firstIntArray */
+        Console.WriteLine(string.Join(" ", result));
+    }
+
+    private static List<int>? ValidateAndParseInput()
+    {
+        /* Console.ReadLine() may return a string or null
+        if null, it exits the program execution.
+        else, it returns intArray*/
+
+        var userInput = Console.ReadLine();
+
+        if (string.IsNullOrEmpty(userInput) || userInput.Length == 0)
+        {
+            Console.WriteLine($"{nameof(userInput)} is null, empty, whitespace or length == 0. Finishing execution.");
+            Environment.Exit(0);
+        }
+
+        var intArray = userInput
             .TrimEnd()
             .Split(' ')
             .ToList()
-            .Select(aTemp => Convert.ToInt32(aTemp)).ToList();
+            .Select(stringItem => Convert.ToInt32(stringItem)).ToList();
 
-        var b = Console.ReadLine()
-            .TrimEnd()
-            .Split(' ')
-            .ToList()
-            .Select(bTemp => Convert.ToInt32(bTemp)).ToList();
-        
-        var result = CompareTriplets(a, b);
-
-        Console.WriteLine(String.Join(" ", result));
+        return intArray;
     }
 
     #endregion
-    
+
     #region AVeryBigSum
-    
+
     private long A_VeryBigSum(List<long> ar)
     {
         long result = 0;
-        for(int i=0; i<ar.Count; i++){
-            result += ar[i];
-        }
+        for (int i = 0; i < ar.Count; i++) result += ar[i];
+
         return result;
     }
 
@@ -256,7 +275,6 @@ public class Exercises
 
         Console.WriteLine(result);
     }
-    
+
     #endregion
 }
-    

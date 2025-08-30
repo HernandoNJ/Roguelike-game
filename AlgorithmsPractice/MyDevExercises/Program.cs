@@ -1,8 +1,8 @@
 ﻿using AlgorithmsTest;
 
 var ex = new Exercises();
+ex.TripletsCalculation();
 //ex.PrintNewWords();
 //ex.PrintArraySumText();
 //ex.CheckIntArrayValues();
-//ex.TripletsCalculation();
-ex.CalculateVeryBigSum();
+//ex.CalculateVeryBigSum();
