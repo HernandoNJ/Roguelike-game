@@ -1,48 +1,49 @@
 ﻿var triesCount = 0;
+const int maxTries = 3;
 
-var dice = new Dice(new Random());
+var dice = new Dice(new Random(), 6);
 var diceNumber = dice.Roll();
 Console.WriteLine("The dice number is: " + diceNumber); // only for testing
 
-dice.HandleUserInput(diceNumber, ref triesCount);
+dice.HandleUserInput(diceNumber, ref triesCount, maxTries);
 
-Console.WriteLine("tries count is: " + triesCount); // only for testing
 Console.WriteLine("Press a key to exit");
-
 Console.ReadKey();
 
 public class Dice
 {
     private Random _random;
+    private int _maxDiceNumber;
 
-    public Dice(Random random) => _random = random;
-
-    public int Roll() => _random.Next(1, 7);
-    
-    public void HandleUserInput(int i, ref int triesCountArg)
+    public Dice(Random random, int maxDiceNumber)
     {
-        do
+        _random = random;
+        _maxDiceNumber = maxDiceNumber;
+    }
+
+    public int Roll() => _random.Next(1, _maxDiceNumber + 1);
+
+    public void HandleUserInput(int diceNumberArg, ref int triesCountArg, int maxTriesArg)
+    {
+        while (triesCountArg < maxTriesArg)
         {
             Console.WriteLine("Enter a number");
             var newInput = Console.ReadLine();
             var userInput = Convert.ToInt32(newInput);
             triesCountArg++;
 
-            if (userInput == i)
+            if (userInput == diceNumberArg)
             {
                 Console.WriteLine("You win!");
                 return;
             }
-        
-            if (triesCountArg < 3)
+
+            if (userInput != diceNumberArg && triesCountArg < maxTriesArg - 1)
             {
                 Console.WriteLine("Try again!");
             }
-            else if (triesCountArg == 3)
-            {
-                Console.WriteLine("You lose!");
-                break;
-            }
-        } while (triesCountArg < 3);
+        }
+
+        Console.WriteLine("You lose!");
     }
 }
