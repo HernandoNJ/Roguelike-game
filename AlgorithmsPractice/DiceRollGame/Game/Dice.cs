@@ -1,3 +1,5 @@
+namespace DiceRollGame.Game;
+
 public class Dice
 {
     private Random _random;
