@@ -2,5 +2,5 @@ namespace PizzaApp;
 
 public class Ingredient
 {
-    public int publicInt = 3;
+    public virtual string Name { get; } = "Ingredient name";
 }

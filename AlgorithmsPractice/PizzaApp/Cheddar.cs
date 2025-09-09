@@ -2,12 +2,6 @@ namespace PizzaApp;
 
 public class Cheddar:Ingredient
 {
-    public string Name = "Cheddar cheese";
+    public override string Name { get; } = "Cheddar cheese";
     public int AgedForMonths { get; }
-
-    public int MyNum()
-    {
-        publicInt = 5;
-        return publicInt;
-    }
 }
