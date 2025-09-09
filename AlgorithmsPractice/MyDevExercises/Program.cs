@@ -1,4 +1,4 @@
-﻿using AlgorithmsTest;
+﻿using MyDevExercises;
 
 var ex = new Exercises();
 ex.TripletsCalculation();

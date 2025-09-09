@@ -1,4 +1,4 @@
-namespace AlgorithmsTest;
+namespace MyDevExercises;
 
 public class Exercises
 {
