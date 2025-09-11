@@ -1,7 +1,7 @@
 namespace PizzaApp;
 
-public class Cheddar:Ingredient
+public class Cheddar : Ingredient
 {
-    public override string Name { get; } = "Cheddar cheese";
+    protected override string Name => "Cheddar cheese";
     public int AgedForMonths { get; }
 }

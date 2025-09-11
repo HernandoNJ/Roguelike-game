@@ -2,6 +2,6 @@ namespace PizzaApp;
 
 public class Mozarella: Ingredient
 {
-    public string Name = "Cheddar cheese";
+    protected override string Name => "Mozarella";
     public bool IsLight { get; }
 }
