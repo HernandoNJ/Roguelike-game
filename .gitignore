@@ -79,15 +79,15 @@ crashlytics-build.properties
 /[Aa]ssets/TextMeshPro.meta
 
 # CS practice files
-/AlgorithmsPractice/MyDevExercises/obj
-/AlgorithmsPractice/MyDevExercises/bin
-/AlgorithmsPractice/MyDevExercises/.idea
-/AlgorithmsPractice/DiceRollGame/obj
-/AlgorithmsPractice/DiceRollGame/bin
-/AlgorithmsPractice/DiceRollGame/.idea
-/AlgorithmsPractice/PizzaApp/obj
-/AlgorithmsPractice/PizzaApp/bin
-/AlgorithmsPractice/PizzaApp/.idea
-/AlgorithmsPractice/Testing/obj
-/AlgorithmsPractice/Testing/bin
-/AlgorithmsPractice/Testing/.idea
+/AlgorithmsPractice/UCS_Solution/MyDevExercises/obj
+/AlgorithmsPractice/UCS_Solution/MyDevExercises/bin
+/AlgorithmsPractice/UCS_Solution/MyDevExercises/.idea
+/AlgorithmsPractice/UCS_Solution/DiceRollGame/obj
+/AlgorithmsPractice/UCS_Solution/DiceRollGame/bin
+/AlgorithmsPractice/UCS_Solution/DiceRollGame/.idea
+/AlgorithmsPractice/UCS_Solution/PizzaApp/obj
+/AlgorithmsPractice/UCS_Solution/PizzaApp/bin
+/AlgorithmsPractice/UCS_Solution/PizzaApp/.idea
+/AlgorithmsPractice/UCS_Solution/Testing/obj
+/AlgorithmsPractice/UCS_Solution/Testing/bin
+/AlgorithmsPractice/UCS_Solution/Testing/.idea
