@@ -9,7 +9,6 @@ public abstract class Ingredient
     
     public Ingredient(int priceIfExtraTopping)
     {
-        // Console.WriteLine("Constructor from Ingredient class");
         PriceIfExtraTopping = priceIfExtraTopping;
     }
 }
