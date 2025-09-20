@@ -1,5 +1,25 @@
 ﻿using PizzaApp;
 
+var cheddar = new Cheddar(2, 3);
+var tomatoSauce = new  TomatoSauce(2, 3);
+cheddar.Prepare();
+tomatoSauce.Prepare();
+
+var ingredients = new List<Ingredient>()
+{
+    new Cheddar(2, 10),
+    new Mozzarella(2,true),
+    new TomatoSauce(1, 2)
+};
+
+foreach (var ingredient in ingredients)
+{
+    ingredient.Prepare();
+}
+
+Console.ReadKey();
+return;
+
 // var pizza = new Pizza();
 // pizza.AddIngredient(new Mozarella());
 // pizza.AddIngredient(new Cheddar());
@@ -12,14 +32,10 @@
 // var ingredient1 = new Cheddar(2,1);
 // Cheddar anotherCheddar = (Cheddar) new Ingredient(3);
 
-var ingredient = GenerateRandomIngredient();
-Cheddar anotherCheddar = ingredient as Cheddar;
+var ingredient1 = GenerateRandomIngredient();
+Cheddar anotherCheddar = ingredient1 as Cheddar;
 
 Console.WriteLine($"Name: {anotherCheddar}");
-
-Console.ReadKey();
-return;
-
 Ingredient GenerateRandomIngredient()
 {
     var random = new Random();
