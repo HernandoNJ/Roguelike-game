@@ -9,6 +9,6 @@ public class Cheddar : Cheese
         : base(priceIfExtraTopping)
     {
         AgedForMonths = agedForMonths;
-        Console.WriteLine("Constructor from Cheddar class");
+        // Console.WriteLine("Constructor from Cheddar class");
     }
 }
