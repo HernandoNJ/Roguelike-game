@@ -11,16 +11,3 @@ public class TomatoSauce : Ingredient
     public TomatoSauce(int priceIfExtraTopping)
         : base(priceIfExtraTopping) { }
 }
-
-public class SpecialTomatoSauce : TomatoSauce
-{
-    protected override string Name => "Special tomato sauce";
-
-    public SpecialTomatoSauce(int priceIfExtraTopping) 
-        : base(priceIfExtraTopping) { }
-
-    // Compile error
-    public override void Prepare() {
-        Console.WriteLine("Special tomato sauce prepared.");
-    }
-}

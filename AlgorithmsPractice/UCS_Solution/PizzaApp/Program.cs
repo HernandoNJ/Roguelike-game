@@ -10,8 +10,9 @@ var ingredients = new List<Ingredient>()
 foreach (var ingredient in ingredients) 
     ingredient.Prepare();
 
+var pizza = RandomPizzaGenerator.Generate(3);
+
 Console.ReadKey();
-return;
 
 #region otherCode
 // var pizza = new Pizza();
@@ -26,24 +27,25 @@ return;
 // var ingredient1 = new Cheddar(2,1);
 // Cheddar anotherCheddar = (Cheddar) new Ingredient(3);
 
-var cheddar = new Cheddar(2);
-var tomatoSauce = new  TomatoSauce(2);
-cheddar.Prepare();
-tomatoSauce.Prepare();
+// var cheddar = new Cheddar(2);
+// var tomatoSauce = new  TomatoSauce(2);
+// cheddar.Prepare();
+// tomatoSauce.Prepare();
+//
+// var ingredient1 = GenerateRandomIngredient();
+// Cheddar anotherCheddar = ingredient1 as Cheddar;
 
-var ingredient1 = GenerateRandomIngredient();
-Cheddar anotherCheddar = ingredient1 as Cheddar;
+//Console.WriteLine($"Name: {anotherCheddar}");
 
-Console.WriteLine($"Name: {anotherCheddar}");
-Ingredient GenerateRandomIngredient()
-{
-    var random = new Random();
-    var number = random.Next(1, 4);
-    Console.WriteLine("Random number: " + number);
-    
-    if (number == 1) return new Cheddar(2);
-    if (number == 2) return new TomatoSauce(2);
-    
-    return new Mozzarella(2);
-}
+// Ingredient GenerateRandomIngredient()
+// {
+//     var random = new Random();
+//     var number = random.Next(1, 4);
+//     Console.WriteLine("Random number: " + number);
+//     
+//     if (number == 1) return new Cheddar(2);
+//     if (number == 2) return new TomatoSauce(2);
+//     
+//     return new Mozzarella(2);
+// }
 #endregion
