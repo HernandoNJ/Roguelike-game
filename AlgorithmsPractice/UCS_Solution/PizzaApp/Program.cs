@@ -1,20 +1,28 @@
-﻿using PizzaApp;
+﻿using PizzaApp.Extensions;
 
-var ingredients = new List<Ingredient>()
-{
-    new Cheddar(2),
-    new Mozzarella(2),
-    new TomatoSauce(1)
-};
+var multiLineText =
+@"Hello
+How
+Are
+You";
 
-foreach (var ingredient in ingredients) 
-    ingredient.Prepare();
+Console.WriteLine("Lines count: " + multiLineText.CountLines());
 
-var pizza = RandomPizzaGenerator.Generate(3);
+Console.WriteLine("Next after summer is " + Seasons.Summer.Next());
+Console.WriteLine("Next after winter is " + Seasons.Winter.Next());
 
 Console.ReadKey();
 
+public enum Seasons
+{
+    Spring,
+    Summer,
+    Autumn,
+    Winter
+}
+
 #region otherCode
+
 // var pizza = new Pizza();
 // pizza.AddIngredient(new Mozarella());
 // pizza.AddIngredient(new Cheddar());
@@ -48,4 +56,5 @@ Console.ReadKey();
 //     
 //     return new Mozzarella(2);
 // }
+
 #endregion
