@@ -11,5 +11,7 @@ var calculator = onlyPositives
 
 var sum = calculator.CalculateSum(numbers);
 
+Console.WriteLine($"Only positives: {onlyPositives}");
 Console.WriteLine($"The sum is {sum}");
+Console.WriteLine("Press any key to exit");
 Console.ReadKey();

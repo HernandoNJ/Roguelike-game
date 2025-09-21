@@ -1,5 +1,6 @@
 namespace PizzaApp.Notes;
 
+// ReSharper disable once InconsistentNaming
 public class Notes_PizzaApp
 {
     #region ExtensionMethods
