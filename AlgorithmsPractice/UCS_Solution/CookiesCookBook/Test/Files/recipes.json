@@ -1,0 +1,12 @@
+[
+    {
+        "Name": "Pasta Carbonara",
+        "Ingredients": [ "Pasta", "Eggs", "Cheese", "Bacon" ],
+        "TimeMinutes": 25
+    },
+    {
+        "Name": "Salad",
+        "Ingredients": [ "Lettuce", "Tomato", "Cucumber", "Olive Oil" ],
+        "TimeMinutes": 10
+    }
+]
