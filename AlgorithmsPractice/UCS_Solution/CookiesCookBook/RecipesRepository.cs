@@ -7,15 +7,11 @@ public class RecipesRepository
 
     public RecipesRepository()
     {
-        // Ensure folder exists
         string? folder = Path.GetDirectoryName(filePath);
 
-        // If the name of the folder is not null or empty
-        // and the folder does not exist, create it
         if (!string.IsNullOrEmpty(folder) && !Directory.Exists(folder))
             Directory.CreateDirectory(folder);
 
-        // Ensure file exists
         if (!File.Exists(filePath))
             File.WriteAllText(filePath, "[]"); // empty JSON array
     }
