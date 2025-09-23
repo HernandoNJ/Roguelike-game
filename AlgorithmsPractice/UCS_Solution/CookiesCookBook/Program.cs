@@ -1,11 +1,8 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-var cookiesRecipesApp = new CookiesRecipesApp();
+﻿var cookiesRecipesApp = new CookiesRecipesApp(new RecipesRepository(), new RecipesUserInteraction());
 cookiesRecipesApp.Run();
+Console.WriteLine("Press a key to exit");
+Console.ReadKey();
 
-// The responsibility of this class is to manage
-// the application workflow
-// This class should be modified only if the workflow changes
 public class CookiesRecipesApp
 {
     // **** Class analysis ****
@@ -15,7 +12,7 @@ public class CookiesRecipesApp
     // **** Dependencies ****
     // They will manage the functionalities
     // The dependencies must be private, readonly fields
-    // And initialized in the constructor
+    // and initialized in the constructor
 
     // **** Functionalities ****
     // What are the main functionalities?
@@ -23,18 +20,18 @@ public class CookiesRecipesApp
     // 2. User interaction - RecipesUserInteraction class
 
     // **** Work flow ****
-    // 1. if any recipe is saved
-    // *** store the recipes in a variable
-    // *** print existing recipes
+    // 1. If any recipe is saved
+    // *** Store the recipes in a variable
+    // *** Print existing recipes
     // 2. Print message to create a new recipe
     // 3. Read ingredients from the user
-    // 4. if the user selected any ingredients
+    // 4. If the user selected any ingredients
     // *** Create a new recipe
     // *** Add the new recipe to the saved recipes
     // *** Save the recipes
-    // 5. if the user doesnt select any ingredients 
-    // *** print no ingredients selected message
-    // 3. Print exit message
+    // 5. If the user doesnt select any ingredients 
+    // *** Print no ingredients selected message
+    // 6. Print exit message
 
     private readonly RecipesRepository _recipesRepository;
     private readonly RecipesUserInteraction _recipesUserInteraction;
@@ -47,35 +44,59 @@ public class CookiesRecipesApp
 
     public void Run()
     {
-        // 1. if any recipe is saved
-        // *** store the recipes in a variable
-        // *** print existing recipes
-        var allRecipes = _recipesRepository.Read(filePath);
-        _recipesUserInteraction.PrintExistingRecipes(allRecipes);
+        // 1. If any recipe is saved
+        // *** Store the recipes in a variable
+        // *** Print existing recipes
+        CheckForRecipes();
 
         // 2. Print message to create a new recipe
         _recipesUserInteraction.PromptCreateNewRecipe();
 
         // 3. Read ingredients from the user
-        var ingredients = _recipesUserInteraction.ReadIngredientsFromUser();
+        var newRecipe = _recipesUserInteraction.ReadIngredientsFromUser();
 
-        // 4. if the user selects any ingredients
-        // *** Create a new recipe
-        // *** Add the new recipe to the current recipes
-        // *** Save the recipes
-        if(ingredients.Count > 0)
+        if (newRecipe != null && newRecipe.Ingredients.Count > 0)
         {
-            var recipe = new Recipe(ingredients);
-            allRecipes.Add(recipe);
-            _recipesRepository.Save(allRecipes, filePath);
+            // 4. If the user selected any ingredients
+            // *** Create a new recipe
+            // *** Add the new recipe to the saved recipes
+            // *** Save the recipes
+            _recipesRepository.SaveRecipe(newRecipe);
         }
-        
-        // 5. if the user doesnt select any ingredients 
-        // *** print no ingredients selected message
-        // 3. Print exit message
+        else
+        {
+            // 5. If the user doesnt select any ingredients 
+            // *** Print no ingredients selected message
+            Console.WriteLine("No ingredients selected. No recipe created.");
+        }
 
+        Console.WriteLine();
+    }
+
+    private void CheckForRecipes()
+    {
+        var allRecipes = _recipesRepository.GetAllRecipes();
+
+        if (allRecipes.Count > 0)
+        {
+            foreach (var recipe in allRecipes)
+            {
+                if (recipe != null)
+                {
+                    Console.WriteLine($"*** {recipe.ID} ***");
+
+                    foreach (var ingredient in recipe.Ingredients)
+                    {
+                        Console.WriteLine($"{ingredient.Name}: {ingredient.Instructions}");
+                    }
+                }
+                Console.WriteLine();
+            }
+        }
+        else
+        {
+            Console.WriteLine("No recipes found.");
+            Console.WriteLine();
+        }
     }
 }
-
-
-
