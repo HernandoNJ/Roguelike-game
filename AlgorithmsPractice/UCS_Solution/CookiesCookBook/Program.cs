@@ -33,21 +33,21 @@ public class CookiesRecipesApp
         var allRecipes = _recipesRepository.Read(filePath);
         _recipesUserInteraction.PrintExistingRecipes(allRecipes);
         _recipesUserInteraction.PromptToCreateRecipe();
-        //var ingredients = _recipesUserInteraction.ReadIngredientsFromUser();
+        var ingredients = _recipesUserInteraction.ReadIngredientsFromUser();
 
-        //if (ingredients.Count > 0)
-        //{
-        //    var recipe = new Recipe(ingredients);
-        //    allRecipes.Add(recipe);
-        //    _recipesRepository.Write(filePath, recipe);
+        if (ingredients.Count() > 0)
+        {
+            var recipe = new Recipe(ingredients);
+            allRecipes.Add(recipe);
+            //_recipesRepository.Write(filePath, recipe);
 
-        //    _recipesUserInteraction.ShowMessage("New recipe added.");
-        //    _recipesUserInteraction.ShowMessage(recipe.ToString());
-        //}
-        //else
-        //{
-        //    _recipesUserInteraction.ShowMessage("No recipes added.");
-        //}
+            _recipesUserInteraction.ShowMessage("New recipe added.");
+            _recipesUserInteraction.ShowMessage(recipe.ToString());
+        }
+        else
+        {
+            _recipesUserInteraction.ShowMessage("No recipes added.");
+        }
         _recipesUserInteraction.Exit();
     }
 }
@@ -58,6 +58,7 @@ public interface IRecipesUserInteraction
     void Exit();
     void PrintExistingRecipes(IEnumerable<Recipe> allRecipes);
     void PromptToCreateRecipe();
+    IEnumerable<Ingredient> ReadIngredientsFromUser();
 }
 
 public interface IRecipesRepository
@@ -85,11 +86,6 @@ public class RecipesConsoleUserInteraction : IRecipesUserInteraction
         }
     }
 
-    //public List<Ingredient> ReadIngredientsFromUser()
-    //{
-
-    //}
-
     // As the collection is just printed, it will be IEnumerable
     // If an array is provided as parameter, if List<Recipe>, it wouldnt work
     // With IEnumerable, it is possible to provide an array.
@@ -109,6 +105,39 @@ public class RecipesConsoleUserInteraction : IRecipesUserInteraction
                 counter++;
             }
         }
+    }
+
+    public IEnumerable<Ingredient> ReadIngredientsFromUser()
+    {
+        bool shallStop = false;
+        var ingredients = new List<Ingredient>();
+
+        while (!shallStop)
+        {
+            Console.WriteLine("Add an ingredient by Id. Type any other key to finish.");
+
+            // Read user's input and parse it to int
+            var userInput = Console.ReadLine();
+            var intInput = int.TryParse(userInput, out int id);
+
+            if (intInput)
+            {
+                // Check if the ingredient is not null
+                // If so, add it to the ingredients list
+                var selectedIngredient = _ingredientsRegister.GetById(id);
+
+                if (selectedIngredient is not null)
+                {
+                    ingredients.Add(selectedIngredient);
+                }
+            }
+            else
+            {
+                shallStop = true;
+            }
+        }
+
+        return ingredients;
     }
 
     public void ShowMessage(string message)
@@ -148,8 +177,8 @@ public class RecipesRepository : IRecipesRepository
 
 public class IngredientsRegister
 {
-    public IEnumerable<Ingredient> All { get; } = new List<Ingredient>
-    {
+    public IEnumerable<Ingredient> All { get; } =
+    [
         new WheatFlour(),
         new SpeltFlour(),
         new Butter(),
@@ -158,5 +187,15 @@ public class IngredientsRegister
         new Cardamom(),
         new Cinnamon(),
         new CocoaPowder()
-    };
+    ];
+
+    public Ingredient GetById(int id)
+    {
+        foreach (var ingredient in All)
+        {
+            if (ingredient.Id == id) return ingredient;
+        }
+
+        return null;
+    }
 }
