@@ -1,15 +1,17 @@
-﻿var cookiesRecipesApp = new CookiesRecipesApp(new RecipesRepository(), new RecipesUserInteraction());
-cookiesRecipesApp.Run();
+﻿
+var cookiesRecipesApp = new CookiesRecipesApp(
+    new RecipesRepository(),
+    new RecipesConsoleUserInteraction());
 
-Console.WriteLine("Press a key to exit");
-Console.ReadKey();
+cookiesRecipesApp.Run();
 
 public class CookiesRecipesApp
 {
-    private readonly RecipesRepository _recipesRepository;
-    private readonly RecipesUserInteraction _recipesUserInteraction;
+    private readonly IRecipesRepository _recipesRepository;
+    private readonly IRecipesUserInteraction _recipesUserInteraction;
 
-    public CookiesRecipesApp(RecipesRepository recipesRepository, RecipesUserInteraction recipesUserInteraction)
+    public CookiesRecipesApp(IRecipesRepository recipesRepository,
+                             IRecipesUserInteraction recipesUserInteraction)
     {
         _recipesRepository = recipesRepository;
         _recipesUserInteraction = recipesUserInteraction;
@@ -17,44 +19,85 @@ public class CookiesRecipesApp
 
     public void Run()
     {
-        CheckForRecipes();
+        // 1. If any recipes, print them
+        // 2. Prompt the user to create a new recipe... Print all ingredients
+        // 3. Read user input to select ingredients
+        // 4. If user selects at least 1 ingredient ...
+        // 5. If user selects no ingredient ...
+        // 6. Exit app
 
-        _recipesUserInteraction.PromptCreateNewRecipe();
+        var allRecipes = _recipesRepository.Read(filePath);
+        _recipesUserInteraction.ShowExistingRecipes(allRecipes);
+        _recipesUserInteraction.PromptToCreateRecipe();
+        var ingredients = _recipesUserInteraction.ReadIngredientsFromUser();
 
-        var newRecipe = _recipesUserInteraction.ReadIngredientsFromUser();
+        if (ingredients.Count > 0)
+        {
+            var recipe = new Recipe(ingredients);
+            allRecipes.Add(recipe);
+            _recipesRepository.Write(filePath, recipe);
 
-        if (newRecipe != null && newRecipe.Ingredients.Count > 0)
-            _recipesRepository.SaveRecipe(newRecipe);
+            _recipesUserInteraction.ShowMessage("New recipe added.");
+            _recipesUserInteraction.ShowMessage(recipe.ToString());
+        }
         else
-            Console.WriteLine("No ingredients selected. No recipe created.");
+        {
+            _recipesUserInteraction.ShowMessage("No recipes added.");
+        }
+        _recipesUserInteraction.Exit();
+    }
+}
 
-        Console.WriteLine();
+public interface IRecipesUserInteraction
+{
+    void ShowMessage(string message);
+    void Exit();
+}
+
+public interface IRecipesRepository
+{
+    List<Recipes> Read(string filePath);
+    void Write(List<Recipes> allRecipes, filePath);
+}
+
+public class RecipesConsoleUserInteraction : IRecipesUserInteraction
+{
+    public void PromptToCreateRecipe()
+    {
+
     }
 
-    private void CheckForRecipes()
+    public List<Ingredient> ReadIngredientsFromUser()
     {
-        var allRecipes = _recipesRepository.GetAllRecipes();
 
-        if (allRecipes.Count > 0)
-        {
-            foreach (var recipe in allRecipes)
-            {
-                if (recipe != null)
-                {
-                    Console.WriteLine($"*** {recipe.ID} ***");
+    }
 
-                    foreach (var ingredient in recipe.Ingredients)
-                    {
-                        Console.WriteLine($"{ingredient.Name}: {ingredient.Instructions}");
-                    }
-                }
-                Console.WriteLine();
-            }
-        }
-        else
-        {
-            Console.WriteLine("No recipes found.");
-            Console.WriteLine();
-        }
+    public void ShowExistingRecipes(List<Recipe> allRecipes)
+    {
+
+    }
+
+    public void ShowMessage(string message)
+    {
+        Console.WriteLine(message);
+    }
+
+    public void Exit()
+    {
+        Console.WriteLine("Press any key to exit.");
+        Console.ReadKey();
+    }
+}
+
+public class RecipesRepository : IRecipesRepository
+{
+    public List<Recipes> Read(string filePath)
+    {
+
+    }
+
+    public void Write(List<Recipes> allRecipes, filePath )
+    {
+
     }
 }
