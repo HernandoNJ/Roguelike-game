@@ -1,4 +1,4 @@
-﻿using CookiesCookBook.Recipes.Ingredients.Abc;
+﻿using CookiesCookBook.Recipes.Ingredients;
 
 namespace CookiesCookBook.Recipes;
 
@@ -9,5 +9,17 @@ public class Recipe
     public Recipe(IEnumerable<Ingredient> ingredients)
     {
         Ingredients = ingredients;
+    }
+
+    public override string ToString()
+    {
+        var recipeInfo = new List<string>();
+        foreach (var ingredient in Ingredients)
+        {
+            recipeInfo.Add($"" +
+                $"{ingredient.Name}. " +
+                $"{ingredient.PreparationInstructions}");
+        }
+        return string.Join(Environment.NewLine, recipeInfo);
     }
 }
