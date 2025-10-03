@@ -1,13 +1,15 @@
-﻿using CookiesCookBook.Recipes;
+﻿using System.Text.Json;
+
+using CookiesCookBook.Recipes;
 using CookiesCookBook.Recipes.Ingredients;
 
 var ingredientsRegister = new IngredientsRegister();
 
 var cookiesRecipesApp = new CookiesRecipesApp(
-    new RecipesRepository(new StringsTextRepository(), ingredientsRegister),
+    new RecipesRepository(new StringsJsonRepository(), ingredientsRegister),
     new RecipesConsoleUserInteraction(ingredientsRegister));
 
-cookiesRecipesApp.Run("recipes.txt");
+cookiesRecipesApp.Run("recipes.json");
 
 public class CookiesRecipesApp
 {
@@ -278,5 +280,23 @@ public class StringsTextRepository : IStringsRepository
     public void Write(string filePath, List<string> strings)
     {
         File.WriteAllText(filePath, string.Join(Separator, strings));
+    }
+}
+
+public class StringsJsonRepository : IStringsRepository
+{
+    public List<string> Read(string filePath)
+    {
+        if (File.Exists(filePath))
+        {
+            var fileContents = File.ReadAllText(filePath);
+            return JsonSerializer.Deserialize<List<string>>(fileContents);
+        }
+        return new List<string>();
+    }
+
+    public void Write(string filePath, List<string> strings)
+    {
+        File.WriteAllText(filePath, JsonSerializer.Serialize(strings));
     }
 }
