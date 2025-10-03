@@ -3,13 +3,24 @@
 using CookiesCookBook.Recipes;
 using CookiesCookBook.Recipes.Ingredients;
 
+
+const FileFormat Format = FileFormat.Txt;
+const string FileName = "recipes";
+var fileMetaData = new FileMetaData(FileName, Format);
+var filePath = fileMetaData.ToPath();
+
+IStringsRepository stringsRepository =
+    Format == FileFormat.Json ?
+    new StringsJsonRepository() :
+    new StringsTextRepository();
+
 var ingredientsRegister = new IngredientsRegister();
 
 var cookiesRecipesApp = new CookiesRecipesApp(
-    new RecipesRepository(new StringsJsonRepository(), ingredientsRegister),
+    new RecipesRepository(stringsRepository, ingredientsRegister),
     new RecipesConsoleUserInteraction(ingredientsRegister));
 
-cookiesRecipesApp.Run("recipes.json");
+cookiesRecipesApp.Run(filePath);
 
 public class CookiesRecipesApp
 {
@@ -52,6 +63,31 @@ public class CookiesRecipesApp
         }
         _recipesUserInteraction.Exit();
     }
+}
+
+public enum FileFormat { Json, Txt }
+
+public static class FileFormatExtensions
+{
+    public static string AsFileExtension(this FileFormat format) =>
+        format == FileFormat.Json ? "json" : "txt";
+}
+
+public class FileMetaData
+{
+    public string Name { get; }
+    public FileFormat Format { get; }
+
+    public FileMetaData(string name, FileFormat format)
+    {
+        Name = name;
+        Format = format;
+    }
+
+    // It is required to create a new class
+    // to translate from enum to file extension string
+    // with the help of an extension method
+    public string ToPath() => $"{Name}.{Format.AsFileExtension()}";
 }
 
 public interface IRecipesUserInteraction
