@@ -20,6 +20,6 @@ public class Recipe
                 $"{ingredient.Name}. " +
                 $"{ingredient.PreparationInstructions}");
         }
-        return string.Join(Environment.NewLine, recipeInfo);
+        return string.Join(Environment.NewLine,recipeInfo);
     }
 }
