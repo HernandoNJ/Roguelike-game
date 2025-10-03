@@ -299,40 +299,53 @@ public interface IStringsRepository
     void Write(string filePath, List<string> strings);
 }
 
-public class StringsTextRepository : IStringsRepository
+// Using the template method design pattern eliminated code repetitions
+public abstract class StringsRepository : IStringsRepository
 {
-    private static readonly string Separator = Environment.NewLine;
+    protected abstract List<string> TextToStrings(string fileContents);
+    protected abstract string StringsToText(List<string> strings);
 
+    // This class defines the templates for Read() and Write()
     public List<string> Read(string filePath)
     {
         if (File.Exists(filePath))
         {
             var fileContents = File.ReadAllText(filePath);
-            return fileContents.Split(Separator).ToList();
+            return TextToStrings(fileContents);
         }
         return new List<string>();
     }
 
     public void Write(string filePath, List<string> strings)
     {
-        File.WriteAllText(filePath, string.Join(Separator, strings));
+        File.WriteAllText(filePath, StringsToText(strings));
     }
 }
 
-public class StringsJsonRepository : IStringsRepository
+public class StringsTextRepository : StringsRepository
 {
-    public List<string> Read(string filePath)
+    private static readonly string Separator = Environment.NewLine;
+
+    protected override string StringsToText(List<string> strings)
     {
-        if (File.Exists(filePath))
-        {
-            var fileContents = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<List<string>>(fileContents);
-        }
-        return new List<string>();
+        return string.Join(Separator, strings);
     }
 
-    public void Write(string filePath, List<string> strings)
+    protected override List<string> TextToStrings(string fileContents)
     {
-        File.WriteAllText(filePath, JsonSerializer.Serialize(strings));
+        return fileContents.Split(Separator).ToList();
+    }
+}
+
+public class StringsJsonRepository : StringsRepository
+{
+    protected override string StringsToText(List<string> strings)
+    {
+        return JsonSerializer.Serialize(strings);
+    }
+
+    protected override List<string> TextToStrings(string fileContents)
+    {
+        return JsonSerializer.Deserialize<List<string>>(fileContents);
     }
 }
