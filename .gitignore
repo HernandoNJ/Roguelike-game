@@ -94,6 +94,9 @@ crashlytics-build.properties
 /AlgorithmsPractice/UCS_Solution/Testing/obj
 /AlgorithmsPractice/UCS_Solution/Testing/bin
 /AlgorithmsPractice/UCS_Solution/Testing/.idea
+/AlgorithmsPractice/UCS_Solution/Exceptions/obj
+/AlgorithmsPractice/UCS_Solution/Exceptions/bin
+/AlgorithmsPractice/UCS_Solution/Exceptions/.idea
 
 # .vscode
 .vscode/
