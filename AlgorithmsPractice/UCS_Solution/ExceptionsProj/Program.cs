@@ -1,29 +1,52 @@
-﻿Console.ReadKey();
+﻿var invalidPersonObject = new Person("",-100);
+var emptyCollection = new List<int>();
+var firstElement = GetFirstElement(emptyCollection);
+var firstUsingLinq = emptyCollection.First(); // InvalidOperationException
+
+var numbers = new int[] { 1,2,3 };
+var fourth = numbers[3]; // OutOfIndexException
+
+bool has7 = CheckIfContains(7,numbers);
+
+RecursiveMethod2(0);
+
+Console.ReadKey();
 
 int GetFirstElement(IEnumerable<int> numbers)
 {
-    // It is expected to receive a valid non empty collection
-    // with at least 1 item
-    // return numbers[0] is not valid as it is IEnumerable
-    // foreach is also invalid because the compiler identifies
-    // a possible empty collection, so it never enters in the
-    // foreach loop and won't return a value
-    // So, returning a default value like 0 is not desired
-    // also, the compiler won't build and run the app
-    // unless a valid item is returned
     foreach (int number in numbers)
     {
         return number;
     }
 
-    // return 0; // avoid this
+    throw new InvalidOperationException("The collection cannot be empty.");
+}
 
-    // Third option: throwing an exception
-    throw new Exception("The collection cannot be empty.");
+bool CheckIfContains(int value,int[] numbers)
+{
+    // Prefer not to use this exception
+    // Only in case we want to express the method should not be used
+    // because it is still in progress
+    throw new NotImplementedException();
+}
 
-    /* It makes sense to throw an exception when:
-     * 1. We cannot handle invalid input reasonably
-     * 2. Invalid input is the developer's mistake */
+void RecursiveMethod1()
+{
+    Console.WriteLine("Calling method1");
+
+    // Recursive call generates a StackOverflowException
+    RecursiveMethod1();
+}
+
+void RecursiveMethod2(int counter)
+{
+    Console.WriteLine("Calling method2. counter: " + counter);
+
+    // preventing a StackOverflowException by adding a counter
+    if (counter < 10)
+    {
+        RecursiveMethod2(counter + 1);
+    }
 }
 
 class Person
@@ -33,18 +56,15 @@ class Person
 
     public Person(string name,int yearOfBirth = 0)
     {
-        /* It makes sense to throw an exception when:
-     * 1. We cannot handle invalid input reasonably
-     * 2. Invalid input is the developer's mistake */
-
+        if (name is null)
+            throw new ArgumentNullException("Name cannot be null");
         if (name == string.Empty)
-            throw new Exception("Invalid name.");
+            throw new ArgumentException("Name cannot be empty.");
 
         if (yearOfBirth < 1900 || yearOfBirth > DateTime.Now.Year)
-            throw new Exception("Invalid year of birth");
+            throw new ArgumentOutOfRangeException("Year of birth between 1900 and current year");
 
         Name = name;
         YearOfBirth = yearOfBirth;
     }
-
 }
