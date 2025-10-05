@@ -97,6 +97,10 @@ crashlytics-build.properties
 /AlgorithmsPractice/UCS_Solution/ExceptionsProj/obj
 /AlgorithmsPractice/UCS_Solution/ExceptionsProj/bin
 /AlgorithmsPractice/UCS_Solution/ExceptionsProj/.idea
+/AlgorithmsPractice/UCS_Solution/GameDataParser/obj
+/AlgorithmsPractice/UCS_Solution/GameDataParser/bin
+/AlgorithmsPractice/UCS_Solution/GameDataParser/.idea
+
 
 # .vscode
 .vscode/
