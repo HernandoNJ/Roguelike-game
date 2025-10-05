@@ -1,60 +1,150 @@
-﻿Console.WriteLine("Hello");
+﻿try
+{
+    ComplexMethod();
+}
+catch (InvalidOperationException ex)
+when (ex.Message == "Cannot connect to a service")
+{
+    Console.WriteLine("Check your internet connection");
+    throw;
+}
+
+try
+{
+    ComplexMethodWithCustomExceptions();
+}
+catch (ConnectionException ex)
+{
+    Console.WriteLine("Check your internet connection");
+    throw;
+}
+catch (JsonParsingException ex)
+{
+    Console.WriteLine("Unable to parse JSON. JSON body is: " + ex.JsonBody);
+    throw;
+}
+
 Console.ReadKey();
 
-public class PersonDataReader
+void ComplexMethod()
 {
-    private readonly IPeopleRepository _peopleRepository;
-    private readonly ILogger _logger;
+    // 1. connecting
+    // Devs may change a bit the message for "Failed to connect to the service"
+    // Better to define another exception types
+    throw new InvalidOperationException("Cannot connect to a service");
 
-    public PersonDataReader(
-        IPeopleRepository peopleRepository,
-        ILogger logger)
-    {
-        _peopleRepository = peopleRepository;
-        _logger = logger;
-    }
+    // 2. authorizing
+    throw new InvalidOperationException("Cannot authorize the user");
 
-    public Person ReadPersonData(int personId)
-    {
-        try
-        {
-            // What kind of exception throw? hard to know
-            // IPeopleRepository is implemented
-            // but the exact type is not known
-            // any exception may happen
-            // here a generic exception is ok
-            // because the exception is logged and then rethrown
-            return _peopleRepository.Read(personId);
-        }
-        catch (Exception ex)
-        {
-            _logger.Log(ex);
-            throw new Exception();
-        }
-    }
+    // 3. retrieving data as Json
+    throw new InvalidOperationException("Cannot retrieve data");
 
-
+    // 4. parsing the Json data to a C# type
+    throw new InvalidOperationException("Cannot parse Json data");
 }
 
-public interface ILogger
+void ComplexMethodWithCustomExceptions()
 {
-    void Log(Exception ex);
+    // 1. connecting
+    throw new ConnectionException("Cannot connect to a service");
+
+    // 2. authorizing
+    throw new AuthorizationException("Cannot authorize the user");
+
+    // 3. retrieving data as Json
+    throw new DataAccessException("Cannot retrieve data");
+
+    // 4. parsing the Json data to a C# type
+    // Providing additional info such as the json string
+    throw new JsonParsingException("Cannot parse Json data");
 }
 
-public interface IPeopleRepository
+public class ConnectionException : Exception
 {
-    Person Read(int id);
-}
+    public ConnectionException() { }
 
-public class Logger : ILogger
-{
-    public void Log(Exception ex)
+    public ConnectionException(string message) : base(message) { }
+
+    public ConnectionException(string message,Exception innerException)
+        : base(message,innerException)
     {
 
     }
 }
 
-public class Person
+public class AuthorizationException : Exception
 {
-    public int Id { get; }
+    public AuthorizationException()
+    {
+
+    }
+
+    public AuthorizationException(string message)
+        : base(message)
+    {
+
+    }
+
+    public AuthorizationException(string message,Exception innerException)
+        : base(message,innerException)
+    {
+
+    }
+}
+
+public class DataAccessException : Exception
+{
+    public DataAccessException()
+    {
+
+    }
+
+    public DataAccessException(string message)
+        : base(message)
+    {
+
+    }
+
+    public DataAccessException(string message,Exception innerException)
+        : base(message,innerException)
+    {
+
+    }
+}
+
+public class JsonParsingException : Exception
+{
+    public string JsonBody { get; }
+
+    public JsonParsingException()
+    {
+
+    }
+
+    public JsonParsingException(string message)
+        : base(message)
+    {
+
+    }
+
+    public JsonParsingException(
+        string message,Exception innerException)
+        : base(message,innerException)
+    {
+
+    }
+
+    public JsonParsingException(
+        string message,string jsonBody)
+        : base(message)
+    {
+        JsonBody = jsonBody;
+    }
+
+    public JsonParsingException(
+        string message,string jsonBody,Exception innerException)
+        : base(message,innerException)
+    {
+        JsonBody = jsonBody;
+    }
 }
