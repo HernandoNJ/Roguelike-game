@@ -1,150 +1,42 @@
-﻿try
-{
-    ComplexMethod();
-}
-catch (InvalidOperationException ex)
-when (ex.Message == "Cannot connect to a service")
-{
-    Console.WriteLine("Check your internet connection");
-    throw;
-}
+﻿//// Catch use cases
+//// 1. Null exception
+//Person ReadPersonData(int personId)
+//{
+//    // Code from other dev, maybe API or DB
+//    // Read() may throw an exception, for example, null
+//    return _externalDataReader.Read(personId);
+//}
 
-try
-{
-    ComplexMethodWithCustomExceptions();
-}
-catch (ConnectionException ex)
-{
-    Console.WriteLine("Check your internet connection");
-    throw;
-}
-catch (JsonParsingException ex)
-{
-    Console.WriteLine("Unable to parse JSON. JSON body is: " + ex.JsonBody);
-    throw;
-}
+//Person ReadPersonData(int personId)
+//{
+//    try
+//    {
+//        return _externalDataReader.Read(personId);
+//    }
+//    catch (NoDataException ex
+//    {
+//        // The dev decides that null is allowed to let the app continue
+//        return null;
+//    }
+//}
 
-Console.ReadKey();
+//// 2. Possible TimeoutException in remote server
+//SaveToRemoteDatabase(person);
 
-void ComplexMethod()
-{
-    // 1. connecting
-    // Devs may change a bit the message for "Failed to connect to the service"
-    // Better to define another exception types
-    throw new InvalidOperationException("Cannot connect to a service");
+//// Code to retry after some seconds
+//while (retriesCount > 5)
+//{
+//    try
+//    {
+//        SaveToRemoteDatabase(person);
+//        break;
+//    }
+//    catch (TimeoutException ex)
+//    {
+//        // wait 5s
+//        retriesCount--;
+//    }
+//}
 
-    // 2. authorizing
-    throw new InvalidOperationException("Cannot authorize the user");
+//// 3. Global try catch block 
 
-    // 3. retrieving data as Json
-    throw new InvalidOperationException("Cannot retrieve data");
-
-    // 4. parsing the Json data to a C# type
-    throw new InvalidOperationException("Cannot parse Json data");
-}
-
-void ComplexMethodWithCustomExceptions()
-{
-    // 1. connecting
-    throw new ConnectionException("Cannot connect to a service");
-
-    // 2. authorizing
-    throw new AuthorizationException("Cannot authorize the user");
-
-    // 3. retrieving data as Json
-    throw new DataAccessException("Cannot retrieve data");
-
-    // 4. parsing the Json data to a C# type
-    // Providing additional info such as the json string
-    throw new JsonParsingException("Cannot parse Json data");
-}
-
-public class ConnectionException : Exception
-{
-    public ConnectionException() { }
-
-    public ConnectionException(string message) : base(message) { }
-
-    public ConnectionException(string message,Exception innerException)
-        : base(message,innerException)
-    {
-
-    }
-}
-
-public class AuthorizationException : Exception
-{
-    public AuthorizationException()
-    {
-
-    }
-
-    public AuthorizationException(string message)
-        : base(message)
-    {
-
-    }
-
-    public AuthorizationException(string message,Exception innerException)
-        : base(message,innerException)
-    {
-
-    }
-}
-
-public class DataAccessException : Exception
-{
-    public DataAccessException()
-    {
-
-    }
-
-    public DataAccessException(string message)
-        : base(message)
-    {
-
-    }
-
-    public DataAccessException(string message,Exception innerException)
-        : base(message,innerException)
-    {
-
-    }
-}
-
-public class JsonParsingException : Exception
-{
-    public string JsonBody { get; }
-
-    public JsonParsingException()
-    {
-
-    }
-
-    public JsonParsingException(string message)
-        : base(message)
-    {
-
-    }
-
-    public JsonParsingException(
-        string message,Exception innerException)
-        : base(message,innerException)
-    {
-
-    }
-
-    public JsonParsingException(
-        string message,string jsonBody)
-        : base(message)
-    {
-        JsonBody = jsonBody;
-    }
-
-    public JsonParsingException(
-        string message,string jsonBody,Exception innerException)
-        : base(message,innerException)
-    {
-        JsonBody = jsonBody;
-    }
-}
