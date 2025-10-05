@@ -1,12 +1,15 @@
-﻿bool isFileRead = false;
+﻿using System.Text.Json;
+
+bool isFileRead = false;
 var fileContents = default(string);
+var fileName = default(string);
 
 do
 {
     try
     {
         Console.WriteLine("Enter the file name.");
-        var fileName = Console.ReadLine();
+        fileName = Console.ReadLine();
 
         // Provide a Json string
         fileContents = File.ReadAllText(fileName);
@@ -22,24 +25,43 @@ do
     }
     catch (FileNotFoundException ex)
     {
-        Console.WriteLine("File name not found");
+        Console.WriteLine("File does not exist");
     }
 }
 while (!isFileRead);
 
+List<VideoGame> games = default;
 
-//// Deserialize the Json string
-//var videoGames = JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
+try
+{
+    games = JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
 
-//if (videoGames.Count > 0)
-//{
-//    foreach (var videogame in videoGames)
-//    {
-//        Console.WriteLine(videogame);
-//        Console.WriteLine();
-//    }
-//}
-//else Console.WriteLine("No games found.");
+
+}
+catch (JsonException ex)
+{
+    var originalColor = Console.ForegroundColor;
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine($"JSON in file {fileName} was not in valid format. JSON body: {fileContents}");
+    Console.ForegroundColor = originalColor;
+
+    // When putting a breakpoint, the IDE doesn't show the file name
+    // Re throwing the catch exception adding the filename
+
+    throw new JsonException($"base message: {ex.Message}.\n" +
+        $"The file is: {fileName}",ex);
+}
+
+
+if (games.Count > 0)
+{
+    foreach (var game in games)
+    {
+        Console.WriteLine(game);
+        Console.WriteLine();
+    }
+}
+else Console.WriteLine("No games found.");
 
 Console.ReadKey();
 
