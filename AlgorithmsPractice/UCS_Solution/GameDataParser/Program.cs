@@ -28,32 +28,28 @@ public class GameDataParserApp
 
         do
         {
-            try
-            {
-                Console.WriteLine("Enter the file name.");
-                fileName = Console.ReadLine();
+            Console.WriteLine("Enter the file name.");
+            fileName = Console.ReadLine();
 
-                // Provide a Json string
+            // Providing different statements to indicate what happened
+            if (string.IsNullOrEmpty(fileName))
+                Console.WriteLine("File name cannot be null or empty.");
+            else if (!File.Exists(fileName))
+                Console.WriteLine("File does not exist.");
+            else
+            {
                 fileContents = File.ReadAllText(fileName);
                 isFileRead = true;
-            }
-            catch (ArgumentNullException ex)
-            {
-                Console.WriteLine("File name cannot be null");
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine("File name cannot be empty");
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine("File does not exist");
             }
         }
         while (!isFileRead);
 
         List<VideoGame> games = default;
 
+        // Try catch still required because
+        // it throws a new exception with enriching information about the file path
+        // tells the user the Json is invalid
+        // prints it to the console
         try
         {
             games = JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
