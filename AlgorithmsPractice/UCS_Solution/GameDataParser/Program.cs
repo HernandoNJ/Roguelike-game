@@ -17,43 +17,42 @@ catch (Exception ex)
 Console.WriteLine("Press any key to exit.");
 Console.ReadKey();
 
+// Current responsibilities
+// 1. Manage the entire workflow of the program
+// 2. Implement the details of each step
 public class GameDataParserApp
 {
-
     public void Run()
     {
-        bool isFileRead = false;
-        var fileContents = default(string);
-        var fileName = default(string);
+        string fileName = ReadValidPathFromUser();
+        var fileContents = File.ReadAllText(fileName); // Here we are sure the file exists
+        var games = DeserializeVideoGamesFrom(fileName,fileContents);
+        PrintGames(games);
+    }
 
-        do
+    private static void PrintGames(List<VideoGame> games)
+    {
+        if (games.Count > 0)
         {
-            Console.WriteLine("Enter the file name.");
-            fileName = Console.ReadLine();
-
-            // Providing different statements to indicate what happened
-            if (string.IsNullOrEmpty(fileName))
-                Console.WriteLine("File name cannot be null or empty.");
-            else if (!File.Exists(fileName))
-                Console.WriteLine("File does not exist.");
-            else
+            foreach (var game in games)
             {
-                fileContents = File.ReadAllText(fileName);
-                isFileRead = true;
+                Console.WriteLine(game);
+                Console.WriteLine();
             }
         }
-        while (!isFileRead);
+        else Console.WriteLine("No games found.");
+    }
 
-        List<VideoGame> games = default;
-
+    private static List<VideoGame> DeserializeVideoGamesFrom(
+        string fileName,string fileContents)
+    {
         // Try catch still required because
         // it throws a new exception with enriching information about the file path
         // tells the user the Json is invalid
         // prints it to the console
         try
         {
-            games = JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
-
+            return JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
         }
         catch (JsonException jsonEx)
         {
@@ -68,27 +67,29 @@ public class GameDataParserApp
         $@"EX message: {jsonEx.Message}.
         FILE: {fileName}",jsonEx);
         }
-
-        if (games.Count > 0)
-        {
-            foreach (var game in games)
-            {
-                Console.WriteLine(game);
-                Console.WriteLine();
-            }
-        }
-        else Console.WriteLine("No games found.");
-
     }
 
-}
+    private static string ReadValidPathFromUser()
+    {
+        bool isFilePathValid = false;
+        string? fileName;
 
-public class VideoGame
-{
-    public string Title { get; init; }
-    public int ReleaseYear { get; init; }
-    public double Rating { get; init; }
+        do
+        {
+            Console.WriteLine("Enter the file name.");
+            fileName = Console.ReadLine();
 
-    public override string ToString() =>
-         $"{Title}, {ReleaseYear}, {Rating}";
+            // Providing different statements to indicate what happened
+            if (string.IsNullOrEmpty(fileName))
+                Console.WriteLine("File name cannot be null or empty.");
+            else if (!File.Exists(fileName))
+                Console.WriteLine("File does not exist.");
+            else
+            {
+                isFilePathValid = true;
+            }
+        }
+        while (!isFilePathValid);
+        return fileName;
+    }
 }
