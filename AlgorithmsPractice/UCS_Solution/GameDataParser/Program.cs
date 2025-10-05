@@ -1,23 +1,45 @@
-﻿using System.Text.Json;
+﻿bool isFileRead = false;
+var fileContents = default(string);
 
-Console.WriteLine("Enter the file name.");
-var fileNameInput = Console.ReadLine();
-
-// Provide a Json string
-var fileContents = File.ReadAllText(fileNameInput);
-
-// Deserialize the Json string
-var videoGames = JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
-
-if (videoGames.Count > 0)
+do
 {
-    foreach (var videogame in videoGames)
+    try
     {
-        Console.WriteLine(videogame);
-        Console.WriteLine();
+        Console.WriteLine("Enter the file name.");
+        var fileName = Console.ReadLine();
+
+        // Provide a Json string
+        fileContents = File.ReadAllText(fileName);
+        isFileRead = true;
+    }
+    catch (ArgumentNullException ex)
+    {
+        Console.WriteLine("File name cannot be null");
+    }
+    catch (ArgumentException ex)
+    {
+        Console.WriteLine("File name cannot be empty");
+    }
+    catch (FileNotFoundException ex)
+    {
+        Console.WriteLine("File name not found");
     }
 }
-else Console.WriteLine("No games found.");
+while (!isFileRead);
+
+
+//// Deserialize the Json string
+//var videoGames = JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
+
+//if (videoGames.Count > 0)
+//{
+//    foreach (var videogame in videoGames)
+//    {
+//        Console.WriteLine(videogame);
+//        Console.WriteLine();
+//    }
+//}
+//else Console.WriteLine("No games found.");
 
 Console.ReadKey();
 
@@ -27,8 +49,6 @@ public class VideoGame
     public int ReleaseYear { get; init; }
     public double Rating { get; init; }
 
-    public override string ToString()
-    {
-        return $"{Title}, {ReleaseYear}, {Rating}";
-    }
+    public override string ToString() =>
+         $"{Title}, {ReleaseYear}, {Rating}";
 }
