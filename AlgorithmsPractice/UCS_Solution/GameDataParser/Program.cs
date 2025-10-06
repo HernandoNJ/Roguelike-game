@@ -1,9 +1,15 @@
 ﻿using System.Text.Json;
 
-var app = new GameDataParserApp();
+var consoleInteractor = new ConsoleUserInteractor();
+
+var app = new GameDataParserApp(
+    new LocalFileReader(),
+    new GamesPrinter(consoleInteractor),
+    consoleInteractor,
+    new VideoGamesDeserializer(consoleInteractor));
+
 var logger = new Logger("log.txt");
 
-// Global catch block
 try
 {
     app.Run();
@@ -17,73 +23,167 @@ catch (Exception ex)
 Console.WriteLine("Press any key to exit.");
 Console.ReadKey();
 
-// Current responsibilities
+
+#region NOTES
+// *** GameDataParserApp Current responsibilities
 // 1. Manage the entire workflow of the program
 // 2. Implement the details of each step
+// Also, currently tightly coupled with Console and File classes
+// The unique responsibility of the class is to manage the app workflow
+
+// *** private static string ReadValidPathFromUser()
+// It is very general
+// It could be used by any other app to ask the user to enter a file name
+// Maybe a class about interaction with the user
+
+// *** PrintGames()
+// If the way of printing the games changes, for example, 
+// add new lines after each video games description
+// GameDataParserApp class will have more than 1 reason to change
+
+// *** GamesPrinter class
+// As this class will be a dependency of the GameDataParserApp class
+// We need to implement an interface
+#endregion
+
+/// <summary>
+///<i>The unique responsibility of the class is to manage the app workflow</i>
+/// </summary>
 public class GameDataParserApp
 {
+    private readonly IFileReader _fileReader;
+    private readonly IGamesPrinter _gamesPrinter;
+    private readonly IUserInteractor _userInteractor;
+    private readonly IVideoGamesDeserializer _videoGamesDeserializer;
+
+    public GameDataParserApp(
+        IFileReader fileReader,
+        IGamesPrinter gamesPrinter,
+        IUserInteractor userInteractor,
+        IVideoGamesDeserializer videoGamesDeserializer)
+    {
+        _fileReader = fileReader;
+        _userInteractor = userInteractor;
+        _gamesPrinter = gamesPrinter;
+        _videoGamesDeserializer = videoGamesDeserializer;
+    }
+
     public void Run()
     {
-        string fileName = ReadValidPathFromUser();
-        var fileContents = File.ReadAllText(fileName); // Here we are sure the file exists
-        var games = DeserializeVideoGamesFrom(fileName,fileContents);
-        PrintGames(games);
+        string fileName = _userInteractor.ReadValidPath();
+        var fileContents = _fileReader.Read(fileName)
+        var games = _videoGamesDeserializer.DeserializeFrom(fileName,fileContents);
+        _gamesPrinter.Print(games);
     }
+}
 
-    private static void PrintGames(List<VideoGame> games)
+public interface IFileReader
+{
+    string Read(string fileName);
+}
+
+public class LocalFileReader : IFileReader
+{
+    public string Read(string fileName) => File.ReadAllText(fileName);
+}
+
+public interface IVideoGamesDeserializer
+{
+    List<VideoGame> DeserializeFrom(string fileName,string fileContents);
+}
+
+public class VideoGamesDeserializer : IVideoGamesDeserializer
+{
+    private readonly IUserInteractor _userInteractor;
+
+    public VideoGamesDeserializer(IUserInteractor userInteractor)
     {
-        if (games.Count > 0)
-        {
-            foreach (var game in games)
-            {
-                Console.WriteLine(game);
-                Console.WriteLine();
-            }
-        }
-        else Console.WriteLine("No games found.");
+        _userInteractor = userInteractor;
     }
 
-    private static List<VideoGame> DeserializeVideoGamesFrom(
+    public List<VideoGame> DeserializeFrom(
         string fileName,string fileContents)
     {
-        // Try catch still required because
-        // it throws a new exception with enriching information about the file path
-        // tells the user the Json is invalid
-        // prints it to the console
         try
         {
             return JsonSerializer.Deserialize<List<VideoGame>>(fileContents);
         }
         catch (JsonException jsonEx)
         {
-            var originalColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"JSON in file {fileName} was not in valid format. JSON body: {fileContents}");
-            Console.ForegroundColor = originalColor;
+            _userInteractor.PrintError($"JSON in file {fileName} was not in valid format. JSON body: {fileContents}");
 
-            // When putting a breakpoint, the IDE doesn't show the file name
-            // Re throwing the catch exception adding the filename
             throw new JsonException(
-        $@"EX message: {jsonEx.Message}.
-        FILE: {fileName}",jsonEx);
+                $@"EX message: {jsonEx.Message}.
+                FILE: {fileName}",jsonEx);
         }
     }
+}
 
-    private static string ReadValidPathFromUser()
+public interface IGamesPrinter
+{
+    void Print(List<VideoGame> games);
+}
+
+///<summary> As this class will be a dependency of the GameDataParserApp class, we need to implement an interface </summary>
+public class GamesPrinter : IGamesPrinter
+{
+    private readonly IUserInteractor _userInteractor;
+
+    public GamesPrinter(IUserInteractor userInteractor)
+    {
+        _userInteractor = userInteractor;
+    }
+
+    public void Print(List<VideoGame> games)
+    {
+        if (games.Count > 0)
+        {
+            // Replacing Console.WriteLine() with env.newline
+            _userInteractor.PrintMessage(Environment.NewLine + "Loaded games are:");
+
+            foreach (var game in games)
+            {
+                _userInteractor.PrintMessage(game.ToString());
+            }
+
+        }
+        else _userInteractor.PrintMessage("No games found.");
+    }
+}
+
+public interface IUserInteractor
+{
+    void PrintError(string message);
+    void PrintMessage(string message);
+    string ReadValidPath();
+}
+
+public class ConsoleUserInteractor : IUserInteractor
+{
+    public void PrintError(string message)
+    {
+        var originalColor = Console.ForegroundColor;
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(message);
+        Console.ForegroundColor = originalColor;
+    }
+
+    public void PrintMessage(string message) => Console.WriteLine(message);
+
+    public string ReadValidPath()
     {
         bool isFilePathValid = false;
-        string? fileName;
+        string fileName;
 
         do
         {
-            Console.WriteLine("Enter the file name.");
+            PrintMessage("Enter the file name.");
             fileName = Console.ReadLine();
 
-            // Providing different statements to indicate what happened
             if (string.IsNullOrEmpty(fileName))
-                Console.WriteLine("File name cannot be null or empty.");
+                PrintMessage("File name cannot be null or empty.");
             else if (!File.Exists(fileName))
-                Console.WriteLine("File does not exist.");
+                PrintMessage("File does not exist.");
             else
             {
                 isFilePathValid = true;
