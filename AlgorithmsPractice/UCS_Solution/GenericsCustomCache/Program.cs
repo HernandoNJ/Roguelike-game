@@ -1,127 +1,46 @@
-﻿//var numbersFromListOfInts = new ListOfInts();
-//numbersFromListOfInts.Add(10);
-//numbersFromListOfInts.Add(20);
-//numbersFromListOfInts.Add(30);
-//numbersFromListOfInts.Add(40);
-//numbersFromListOfInts.Add(50);
+﻿var numbers = new List<int>() { 5,3,2,8,17,7 };
 
-//numbersFromListOfInts.RemoveAt(2);
+SimpleTwoInts minAndMax = GetMinMax(numbers);
+Console.WriteLine($"Min is {minAndMax.Int1}");
+Console.WriteLine($"Max is {minAndMax.Int2}");
 
-var numbers = new SimpleList<int>();
-numbers.Add(10);
-numbers.Add(20);
-numbers.Add(30);
-numbers.Add(40);
-numbers.Add(50);
-
-numbers.RemoveAt(2);
-
-var words = new SimpleList<string>();
-words.Add("aaa");
-words.Add("bbb");
-words.Add("ccc");
-
-var dates = new SimpleList<DateTime>();
-dates.Add(new DateTime(2025,1,6));
-dates.Add(new DateTime(2025,1,3));
-
-Console.WriteLine("Press any key to exit.");
 Console.ReadKey();
 
-public class ListOfInts
+// Creating a new type to store 2 ints
+// Instead of using bool isParsed = int.TryParse("abc", out int result)
+// To avoid using out as a parameter, that should be a return item
+// Algorithm: set of instructions followed to solve a problem
+// 1. Check if the collection is empty. If so, return
+// 2. Create variables for min and max elements. Both can be the first item
+// of the collection
+// 3. Iterate the collection
+// 4. Compare each item with the variables we have
+// 5. Return the values 
+SimpleTwoInts GetMinMax(IEnumerable<int> inputList)
 {
-    private int[] _items = new int[4];
-    private int _size = 0;
+    if (!inputList.Any())
+        throw new InvalidOperationException(
+            $"The input collection cannot be empty.");
 
-    public void Add(int item)
+    int min = inputList.First();
+    int max = inputList.First();
+
+    foreach (int number in numbers)
     {
-        if (_size >= _items.Length)
-        {
-            var newItems = new int[_items.Length * 2];
-            for (int i = 0; i < _items.Length; i++)
-            {
-                newItems[i] = _items[i];
-            }
-            _items = newItems;
-        }
-        _items[_size] = item;
-        _size++;
+        if (number > max) max = number;
+        if (number < min) min = number;
     }
-
-    public void RemoveAt(int index)
-    {
-        if (index < 0 || index >= _size)
-        {
-            throw new IndexOutOfRangeException(
-                $"Index {index} is out of the bounds of the list.");
-        }
-
-        _size--;
-
-        for (int i = index; i < _size; i++)
-        {
-            _items[i] = _items[i + 1];
-        }
-        _items[_size] = default;
-    }
-
-    public int GetAtIndex(int index)
-    {
-        if (index < 0 || index >= _size)
-        {
-            throw new IndexOutOfRangeException(
-                $"Index {index} is out of the bounds of the list.");
-        }
-
-        return _items[index];
-    }
+    return new SimpleTwoInts(min,max);
 }
 
-public class SimpleList<T>
+public class SimpleTwoInts
 {
-    private T[] _items = new T[4];
-    private int _size = 0;
+    public int Int1 { get; }
+    public int Int2 { get; }
 
-    public void Add(T item)
+    public SimpleTwoInts(int int1,int int2)
     {
-        if (_size >= _items.Length)
-        {
-            var newItems = new T[_items.Length * 2];
-            for (int i = 0; i < _items.Length; i++)
-            {
-                newItems[i] = _items[i];
-            }
-            _items = newItems;
-        }
-        _items[_size] = item;
-        _size++;
-    }
-
-    public void RemoveAt(int index)
-    {
-        if (index < 0 || index >= _size)
-        {
-            throw new IndexOutOfRangeException(
-                $"Index {index} is out of the bounds of the list.");
-        }
-
-        _size--;
-
-        for (int i = index; i < _size; i++)
-        {
-            _items[i] = _items[i + 1];
-        }
-        _items[_size] = default;
-    }
-
-    public T GetAtIndex(int index)
-    {
-        if (index < 0 || index >= _size)
-        {
-            throw new IndexOutOfRangeException(
-                $"Index {index} is out of the bounds of the list.");
-        }
-
-        return _items[index];
+        Int1 = int1;
+        Int2 = int2;
     }
 }
