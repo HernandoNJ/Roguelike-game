@@ -1,13 +1,19 @@
-﻿using System.Numerics;
-
-Console.WriteLine($"Sq of 2: {Calculator.Square(2)}");
-Console.WriteLine($"Sq of 3m: {Calculator.Square(3m)}");
-Console.WriteLine($"Sq of 4d: {Calculator.Square(4d)}");
-
+﻿
 Console.ReadKey();
 
-public static class Calculator
+// Method with 1 parameter
+void SomeMethod<TPet>(TPet pet) where TPet : Pet, IComparable<TPet>
 {
-    public static T Square<T>(T input) where T : INumber<T>
-        => input * input;
+
 }
+
+// Method with 2 parameters
+void SomeMethod2<TPet, TOwner>(TPet pet,TOwner owner)
+    where TPet : Pet, IComparable<TPet>
+    where TOwner : new()
+{
+
+}
+
+public class Pet { }
+public class PetOwner { }
