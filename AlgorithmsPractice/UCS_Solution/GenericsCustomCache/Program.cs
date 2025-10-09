@@ -1,73 +1,31 @@
-﻿var people = new List<Person>
+﻿var numbers = new List<int> { 5,1,7,2 };
+numbers.Sort();
+
+var words = new List<string> { "ddd","aaa","ccc","bbb" };
+words.Sort();
+
+var people = new List<Person>
 {
     new Person{Name = "Jhon", YearOfBirth = 1980},
     new Person {Name = "Anna", YearOfBirth = 1815},
     new Person{Name = "Bill", YearOfBirth = 2150}
 };
 
-var employees = new List<Employee>
+// Invalid operation exception: The Person list doesn't implement
+// IComparable to call someObject.CompareTo(otherObject)
+// C# doesn't know how to order items from People
+// people.Sort();
+
+var people1 = new List<ComparablePerson>
 {
-    new Employee {Name = "Jhon", YearOfBirth = 1980},
-    new Employee {Name = "Anna", YearOfBirth = 1815},
-    new Employee {Name = "Bill", YearOfBirth = 2150}
+    new ComparablePerson{Name = "Jhon", YearOfBirth = 1980},
+    new ComparablePerson{Name = "Anna", YearOfBirth = 1815},
+    new ComparablePerson{Name = "Bill", YearOfBirth = 2150}
 };
 
-var validPeople = GetOnlyValid(people);
-var validEmployees = GetOnlyValid(employees);
-
-foreach (var employee in validEmployees)
-{
-    // GoToWork is defined in Employee class, but the current
-    // result of GetOnlyValid is an IEnumerable<Person>
-    // Casting may work, but it is performance expensive
-    employee.GoToWork(); // compile error
-}
-
-var validPeople1 = GetOnlyValidWithGenerics(people);
-var validEmployees1 = GetOnlyValidWithGenerics(employees);
-
-foreach (var employee in validEmployees1)
-{
-    // validEmployees1 is a collection of Employee
-    // casting not required
-    employee.GoToWork();
-}
+people1.Sort();
 
 Console.ReadKey();
-
-IEnumerable<Person> GetOnlyValid(IEnumerable<Person> persons)
-{
-    var result = new List<Person>();
-    foreach (var person in persons)
-    {
-        if (person.YearOfBirth > 1900 &&
-            person.YearOfBirth < DateTime.Now.Year)
-        {
-            result.Add(person);
-        }
-    }
-    return result;
-}
-
-// TPerson can be of any type derived from Person
-// Use it when you want to operate on classes derived from Person
-// If not sure, use
-// IEnumerable<Person> GetOnlyValid(IEnumerable<TPerson> persons)
-// and only add constraints if you are certain you need them.
-IEnumerable<TPerson> GetOnlyValidWithGenerics<TPerson>(IEnumerable<TPerson> persons)
-    where TPerson : Person
-{
-    var result = new List<TPerson>();
-    foreach (var person in persons)
-    {
-        if (person.YearOfBirth > 1900 &&
-            person.YearOfBirth < DateTime.Now.Year)
-        {
-            result.Add(person);
-        }
-    }
-    return result;
-}
 
 public class Person
 {
@@ -75,7 +33,26 @@ public class Person
     public int YearOfBirth { get; init; }
 }
 
-public class Employee : Person
+// ComparablePerson : IComparable<Person>
+// used to compare 2 objects of the same type
+public class ComparablePerson : IComparable<ComparablePerson>
 {
-    public void GoToWork() => Console.WriteLine("Going to work");
+    public string Name { get; init; }
+    public int YearOfBirth { get; init; }
+
+    // Younger to the left, older to the right
+    public int CompareTo(ComparablePerson other)
+    {
+        if (YearOfBirth == other.YearOfBirth) return 0;
+        return YearOfBirth < other.YearOfBirth ? 1 : -1;
+    }
 }
+
+// if a < b is true return 1,   b goes left => b ... a
+// if a < b is false return -1, a goes left => a ... b
+
+// 1980 1815 2150
+// 1980 < 1815 F    1980 younger left ... 1815 older right
+// 2150 < 1980 F    2150 younger left ... 1980 older right 
+// 2150 < 1815 F    2150 younger left ... 1815 older right
+// *** 2150 1980 1815
