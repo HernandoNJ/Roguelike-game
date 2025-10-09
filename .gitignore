@@ -100,7 +100,9 @@ crashlytics-build.properties
 /AlgorithmsPractice/UCS_Solution/GameDataParser/obj
 /AlgorithmsPractice/UCS_Solution/GameDataParser/bin
 /AlgorithmsPractice/UCS_Solution/GameDataParser/.idea
-
+/AlgorithmsPractice/UCS_Solution/GenericsCustomCache/obj
+/AlgorithmsPractice/UCS_Solution/GenericsCustomCache/bin
+/AlgorithmsPractice/UCS_Solution/GenericsCustomCache/.idea
 
 # .vscode
 .vscode/
