@@ -1,30 +1,30 @@
-﻿// This constructor is not parameterless
-// var points = CreateCollectionOfRandomLengthWithConstraints<Point>(10); 
+﻿using System.Diagnostics;
 
-// Parameterless constructor
-var ints = CreateCollectionOfRandomLengthWithConstraints<int>(10);
+// Getting how much it takes to execute the method
+Stopwatch stopwatch = Stopwatch.StartNew();
+
+//var ints = CreateCollectionOfRandomLengthWithConstraints<DateTime>(0);
+//stopwatch.Stop();
+//Console.WriteLine($"Execution took {stopwatch.ElapsedMilliseconds} ms.");
+// It took ~1.94 sec.
+
+var ints2 = CreateCollectionWithFixedSize<DateTime>(0);
+stopwatch.Stop();
+Console.WriteLine($"Execution took {stopwatch.ElapsedMilliseconds} ms.");
+// It took ~1,49 sec.
 
 Console.ReadKey();
 
-// Allow only T types with parameterless constructor
-IEnumerable<T> CreateCollectionOfRandomLengthWithConstraints<T>(
+IEnumerable<T> CreateCollectionWithFixedSize<T>(
     int maxLength) where T : new()
 {
-    var randomLength = new Random().Next(maxLength + 1);
+    var length = 100000000;
+    var resultList = new List<T>(length);
 
-    var resultList = new List<T>();
-    for (int i = 0; i < randomLength; i++) resultList.Add(new T());
+    for (int i = 0; i < length; i++)
+    {
+        resultList.Add(new T());
+    }
 
     return resultList;
-}
-
-public class Point
-{
-    public int x, y;
-
-    public Point(int x,int y)
-    {
-        this.x = x;
-        this.y = y;
-    }
 }
