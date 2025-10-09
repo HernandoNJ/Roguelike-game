@@ -1,95 +1,57 @@
-﻿var numbers = new List<int>() { 5,3,2,8,17,7 };
+﻿var ints = new List<int>() { 1,2,3 };
+// The type of T is inferred because
+// ints is a List<int>, T is int
+// And so the item
+// ints.AddToFront<int>(12);
+ints.AddToFront(10);
 
-var twoStrings = new Tuple<string,string>("aaa","bbb");
-var differentTypes = new Tuple<string,int>("aaa",1);
-var threeTypes = new Tuple<string,int,bool>("aaa",1,true);
+var decimals = new List<decimal> { 1.1m,0.5m,22.5m,12m };
+var ints1 = decimals.ConverToIntList();
+var ints2 = decimals.ConvertTo<decimal,int>();
 
-//SimpleTwoInts minAndMax = GetMinMax(numbers);
-Tuple<int,int> minAndMax = GetMinMaxWithTuples(numbers);
-Console.WriteLine($"Min is {minAndMax.Item1}");
-Console.WriteLine($"Max is {minAndMax.Item2}");
+var floats = new List<float> { 1.4f,100.01f };
+var longs = floats.ConvertTo<float,decimal>();
+
+var dates = new List<DateTime> { new DateTime(2023) };
+var ints3 = dates.ConvertTo<DateTime,int>(); // won't work
+
 
 Console.ReadKey();
 
-Tuple<int,int> GetMinMaxWithTuples(IEnumerable<int> inputList)
+public static class ListExtensions
 {
-    if (!inputList.Any())
-        throw new InvalidOperationException(
-            $"The input collection cannot be empty.");
-
-    int min = inputList.First();
-    int max = inputList.First();
-
-    foreach (int number in numbers)
+    public static void AddToFront<T>(this List<T> list,T item)
     {
-        if (number > max) max = number;
-        if (number < min) min = number;
+        list.Insert(0,item);
     }
 
-    return new Tuple<int,int>(min,max);
+    // Non-generic method
+    public static List<int> ConverToIntList(this List<decimal> decimals)
+    {
+        var intsList = new List<int>();
+
+        foreach (var item in decimals)
+        {
+            intsList.Add((int)item);
+        }
+        return intsList;
+    }
+
+    // Converting from one type to another using T
+    public static List<TTarget> ConvertTo<TSource, TTarget>(
+        this List<TSource> sourceList)
+    {
+        var targetList = new List<TTarget>();
+
+        foreach (var item in sourceList)
+        {
+            var convertedItem =
+                (TTarget)Convert.ChangeType(item,typeof(TTarget));
+
+            targetList.Add(convertedItem);
+        }
+
+        return targetList;
+
+    }
 }
-
-/*Creating a new type to store 2 ints
- Instead of using bool isParsed = int.TryParse("abc",out int result)
- To avoid using out as a parameter, that should be a return item
- Algorithm: set of instructions followed to solve a problem
- 1. Check if the collection is empty. If so, return
- 2. Create variables for min and max elements. Both can be the first item
- of the collection
- 3. Iterate the collection
- 4. Compare each item with the variables we have
- 5. Return the values */
-//SimpleTwoInts GetMinMax(IEnumerable<int> inputList)
-//{
-//    if (!inputList.Any())
-//        throw new InvalidOperationException(
-//            $"The input collection cannot be empty.");
-
-//    int min = inputList.First();
-//    int max = inputList.First();
-
-//    foreach (int number in numbers)
-//    {
-//        if (number > max) max = number;
-//        if (number < min) min = number;
-//    }
-//    return new SimpleTwoInts(min,max);
-//}
-
-//public class SimpleTuple<T1, T2>
-//{
-//    public T1 Item1 { get; }
-//    public T2 Item2 { get; }
-
-//    public SimpleTuple(T1 item1,T2 item2)
-//    {
-//        Item1 = item1;
-//        Item2 = item2;
-//    }
-//}
-
-//public class SimpleTuple<T1, T2, T3>
-//{
-//    public T1 Item1 { get; }
-//    public T2 Item2 { get; }
-//    public T3 Item3 { get; }
-
-//    public SimpleTuple(T1 item1,T2 item2, T3 item3)
-//    {
-//        Item1 = item1;
-//        Item2 = item2;
-//        Item3 = item3;
-//    }
-//}
-
-//public class SimpleTwoInts
-//{
-//    public int Int1 { get; }
-//    public int Int2 { get; }
-
-//    public SimpleTwoInts(int int1,int int2)
-//    {
-//        Int1 = int1;
-//        Int2 = int2;
-//    }
-//}
