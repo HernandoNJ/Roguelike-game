@@ -8,58 +8,44 @@
     new Employee("Gustavo", "Mechanics", 20000)
 };
 
-var deptAverageSalary = CalculateAverageSalaryPerDepartment(employees);
+var departmentsAverageSalary = CalculateAverageSalaryPerDepartment(employees);
 
-foreach(var item in deptAverageSalary)
-{
-    Console.WriteLine($"Dept: {item.Key}, " +
-                      $"AverageSalary: {item.Value}");
-}
+foreach(var item in departmentsAverageSalary)
+    Console.WriteLine($"Department: {item.Key}, "
+                      + $"Average salary: {item.Value}");
 
 Console.ReadKey();
 
 Dictionary<string, decimal> CalculateAverageSalaryPerDepartment(IEnumerable<Employee> employees)
 {
-    //var spaceNavSalaries = new Dictionary<string, decimal>();
-    //var xenoBioSalaries = new Dictionary<string, decimal>();
-    //var mechanicsSalaries = new Dictionary<string, decimal>();
+    var departments = new Dictionary<string, List<Employee>>();
 
-    //foreach(var employee in employees)
-    //{
-    //    if(employee.Department == "Space nav")
-    //        spaceNavSalaries.Add(employee.Name, employee.MonthlySalary);
-    //    else if(employee.Department == "Xenobio")
-    //        xenoBioSalaries.Add(employee.Name, employee.MonthlySalary);
-    //    else if(employee.Department == "Mechanics")
-    //        mechanicsSalaries.Add(employee.Name, employee.MonthlySalary);
-    //}
-
-    var spaceNavSalariesSum = 0m;
-    var xenobioSalariesSum = 0m;
-    var mechanicsSalariesSum = 0m;
-
+    // Grouping department and employees List
     foreach(var employee in employees)
     {
-        if(employee.Department == "Space nav")
-            spaceNavSalariesSum += employee.MonthlySalary;
-        else if(employee.Department == "Xenobio")
-            xenobioSalariesSum += employee.MonthlySalary;
-        else if(employee.Department == "Mechanics")
-            mechanicsSalariesSum += employee.MonthlySalary;
+        if(!departments.ContainsKey(employee.Department))
+            departments[employee.Department] = new List<Employee>();
+
+        departments[employee.Department].Add(employee);
     }
 
-    //Console.WriteLine("space nav sum: " + spaceNavSalariesSum);
-    //Console.WriteLine("xenobio sum: " + xenobioSalariesSum);
-    //Console.WriteLine("mechanics sum: " + mechanicsSalariesSum);
+    var result = new Dictionary<string, decimal>();
 
-    var deptAverageSalaryDict = new Dictionary<string, decimal>
+    // department key: department's name
+    // department value: List<Employee>
+    foreach(var department in departments)
     {
-        ["SpaceNav"] = spaceNavSalariesSum / 2,
-        ["XenoBio"] = xenobioSalariesSum / 2,
-        ["Mechanics"] = mechanicsSalariesSum / 2
-    };
+        var salariesSum = 0m;
 
-    return deptAverageSalaryDict;
+        // loop over each employee in department.Value ... List<Employee>
+        foreach(var employee in department.Value)
+            salariesSum += employee.MonthlySalary;
+
+        var average = salariesSum / department.Value.Count;
+        result[department.Key] = average;
+    }
+
+    return result;
 }
 
 public class Employee
