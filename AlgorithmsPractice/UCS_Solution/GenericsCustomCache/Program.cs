@@ -5,8 +5,12 @@
 //var dataDownloader = new SlowDataDownloader();
 // CachingDataDownloader works as a wrapper around SlowDataDownloader
 // enriching it with a caching feature
+//var dataDownloader = new CachingDataDownloader(new SlowDataDownloader());
+//var dataDownloader = new PrintingDataDownloader(new SlowDataDownloader());
 var dataDownloader =
-    new CachingDataDownloader(new SlowDataDownloader());
+    new CachingDataDownloader(
+        new PrintingDataDownloader(
+            (new SlowDataDownloader())));
 
 var idsList = new List<string>
 { "id1", "id2", "id3", "id1", "id3", "id1", "id2"};
@@ -41,6 +45,23 @@ public class CachingDataDownloader : IDataDownloader
     public string DownloadData(string resourceId)
     {
         return _cache.Get(resourceId, _dataDownloader.DownloadData);
+    }
+}
+
+public class PrintingDataDownloader : IDataDownloader
+{
+    private readonly IDataDownloader _dataDownloader;
+
+    public PrintingDataDownloader(IDataDownloader dataDownloader)
+    {
+        _dataDownloader = dataDownloader;
+    }
+
+    public string DownloadData(string resourceId)
+    {
+        var data = _dataDownloader.DownloadData(resourceId);
+        Console.WriteLine("Data is ready !");
+        return data;
     }
 }
 
