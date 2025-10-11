@@ -1,31 +1,16 @@
 ﻿var slowDataDownloader = new SlowDataDownloader();
-var fastDataDownloader = new FastDataDownloader();
-var cacheManager = new CacheManager<string, string>();
 
 var idsList = new List<string>
 { "id1", "id2", "id3", "id1", "id3", "id1", "id2"};
 
-Func<string, bool> IsIdCached = cacheManager.IsCached;
-
-DownloadData(idsList, IsIdCached);
+DownloadData(idsList);
 
 Console.ReadKey();
 
-void DownloadData(List<string> ids, Func<string, bool> predicate)
+void DownloadData(List<string> ids)
 {
     foreach(var id in ids)
-    {
-        if(predicate(id))
-        {
-            Console.WriteLine(fastDataDownloader.DownloadData(id));
-        }
-        else
-        {
-            Console.WriteLine(slowDataDownloader.DownloadData(id));
-            var data = slowDataDownloader.DownloadData(id);
-            cacheManager.CacheData(id, data);
-        }
-    }
+        Console.WriteLine(slowDataDownloader.DownloadData(id));
 }
 
 public interface IDataDownloader
@@ -35,27 +20,31 @@ public interface IDataDownloader
 
 public class SlowDataDownloader : IDataDownloader
 {
+    private readonly Cache<string, string> _cache = new();
+
     public string DownloadData(string resourceId)
+    {
+        return _cache.Get(resourceId, DownloadDataWithoutCaching);
+    }
+
+    private string DownloadDataWithoutCaching(string resourceId)
     {
         Thread.Sleep(1000);
         return resourceId + " package data";
     }
 }
 
-public class FastDataDownloader : IDataDownloader
+public class Cache<TKey, TData>
 {
-    public string DownloadData(string resourceId)
+    private readonly Dictionary<TKey, TData> _cachedData = [];
+
+    public TData Get(TKey key, Func<TKey, TData> getDataForTheFirstTime)
     {
-        Thread.Sleep(200);
-        return resourceId + " package data ... Fast download";
+        if(!_cachedData.ContainsKey(key))
+        {
+            _cachedData[key] = getDataForTheFirstTime(key);
+        }
+
+        return _cachedData[key];
     }
-}
-
-public class CacheManager<T1, T2>
-{
-    private readonly Dictionary<T1, T2> cache = new Dictionary<T1, T2>();
-
-    public bool IsCached(T1 key) => cache.ContainsKey(key);
-
-    public void CacheData(T1 id, T2 data) => cache.Add(id, data);
 }
