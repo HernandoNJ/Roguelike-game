@@ -1,20 +1,32 @@
-﻿var dataDownloader = new SlowDataDownloader();
+﻿var slowDataDownloader = new SlowDataDownloader();
+var fastDataDownloader = new FastDataDownloader();
+var cacheManager = new CacheManager<string, string>();
 
-Console.WriteLine(dataDownloader.DownloadData("id1"));
-Console.WriteLine(dataDownloader.DownloadData("id2"));
-Console.WriteLine(dataDownloader.DownloadData("id3"));
-Console.WriteLine(dataDownloader.DownloadData("id1"));
-Console.WriteLine(dataDownloader.DownloadData("id3"));
-Console.WriteLine(dataDownloader.DownloadData("id1"));
-Console.WriteLine(dataDownloader.DownloadData("id2"));
+var idsList = new List<string>
+{ "id1", "id2", "id3", "id1", "id3", "id1", "id2"};
+
+Func<string, bool> IsIdCached = cacheManager.IsCached;
+
+DownloadData(idsList, IsIdCached);
 
 Console.ReadKey();
 
-
-// after the data identified by ID “id1” is fetched for the first time, the next time, it could be served from the cache. 
-
-// A generic Cache class is defined and used. It should be able to work for any type of key and data, not only strings like here.
-// The first time we fetch the data identified by a certain key, it still works slowly. But the next time this data is fetched it should be served from the cache, so it should happen almost immediately. 
+void DownloadData(List<string> ids, Func<string, bool> predicate)
+{
+    foreach(var id in ids)
+    {
+        if(predicate(id))
+        {
+            Console.WriteLine(fastDataDownloader.DownloadData(id));
+        }
+        else
+        {
+            Console.WriteLine(slowDataDownloader.DownloadData(id));
+            var data = slowDataDownloader.DownloadData(id);
+            cacheManager.CacheData(id, data);
+        }
+    }
+}
 
 public interface IDataDownloader
 {
@@ -23,21 +35,10 @@ public interface IDataDownloader
 
 public class SlowDataDownloader : IDataDownloader
 {
-    public CacheManager<string, string> cacheManager = new CacheManager<string, string>();
-
     public string DownloadData(string resourceId)
     {
-        // let's imagine this method downloads real data very slowly
         Thread.Sleep(1000);
-
-        var resourceData = "Data package loaded for " + resourceId;
-
-        if(!cacheManager.HasKey(resourceId))
-            cacheManager.AddItem(resourceId, resourceData);
-        else
-            Console.WriteLine($"Item already cached. id: {resourceId}, data: {cacheManager.GetItem(resourceId)}");
-
-        return resourceId + " data downloaded";
+        return resourceId + " package data";
     }
 }
 
@@ -45,30 +46,16 @@ public class FastDataDownloader : IDataDownloader
 {
     public string DownloadData(string resourceId)
     {
-        // Check if the resourceId is in the cache dictionary
-
-        // let's imagine this method downloads real data very slowly
-        //Thread.Sleep(1000);
-        //var resourceData = "Some data for " + resourceId;
-        //var cache = new StringCache(resourceId, resourceData);
-
-        return "Some data for " + resourceId;
+        Thread.Sleep(200);
+        return resourceId + " package data ... Fast download";
     }
 }
 
 public class CacheManager<T1, T2>
 {
-    private readonly Dictionary<T1, T2> _cacheDictionary = new Dictionary<T1, T2>();
+    private readonly Dictionary<T1, T2> cache = new Dictionary<T1, T2>();
 
-    public bool HasKey(T1 key)
-        => _cacheDictionary.ContainsKey(key);
+    public bool IsCached(T1 key) => cache.ContainsKey(key);
 
-    public void AddItem(T1 id, T2 data)
-    {
-        if(!_cacheDictionary.ContainsKey(id))
-            _cacheDictionary.Add(id, data);
-    }
-
-    public T2 GetItem(T1 id)
-        => _cacheDictionary[id];
+    public void CacheData(T1 id, T2 data) => cache.Add(id, data);
 }
