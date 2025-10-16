@@ -88,18 +88,6 @@ crashlytics-build.properties
 /AlgorithmsPractice/UCS_Solution/DotNetUnderTheHood/obj
 /AlgorithmsPractice/UCS_Solution/DotNetUnderTheHood/bin
 /AlgorithmsPractice/UCS_Solution/DotNetUnderTheHood/.idea
-/AlgorithmsPractice/UCS_Solution/Linq_Practice/obj
-/AlgorithmsPractice/UCS_Solution/Linq_Practice/bin
-/AlgorithmsPractice/UCS_Solution/Linq_Practice/.idea
-/AlgorithmsPractice/UCS_Solution/MyDevExercises/obj
-/AlgorithmsPractice/UCS_Solution/MyDevExercises/bin
-/AlgorithmsPractice/UCS_Solution/MyDevExercises/.idea
-/AlgorithmsPractice/UCS_Solution/PizzaApp/obj
-/AlgorithmsPractice/UCS_Solution/PizzaApp/bin
-/AlgorithmsPractice/UCS_Solution/PizzaApp/.idea
-/AlgorithmsPractice/UCS_Solution/Testing/obj
-/AlgorithmsPractice/UCS_Solution/Testing/bin
-/AlgorithmsPractice/UCS_Solution/Testing/.idea
 /AlgorithmsPractice/UCS_Solution/ExceptionsProj/obj
 /AlgorithmsPractice/UCS_Solution/ExceptionsProj/bin
 /AlgorithmsPractice/UCS_Solution/ExceptionsProj/.idea
@@ -109,6 +97,21 @@ crashlytics-build.properties
 /AlgorithmsPractice/UCS_Solution/GenericsCustomCache/obj
 /AlgorithmsPractice/UCS_Solution/GenericsCustomCache/bin
 /AlgorithmsPractice/UCS_Solution/GenericsCustomCache/.idea
+/AlgorithmsPractice/UCS_Solution/Linq_Practice/obj
+/AlgorithmsPractice/UCS_Solution/Linq_Practice/bin
+/AlgorithmsPractice/UCS_Solution/Linq_Practice/.idea
+/AlgorithmsPractice/UCS_Solution/MyDevExercises/obj
+/AlgorithmsPractice/UCS_Solution/MyDevExercises/bin
+/AlgorithmsPractice/UCS_Solution/MyDevExercises/.idea
+/AlgorithmsPractice/UCS_Solution/PizzaApp/obj
+/AlgorithmsPractice/UCS_Solution/PizzaApp/bin
+/AlgorithmsPractice/UCS_Solution/PizzaApp/.idea
+/AlgorithmsPractice/UCS_Solution/NetUnderTheHoodAssignment/obj
+/AlgorithmsPractice/UCS_Solution/NetUnderTheHoodAssignment/bin
+/AlgorithmsPractice/UCS_Solution/NetUnderTheHoodAssignment/.idea
+/AlgorithmsPractice/UCS_Solution/Testing/obj
+/AlgorithmsPractice/UCS_Solution/Testing/bin
+/AlgorithmsPractice/UCS_Solution/Testing/.idea
 
 # .vscode
 .vscode/
