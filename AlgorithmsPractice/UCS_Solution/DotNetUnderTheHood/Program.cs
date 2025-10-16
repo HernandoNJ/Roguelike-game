@@ -1,78 +1,57 @@
-﻿const string filePath = "file.txt";
+﻿// CSV file location
+const string path =
+    @"C:\Users\herna\Documents\Dev\zFiles\031 sampleData.csv";
 
-/* Syntactic sugar for this
-var writer = new FileWriter(filePath);
-try
-{
-    writer.Write("some text");
-    writer.Write("some other text");
-}
-finally
-{
-    writer.Dispose();.
-} 
-*/
-using(var writer = new FileWriter(filePath))
-{
-    writer.Write("some text");
-    writer.Write("some other text");
-}
+// Store the result of Read() (CSV data) in data.
+var data = new CsvReader().Read(path);
 
-// With using, Dispose() will be called at the end of the scope of this variable
-using var reader = new SpecificLineFromTextFileReader(filePath);
-var third = reader.ReadLineNumber(3);
-var fourth = reader.ReadLineNumber(4);
-
-Console.WriteLine("Third line is: " + third);
-Console.WriteLine("Fourth line is: " + fourth);
-
-Console.WriteLine("Press any key to exit");
 Console.ReadKey();
 
-public class SpecificLineFromTextFileReader : IDisposable
+// Class responsible for reading a CSV file.
+public class CsvReader
 {
-    private readonly StreamReader _streamReader;
-    public SpecificLineFromTextFileReader(string filePath)
+    // Public method to read the CSV file at the given path.
+    public CsvData Read(string path)
     {
-        _streamReader = new StreamReader(filePath);
-    }
+        // Creating a StreamReader class instance to read the file content line by line.
+        // The 'using var' statement ensures the StreamReader is properly disposed of (closed)
+        // once it goes out of scope, even if an error occurs.
+        using var streamReader = new StreamReader(path);
 
-    public string ReadLineNumber(int LineNumber)
-    {
-        _streamReader.DiscardBufferedData();
-        _streamReader.BaseStream.Seek(0, SeekOrigin.Begin);
+        // Read the very first line of the CSV file. This line is assumed to contain the column headers (names).
+        // The Split(separator: ",") method divides the line into an array of strings, using , as the delimiter.
+        var columnHeaders =
+            streamReader.ReadLine().Split(separator: ",");
 
-        for(int i = 1;i < LineNumber;i++) _streamReader.ReadLine();
+        // Initialize a list to hold the data rows (all lines after the header).
+        var records = new List<string[]>();
 
-        return _streamReader.ReadLine();
-    }
+        // Loop through the rest of the file line by line until the end is reached.
+        while(!streamReader.EndOfStream)
+        {
+            // Read the next line of data and Split it using ,
+            var currentRow =
+                streamReader.ReadLine().Split(separator: ",");
 
-    // Use to free unmanaged resources
-    // Implementing Dispose() should be done using the Dispose pattern
-    public void Dispose()
-    {
-        _streamReader?.Dispose();
+            // Add the array of cells (one row of data) to the list of rows.
+            records.Add(currentRow);
+        }
+
+        return new CsvData(columnHeaders, records);
     }
 }
 
-public class FileWriter : IDisposable
+// Class representing the structured data read from the CSV file.
+// It acts as a container for the column headers and the data rows (records).
+public class CsvData
 {
-    private readonly StreamWriter _streamWriter;
-
-    public FileWriter(string filePath)
+    public CsvData(string[] columns, IEnumerable<string[]> rows)
     {
-        _streamWriter = new StreamWriter(filePath, true);
+        Columns = columns; // Assign the column headers.
+        Rows = rows;       // Assign the data rows.
     }
 
-    public void Write(string text)
-    {
-        _streamWriter.WriteLine(text);
-        // Call Flush so the text data in the buffer is written to the file on disk immediately
-        _streamWriter.Flush();
-    }
+    public string[] Columns { get; }
 
-    public void Dispose()
-    {
-        _streamWriter.Dispose();
-    }
+    public IEnumerable<string[]> Rows { get; }
 }
