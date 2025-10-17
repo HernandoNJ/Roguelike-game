@@ -9,18 +9,18 @@ public class TableDataBuilder : ITableDataBuilder
     {
         var resultRows = new List<Row>();
 
-        foreach (var row in csvData.Rows)
+        foreach(var row in csvData.Rows)
         {
             var newRowData = new Dictionary<string, object>();
 
-            for (int columnIndex = 0; columnIndex < csvData.Columns.Length; ++columnIndex)
+            for(int columnIndex = 0; columnIndex < csvData.Columns.Length; ++columnIndex)
             {
                 var column = csvData.Columns[columnIndex];
                 string valueAsString = row[columnIndex];
                 newRowData[column] = ConvertValueToTargetType(valueAsString);
             }
 
-            resultRows.Add(new Row(newRowData));
+            resultRows.Add(new Row(newRowData, null, null, null, null));
         }
 
         return new TableData(csvData.Columns, resultRows);
@@ -28,23 +28,23 @@ public class TableDataBuilder : ITableDataBuilder
 
     private object ConvertValueToTargetType(string value)
     {
-        if (string.IsNullOrEmpty(value))
+        if(string.IsNullOrEmpty(value))
         {
             return null;
         }
-        if (value == "TRUE")
+        if(value == "TRUE")
         {
             return true;
         }
-        if (value == "FALSE")
+        if(value == "FALSE")
         {
             return false;
         }
-        if (value.Contains(".") && decimal.TryParse(value, out var valueAsDecimal))
+        if(value.Contains(".") && decimal.TryParse(value, out var valueAsDecimal))
         {
             return valueAsDecimal;
         }
-        if (int.TryParse(value, out var valueAsInt))
+        if(int.TryParse(value, out var valueAsInt))
         {
             return valueAsInt;
         }
