@@ -6,12 +6,12 @@ namespace CsvDataAccess.PerformanceTesting;
 
 public static class TableDataPerformanceMeasurer
 {
-    public static TestResult Test(ITableDataBuilder tableDataBuiler, CsvData csvData)
+    public static TestResult Test(ITableDataBuilder tableDataBuilder, CsvData csvData)
     {
         var memoryBeforeLoadingTable = GC.GetTotalMemory(true);
         Stopwatch stopwatch = Stopwatch.StartNew();
 
-        var tableData = tableDataBuiler.Build(csvData);
+        var tableData = tableDataBuilder.Build(csvData);
 
         stopwatch.Stop();
 
