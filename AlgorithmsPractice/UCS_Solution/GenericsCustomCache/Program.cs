@@ -1,20 +1,94 @@
-﻿var numbers = new[] { 1,4,7,19,2 };
+﻿// Decorator pattern applied
+// Here, it can be chosen the way of downloading
+// SlowDataDownloader or CachingDataDownloader
 
-Console.WriteLine("Is any number greater than 10, "
-                  + IsAny(numbers,(n) => n > 10));
+//var dataDownloader = new SlowDataDownloader();
+// CachingDataDownloader works as a wrapper around SlowDataDownloader
+// enriching it with a caching feature
+//var dataDownloader = new CachingDataDownloader(new SlowDataDownloader());
+//var dataDownloader = new PrintingDataDownloader(new SlowDataDownloader());
+var dataDownloader =
+    new CachingDataDownloader(
+        new PrintingDataDownloader(
+            (new SlowDataDownloader())));
 
-Console.WriteLine("Is any number even,"
-                  + IsAny(numbers,(n) => n % 2 == 0));
+var idsList = new List<string>
+{ "id1", "id2", "id3", "id1", "id3", "id1", "id2"};
+
+foreach(var id in idsList)
+{
+    Console.WriteLine(dataDownloader.DownloadData(id));
+}
 
 Console.ReadKey();
 
-bool IsAny(IEnumerable<int> numbers,
-           Func<int,bool> isValidPredicate)
+// OCP applied
+// To apply the decorator pattern in this class
+// It need to implement the same interface as the decorated type
+// with a new version
+// Now, this class is in charge of caching, not about how the data is accessed
+public class CachingDataDownloader : IDataDownloader
 {
-    foreach (int number in numbers)
+    private readonly IDataDownloader _dataDownloader;
+    private readonly Cache<string, string> _cache = new();
+
+    public CachingDataDownloader(IDataDownloader dataDownloader)
     {
-        if (isValidPredicate(number)) return true;
+        _dataDownloader = dataDownloader;
     }
 
-    return false;
+    // As we are using the decorator pattern on SlowDataDownloader
+    // This class will implement IDataDownloader,
+    //  Assign a SlowDataDownloader instance when using the constructor, 
+    //  Add cache functionality
+    //  and call SlowDataDownloader.DownloadData
+    public string DownloadData(string resourceId)
+    {
+        return _cache.Get(resourceId, _dataDownloader.DownloadData);
+    }
+}
+
+public class PrintingDataDownloader : IDataDownloader
+{
+    private readonly IDataDownloader _dataDownloader;
+
+    public PrintingDataDownloader(IDataDownloader dataDownloader)
+    {
+        _dataDownloader = dataDownloader;
+    }
+
+    public string DownloadData(string resourceId)
+    {
+        var data = _dataDownloader.DownloadData(resourceId);
+        Console.WriteLine("Data is ready !");
+        return data;
+    }
+}
+
+public interface IDataDownloader
+{
+    string DownloadData(string resourceId);
+}
+
+// This class is fully dedicated to download data and not about caching it
+public class SlowDataDownloader : IDataDownloader
+{
+    public string DownloadData(string resourceId)
+    {
+        Thread.Sleep(1000);
+        return $"Some data for {resourceId}";
+    }
+}
+
+public class Cache<TKey, TData>
+{
+    private readonly Dictionary<TKey, TData> _cachedData = [];
+
+    public TData Get(TKey key, Func<TKey, TData> getDataForTheFirstTime)
+    {
+        if(!_cachedData.ContainsKey(key))
+            _cachedData[key] = getDataForTheFirstTime(key);
+
+        return _cachedData[key];
+    }
 }
