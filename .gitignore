@@ -1,7 +1,5 @@
-# This .gitignore file should be placed at the root of your Unity project directory
-#
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
-#
+
 /[Ll]ibrary/
 /[Tt]emp/
 /[Oo]bj/
@@ -10,7 +8,7 @@
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
 
-# MemoryCaptures can get excessive in size.
+# MemoryCaptures can get excessive in size. 
 # They also could contain extremely sensitive data
 /[Mm]emoryCaptures/
 
@@ -70,15 +68,3 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
-
-# Plugins
-/[Aa]ssets/Plugins/
-
-# TextMeshPro
-/[Aa]ssets/TextMeshPro/
-/[Aa]ssets/TextMeshPro.meta
-
-# CS practice files
-/AlgorithmsPractice/AlgorithmsTestSln/obj
-/AlgorithmsPractice/AlgorithmsTestSln/bin
-/AlgorithmsPractice/AlgorithmsTestSln/.idea
